@@ -1,0 +1,180 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name = "viewport" id="viewport" content = "minimum-scale = 1, maximum-scale = 1, initial-scale = 1, user-scalable = no">
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<title>Archive Prototype</title>
+
+
+<!--
+<script src="javascript/jquery-1.4.4.min.js"></script>
+-->
+<script src="javascript/zepto.js"></script>
+<script src="javascript/ajax.js"></script>
+<script src="javascript/touch.js"></script>
+<script src="javascript/event.js"></script>
+
+
+<script src="javascript/froogaloop.min.js"></script>
+<script src="javascript/jTweener-0.2-full.js"></script>
+
+<script src="javascript/Utilities.js"></script>
+<script src="javascript/Geom.js"></script>
+<script src="javascript/Globals.js"></script>
+<script src="javascript/TouchScrollPanel.js"></script>
+<script src="javascript/LocalStorageManager.js"></script>
+<script src="javascript/DataManager.js"></script>
+<script src="javascript/ArtefactDataManager.js"></script>
+<script src="javascript/ArtefactsSelectionConfiguration.js"></script>
+<script src="javascript/CategoryCell.js"></script>
+<script src="javascript/CategoryTable.js"></script>
+<script src="javascript/RandomCanvas.js"></script>
+<script src="javascript/TileEngine.js"></script>
+<script src="javascript/TileEngineConfiguration.js"></script>
+<script src="javascript/PlaneController.js"></script>
+<script src="javascript/TapestryViewController.js"></script>
+<script src="javascript/DockViewController.js"></script>
+<script src="javascript/AutoCompleteViewController.js"></script>
+<script src="javascript/ArtefactWindow.js"></script>
+<script src="javascript/RelatedArtefactsViewController.js"></script>
+<script src="javascript/ArtefactPopup.js"></script>
+<script src="javascript/ImageView.js"></script>
+<script src="javascript/VimeoView.js"></script>
+<script src="javascript/InfoWindow.js"></script>
+<script src="javascript/FullScreenWindow.js"></script>
+<script src="javascript/ViewController.js"></script>
+<script src="javascript/Main.js"></script>
+<link href="css/style.css" rel="stylesheet" type="text/css">
+
+
+<script>
+$(document).ready(function(){
+	var main = new Main();
+	window.layout = main;
+});
+</script>
+
+</head>
+
+<body>
+	<div id="planeContainer">
+		<div id="plane"></div>
+        <div id="interactivePlane"></div>
+    </div>
+    <div id="dockVeil"></div>
+    <div id="dockContainer">
+    	
+    	<form id="dockForm">
+            <ul>
+                <li class="dockButton"><a id="dockResetButton">Reset</a></li>
+                <li class="dockButton"><a id="dockInfoButton">Info</a></li>
+                <li class="dockTitle"></li>
+                <li class="dockButton"><a id="dockHomeButton">Home</a></li>
+                <li class="dockButton"><a id="dockYearButton">Year</a></li>
+                <li class="dockButton"><a id="dockProductionButton">Production</a></li>
+                <li class="dockButton"><a id="dockMyArchiveButton">My Archive</a></li>
+                <li class="dockTitle"></li>
+                <li class="dockButton"><a id="dockShowFiltersButton">Show Filters</a>
+                    <ul id="dockSubMenu">
+                    	<li class="filterTitle"><h2>Filter Media</h2><a class="menuItem" id="filterClearButton">RESET</a><div class="closeButton closeButtonWhite"></div></li>
+                    	<li class="filterDescription">Click on the options below to filter media types</li>
+                        <li class="filterButton"><a id="filterPhotosButton" class="checkBoxDefault">Photos</a></li>
+                        <li class="filterButton"><a id="filterPostersButton" class="checkBoxDefault">Posters</a></li>
+                        <li class="filterButton"><a id="filterVideoButton" class="checkBoxDefault">Video</a></li>
+                        <li class="filterButton"><a id="filterAudioButton" class="checkBoxDefault">Audio</a></li>
+                    </ul>
+                </li>
+                <li class="dockTitle"></li>
+                <li><input type="text" id="dockSearchField"></li>
+                <li class="dockButton"><a id="dockSearchResetButton"><img src="images/resetSearch.png"></a></li>
+                <li class="dockButton"><a id="dockSearchButton"><img src="images/searchIcon.png"></a></li>
+            </ul>
+        </form>
+        <div id="autoCompleteShadow">
+        	<div id="autoCompleteOutput"></div>
+        </div>
+    </div>
+    <div id="veil"></div>
+    <div id="topNav">
+    	<img src="images/donmarLogo.png"/>
+    	<a>EXIT TO SITE</a>
+    </div>
+    <div id="artefactPopup">
+    	<div id="artefactPopupTitle">Tile</div>
+        <ul>
+        	<li><a class="menuItem openArtefactButton">VIEW ITEM</a></li>
+        	<li><a class="menuItem addToFavouritesButton">ADD TO MY ARCHIVE</a></li>
+            <li><a class="menuItem removeFromFavouritesButton">REMOVE FROM MY ARCHIVE</a></li>
+        </ul>
+        <div class="closeButton closeButtonWhite"></div>
+    </div>
+    <div id="artefactWindow">
+        <div id="artefactWindowMediaView"></div>
+        <div id="artefactDetails"></div>
+		<ul>
+        	<li><a class="menuItem addToFavouritesButton">ADD TO MY ARCHIVE</a></li>
+            <li><a class="menuItem removeFromFavouritesButton">REMOVE FROM MY ARCHIVE</a></li>
+        	<li><a class="menuItem fullscreenButton">FULLSCREEN</a></li>
+            <li><a class="menuItem vimeoPlayButton">PLAY</a></li>
+            <li><a class="menuItem vimeoPauseButton">PAUSE</a></li>
+            <li><a class="menuItem vimeoUnloadButton">UNLOAD</a></li>
+        </ul>
+        <div id="relatedArtefactsView">
+        	<a class="leftCarouselButton"></a>
+        	<div id="relatedArtefactsContainer">
+        		<ul></ul>
+            </div>
+            <a class="rightCarouselButton"></a>
+        </div>
+        <div class="closeButton closeButtonBlack"></div>
+	</div>
+    <div id="infoWindow">
+    	<h1>THE DONMAR ARCHIVE</h1>
+        <h2>EXPLORE THE VAST COLLECTION OF MEDIA, CHRONICLING DONMAR'S EXCEPTIONAL WORK THROUGHOUT THE LAST 60 YEARS</h2>
+        <div class="infoWindowText">
+        	<div class="generalText">
+                <h3>Explore the Media Tapestry</h3>
+                <p>Discover photography, posters, video interviews and audio clips by dragging background media tapestry. Single click on a media item to quickly view the title, and options to add to My Archive of favourites and view the media item in full detail. Double click on a media item to jump directly to view the media item in full detail.</p>
+                <h3>Find What You Want</h3>
+                <p>The Dock, (the menu located at the bottom of the screen) provide a suite to options to control what media items you see, and how they are ordered.</p>
+                <h4>Views</h4>
+                <p>The home view provides a holistic view of the Donmar's work over time, positioning old and new media items in juxtaposition. You can also view the media items in chronological order categorised by years or productions.</p>
+                <h4>Filtering</h4>
+                <p>If you are only interested in a particular type of media item such as Audio Clips, then the filter options allow you to show only Audio Clips, this also applies to the other media types of Photography, Posters and Video Interviews.</p>
+                <h4>Searching</h4>
+                <p>In addition to being able to filter the archive media by type, the search option allows you to specify a keyword to match against media items, for example searching for an actor's name.</p>
+                <h3>My Archive</h3>
+                <p>While exploring the Archive, you can select various items as being a favourite and therefore part of 'My Archive'. To view all the items in My Archive simply click on the My Archive view option in the Dock. Adding and removing items can be achieved from the media item's detail popup.</p>
+        	</div>
+        </div>
+  		<div id="infoWindowGraphic">
+        	<video id="infoWindowGraphicVideo" preload="auto" autoplay="true" controls="true" width="320" height="320" src="video/Tutorial.mp4">
+          
+            </video>
+        </div>
+        <div id="infoWindowViewOnStartupContainer">
+        	<form><h5>Uncheck to hide upon entering Archive</h5><input type="checkbox" id="infoWindowViewOnStartUp" value="openInforWindowOnStartUp"></form>
+        </div>
+        <div class="closeButton closeButtonBlack"></div>
+    </div>
+    <div id="imageFullScreenView">
+    	<div id="imageFullScreenMediaView"></div>
+    	<div class="closeButton closeButtonBlack"></div>
+    </div>
+    <!--
+    <div class="output">
+    	<ul>
+            <li>Total Tiles <span id="output_totalTiles">0</span></li>
+            <li>Total Area <span id="output_totalArea">0</span></li>
+            <li>DisplayList Length <span id="output_displayListLength">0</span></li>
+            <li>Queue List Length <span id="output_queueListLength">0</span></li>
+             <li>Plane Children <span id="output_planeChildren">0</span></li>
+             
+        </ul>
+    </div>
+    -->
+   
+</body>
+</html>
