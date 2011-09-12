@@ -36,7 +36,9 @@ VimeoView.prototype.ready = function(){
 	this._froogaloop.api('setColor', 'cc0033');
 };
 
-
+VimeoView.prototype.removeFromDOM = function(){
+	$(this._containerElement).empty();
+};
 
 
 
@@ -54,7 +56,16 @@ VimeoView.prototype.destroy = function(){
 		this._froogaloop.api('pause');
 	}
 	//$(this._iframeElement).remove();
-	$(this._containerElement).empty();
+	
+	/*
+	HACK
+	
+	Remove from the dom a split second after calling pause, 
+	I beleive the froogaloop.api instigates a call from a remote js 
+	file that references elements in the dom, if those element are not 
+	present then you get a script error in IE 9, hence the delayed call to remove from the DOM
+	*/
+	setTimeout(this.removeFromDOM.context(this),1);
 };
 
 VimeoView.prototype.play = function(){

@@ -90,11 +90,11 @@ AutoCompleteViewController.prototype.dockVeilUp = function(e){
 			this.dismiss();
 		}
 	}
-	this.captureEvent();
+	this.captureEvent(e);
 };
 AutoCompleteViewController.prototype.dockVeilDown = function(e){
 	this.dismiss();
-	this.captureEvent();
+	this.captureEvent(e);
 };
 
 AutoCompleteViewController.prototype.dismiss = function(e){
@@ -106,7 +106,6 @@ AutoCompleteViewController.prototype.dismiss = function(e){
 
 AutoCompleteViewController.prototype.captureEvent = function(e){
 	//console.log('captureEvent');
-	
 	e.preventDefault();
 	return false;
 };
@@ -114,7 +113,13 @@ AutoCompleteViewController.prototype.captureEvent = function(e){
 AutoCompleteViewController.prototype.setVisible = function(visi){
 	this._suggestionListContainer.style.position = 'absolute';
 	//this._suggestionListContainer.style.bottom =  50 + "px";	//set in css
-	this._suggestionListContainer.style.left = (this.findPosX(this._textField))+"px";
+	
+	var dockX = $('#dockContainer').offset().left;
+	var tfX = $(this._textField).offset().left;
+	var destinationX = tfX - dockX;
+	
+	
+	this._suggestionListContainer.style.left = destinationX+"px";
 	this._suggestionListContainer.style.visibility = visi;
 	
 	//every time we reveal set scroll to top, and update the thumb size

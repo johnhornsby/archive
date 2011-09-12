@@ -27,7 +27,7 @@ InfoWindow.prototype.init = function(){
 	//$(this._videoTutorialElement).bind("canplaythrough",this.onCanPlayThrough.context(this));
 	//$(this._videoTutorialElement).bind("canplaythrough",this.onCanPlayThrough.context(this));
 	
-	this._videoTutorialElement.oncanplay = function(){alert("hello");};
+	//this._videoTutorialElement.oncanplay = function(){alert("hello");};
 	
 	this._touchPanelViewController = new TouchScrollPanel({scrollDirection:TouchScrollPanel.SCROLL_DIRECTION_VERTICAL, frameElement:$('#infoWindow .infoWindowText')[0], contentElement:$('#infoWindow .generalText')[0]});
 };

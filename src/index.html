@@ -7,15 +7,46 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 <title>Archive Prototype</title>
 
+<script>
+	/* check browser if webkit then use zepto, needs refactoring*/
+	
+	
+	if(navigator.userAgent.indexOf('WebKit') > -1){
+		loadjscssfile('javascript/zepto.min.js','js');
+		//loadjscssfile('javascript/zepto.0.7.min.js','js');
+		//loadjscssfile('javascript/zepto.min.js','js');
+		//loadjscssfile('javascript/zepto.js','js');
+		//loadjscssfile('javascript/ajax.js','js');
+		//loadjscssfile('javascript/touch.js','js');
+		//loadjscssfile('javascript/event.js','js');
+	}else{
+		loadjscssfile('javascript/jquery-1.4.4.min.js','js');
+	}
 
+	function loadjscssfile(filename, filetype){
+		if (filetype=="js"){ //if filename is a external JavaScript file
+			var fileref=document.createElement('script');
+			fileref.setAttribute("type","text/javascript");
+			fileref.setAttribute("src", filename);
+		}else if (filetype=="css"){ //if filename is an external CSS file
+			var fileref=document.createElement("link")
+			fileref.setAttribute("rel", "stylesheet")
+			fileref.setAttribute("type", "text/css")
+			fileref.setAttribute("href", filename)
+		}
+		if (typeof fileref!="undefined"){
+			document.getElementsByTagName("head")[0].appendChild(fileref);
+		}
+	}
+</script>
 <!--
 <script src="javascript/jquery-1.4.4.min.js"></script>
--->
+
 <script src="javascript/zepto.js"></script>
 <script src="javascript/ajax.js"></script>
 <script src="javascript/touch.js"></script>
 <script src="javascript/event.js"></script>
-
+-->
 
 <script src="javascript/froogaloop.min.js"></script>
 <script src="javascript/jTweener-0.2-full.js"></script>
@@ -50,10 +81,19 @@
 
 
 <script>
+/*
 $(document).ready(function(){
+	
+});
+*/
+
+window.onload = function(){
 	var main = new Main();
 	window.layout = main;
-});
+}
+
+
+
 </script>
 
 </head>
@@ -150,8 +190,9 @@ $(document).ready(function(){
         	</div>
         </div>
   		<div id="infoWindowGraphic">
-        	<video id="infoWindowGraphicVideo" preload="auto" autoplay="true" controls="true" width="320" height="320" src="video/Tutorial.mp4">
-          
+        	<video id="infoWindowGraphicVideo" preload="auto" autoplay="true" controls="true" width="320" height="320">
+            	<source src="video/Tutorial.mp4" type="video/mp4" />
+            	<source src="video/Tutorial.theora.ogv" />
             </video>
         </div>
         <div id="infoWindowViewOnStartupContainer">

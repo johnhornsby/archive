@@ -46,8 +46,10 @@ TouchScrollPanel.CLICK_THRESHOLD_DISTANCE = 10 // pixels
 //__________________________________________________________________________________________
 TouchScrollPanel.prototype.init = function(){
 	$(this._frameElement).bind('mousewheel',this.onMouseWheelHandler.context(this));
+	$(this._frameElement).bind('DOMMouseScroll',this.onDOMMouseScrollHandler.context(this));
 	$(this._frameElement).bind('mousedown',this.onDownFrameHandler.context(this));
 	$(this._frameElement).bind('touchstart',this.onDownFrameHandler.context(this));
+	//addEvent(this._frameElement,'touchstart',this.onDownFrameHandler.context(this));
 	this.build();
 };
 
@@ -81,6 +83,8 @@ TouchScrollPanel.prototype.onDownFrameHandler = function(e){
 		}
 		$(window).bind('touchmove',this.onMoveWindowHandler.rEvtContext(this));
 		$(window).bind('touchend',this.onUpWindowHandler.rEvtContext(this));
+		//addEvent(window,'touchmove',this.onMoveWindowHandler.context(this));
+		//addEvent(window,'touchend',this.onUpWindowHandler.context(this));
 		pageX = e.targetTouches[0].pageX;
 		pageY = e.targetTouches[0].pageY; 
 	}else{
@@ -99,8 +103,11 @@ TouchScrollPanel.prototype.onDownFrameHandler = function(e){
 	this.onFadeInThumb();
 	
 	if(eventType!=='touch'){
-		return false;// don't return false as this causes problems for child elements receiving event on iPad, return false on desktop as this stops highlighing text
+		//// don't return false as this causes problems for child elements receiving event on iPad, return false on desktop as this stops highlighing text
+		e.preventDefault();
+		return false;
 	}
+	
 	
 };
 
@@ -139,7 +146,8 @@ TouchScrollPanel.prototype.onMoveWindowHandler = function(e){
 	if(distanceMoved > TouchScrollPanel.CLICK_THRESHOLD_DISTANCE || downTimeDuration > TouchScrollPanel.CLICK_THRESHOLD_DURATION){
 		this._isDragging = true;	
 	}
-	return false;
+	e.preventDefault();//return false;
+	
 };
 
 TouchScrollPanel.prototype.onUpWindowHandler = function(e){
@@ -148,6 +156,8 @@ TouchScrollPanel.prototype.onUpWindowHandler = function(e){
 	var pageY;
 	var eventType = (e.type.indexOf('touch')!=-1)?'touch':'mouse';
 	if(eventType==='touch'){
+		//addEvent(window,'touchmove',this.onMoveWindowHandler.context(this));
+		//addEvent(window,'touchend',this.onUpWindowHandler.context(this));
 		$(window).unbind('touchmove',this.onMoveWindowHandler.rEvtContext(this));
 		$(window).unbind('touchend',this.onUpWindowHandler.rEvtContext(this));
 		pageX =  this._lastX; //use lastX and lasyY as e.targetTouches.length should === 0
@@ -202,13 +212,13 @@ TouchScrollPanel.prototype.releaseStopChildMouseUpTrap = function(){
 	this._isStopChildMouseUp = false;
 };
 
-
 TouchScrollPanel.prototype.scrollY = function(delta,noBoundryOffset){
 //	console.log('delta:'+delta);
 	//var y = this._y;
 	var y = this._y;
 	var container = this._contentElement;
-	var contentHeight = $(this._contentElement).offset().height;
+	//var contentHeight = $(this._contentElement).offset().height;
+	var contentHeight = $(this._contentElement).height();
 	var frameHeight = this._frameElement.clientHeight;
 	var maxScrollDistance = contentHeight - frameHeight;
 	var boundryOffset = (noBoundryOffset === true)?0:40;
@@ -234,12 +244,12 @@ TouchScrollPanel.prototype.scrollY = function(delta,noBoundryOffset){
 	this._y = destinationY;
 	
 	this.updateDomScrollPosition();
-	
 };
 
 TouchScrollPanel.prototype.checkScrollBoundry = function(){
 	var y = this._y;
-	var contentHeight = $(this._contentElement).offset().height;
+	//var contentHeight = $(this._contentElement).offset().height;
+	var contentHeight = $(this._contentElement).height();
 	var frameHeight = this._frameElement.clientHeight;
 	var destination;
 	if(y > 0){
@@ -256,7 +266,8 @@ TouchScrollPanel.prototype.updateDomScrollPosition = function(){
 
 TouchScrollPanel.prototype.updateScrollThumbPosition = function(){
 	var destinationY = this._y;//position not availbale in zepto
-	var contentHeight = $(this._contentElement).offset().height;
+	//var contentHeight = $(this._contentElement).offset().height;
+	var contentHeight = $(this._contentElement).height();
 	var frameHeight = this._frameElement.clientHeight;
 	var maxScrollDistance = contentHeight - frameHeight;
 	var destinationScrollPercentage = destinationY / maxScrollDistance;
@@ -267,7 +278,9 @@ TouchScrollPanel.prototype.updateScrollThumbPosition = function(){
 };
 
 TouchScrollPanel.prototype.setScrollThumbHeight = function(){
-	var contentHeight = $(this._contentElement).offset().height;
+	var jQObject = $(this._contentElement);
+	//var offsetObject = jQObject.offset();
+	var contentHeight = jQObject.height();
 	var frameHeight = this._frameElement.clientHeight;
 	var visiblePercentage = frameHeight / contentHeight;
 	var thumbHeight = frameHeight * visiblePercentage;
@@ -279,7 +292,19 @@ TouchScrollPanel.prototype.setScrollThumbHeight = function(){
 	}
 };
 
+TouchScrollPanel.prototype.onDOMMouseScrollHandler = function(e){
+	console.log('onDOMMouseScrollHandler');
+    var delta = -e.detail;
+	this.setMouseWheenDelta(delta);
+};
+
+
 TouchScrollPanel.prototype.onMouseWheelHandler = function(e){
+	this.setMouseWheenDelta(e.wheelDelta);
+	e.preventDefault();				//prevent lion browser from bounce scroll effect
+};
+
+TouchScrollPanel.prototype.setMouseWheenDelta = function(delta){
 	//console.log('onMouseWheel:'+e);
 	if(this._isThumbVisible === false){
 		this.onFadeInThumb();
@@ -288,17 +313,13 @@ TouchScrollPanel.prototype.onMouseWheelHandler = function(e){
 	}
 	switch(this._scrollDirection){
 		case TouchScrollPanel.SCROLL_DIRECTION_VERTICAL:
-			this.scrollY(e.wheelDelta,true);
+			this.scrollY(delta,true);
 			break;
 		case TouchScrollPanel.SCROLL_DIRECTION_HORIZONTAL:
 			//this.scrollX(e.wheelDelta,true);
 			break;
 	}
-	
-	e.preventDefault();				//prevent lion browser from bounce scroll effect
-};
-
-
+}
 
 
 
@@ -313,7 +334,10 @@ TouchScrollPanel.prototype.isDragging = function(){
 	return 	this._isDragging;
 };
 TouchScrollPanel.prototype.setScrollY = function(y){
-	$(this._contentElement).css('top',y+'px');
+	//$(this._contentElement).css('top',y+'px');
+	this._y = y;
+	this.updateDomScrollPosition();
+	
 };
 TouchScrollPanel.prototype.getScrollMinY = function(){
 	return 0;
