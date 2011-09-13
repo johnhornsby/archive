@@ -79,7 +79,7 @@ ArtefactWindow.prototype.updateFavouritesButtons = function(){
 ArtefactWindow.prototype.onOpen = function(data,bounds){
 	
 	if(this._isOpen === true){
-		this.close();
+		this.onClose();
 	}
 	this._isOpen = true;
 	
@@ -112,9 +112,11 @@ ArtefactWindow.prototype.onOpen = function(data,bounds){
 	this.updateFavouritesButtons();
 	
 	this._relatedArtefactViewController.setData(this._data);
+	
+	Globals.deepLinkingManager.setAddress("/item-"+data.id);
 };
 
-ArtefactWindow.prototype.close = function(){
+ArtefactWindow.prototype.onClose = function(){
 	$("#artefactWindow").css("display","none");
 	this._mediaViewer.destroy();
 	this._mediaViewer = undefined;
@@ -137,6 +139,12 @@ ArtefactWindow.prototype.open = function(data,bounds){
 	this.onOpen(data,bounds);
 };
 
+ArtefactWindow.prototype.close = function(){
+	if(this._isOpen === true){
+		this.onClose();
+		Globals.deepLinkingManager.setAddress("/");
+	}
+};
 
 
 

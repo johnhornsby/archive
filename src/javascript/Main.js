@@ -4,7 +4,7 @@ var Main = function(){
 	this._dataManager;
 	this._localStorageManager;
 	this._viewController;
-	//this._planeController;
+	this._deepLinkingManager;
 	
 	this._loadedDecrement = 1;
 	
@@ -30,31 +30,29 @@ Main.prototype.load = function(){
 	this._artefactDataManager.load();
 };
 
-Main.prototype.build = function(){
-	//var categoryTable = new CategoryTable();
-	this._viewController = new ViewController();
-	Globals.viewController = this._viewController;
-	//this._planeController = new PlaneController(this);
-	//this._viewController.setData(window.layout.getArtefactDataManager().getYearCategorisedData());
-	//this._viewController.update();
-	//this._planeController.activate();
-};
-
 Main.prototype.checkLoadedAndReadyToBuild = function(){
 	if(this._loadedDecrement>0) return;
+	this.activateDeepLinking();							//must be called before build as viewcontroller adds listener to deeplinkingmanager
 	this.build();
 };
 
 Main.prototype.onArtefactsLoadDataComplete = function(e){
 	this._loadedDecrement--;
 	
-	
 	this.checkLoadedAndReadyToBuild();
 	//TODO load keyword array, for now we will process all the data manually, do this before build at the moment, so autocomplete can get array on init
 	this._dataManager.gleenKeywords();
-	
 };
 
+Main.prototype.activateDeepLinking = function(){
+	this._deepLinkingManager = new DeepLinkingManager();
+	Globals.deepLinkingManager = this._deepLinkingManager;
+};
+
+Main.prototype.build = function(){
+	this._viewController = new ViewController();
+	Globals.viewController = this._viewController;
+};
 
 
 

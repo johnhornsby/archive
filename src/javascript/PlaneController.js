@@ -44,8 +44,8 @@ PlaneController.prototype.onMouseDown = function(e){
 	this._lastY = this._originY = e.pageY;
 	//this._interactiveElement.addEventListener('mousemove',this.onMouseMove.rEvtContext(this), false);
 	//this._interactiveElement.addEventListener('mouseup',this.onMouseUp.rEvtContext(this), false);
-	$(window).bind('mousemove',this.onMouseMove.rEvtContext(this));
-	$(window).bind('mouseup',this.onMouseUp.rEvtContext(this));
+	$(document).bind('mousemove',this.onMouseMove.rEvtContext(this));
+	$(document).bind('mouseup',this.onMouseUp.rEvtContext(this));
 	this._mouseDown = true;
 	this._delegate.mouseDown();
 	return false;
@@ -69,8 +69,8 @@ PlaneController.prototype.onMouseUp = function(e){
 	this._mouseDown=false;	
 	//this._interactiveElement.removeEventListener('mousemove', this.onMouseMove.rEvtContext(this), false);
 	//this._interactiveElement.removeEventListener('mouseup', this.onMouseUp.rEvtContext(this), false);
-	$(window).unbind('mousemove',this.onMouseMove.rEvtContext(this));
-	$(window).unbind('mouseup',this.onMouseUp.rEvtContext(this));
+	$(document).unbind('mousemove',this.onMouseMove.rEvtContext(this));
+	$(document).unbind('mouseup',this.onMouseUp.rEvtContext(this));
 	
 	
 	//Check for click;
@@ -118,8 +118,8 @@ PlaneController.prototype.onTouchStart = function(e){
 	clearTimeout(this._singleClickTimeout);
 	this._lastX = this._originX = e.targetTouches[0].clientX;
 	this._lastY = this._originY = e.targetTouches[0].clientY;
-	$(window).bind('touchmove',this.onTouchMove.rEvtContext(this));
-	$(window).bind('touchend',this.onTouchEnd.rEvtContext(this));
+	$(document).bind('touchmove',this.onTouchMove.rEvtContext(this));
+	$(document).bind('touchend',this.onTouchEnd.rEvtContext(this));
 	this._delegate.mouseDown();
 	return false;
 }
@@ -145,8 +145,8 @@ PlaneController.prototype.onTouchEnd = function(e){
 	// Stop tracking when the last finger is removed from this element
 	if (e.targetTouches.length > 0)
 		return false;
-	$(window).unbind('touchmove',this.onTouchMove.rEvtContext(this));
-	$(window).unbind('touchend',this.onTouchEnd.rEvtContext(this));
+	$(document).unbind('touchmove',this.onTouchMove.rEvtContext(this));
+	$(document).unbind('touchend',this.onTouchEnd.rEvtContext(this));
 	
 	//Check for click;
 	var distanceMoved = Point.distance(new Point(this._lastX, this._lastY), new Point(this._originX, this._originY));

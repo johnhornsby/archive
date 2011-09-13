@@ -28,9 +28,14 @@ ViewController.prototype = new EventDispatcher();
 //_________________________________________________________________________________
 ViewController.prototype.init = function(){
 	this.build();
+	Globals.deepLinkingManager.addEventListener(DeepLinkingManagerEvent.UPDATE_ADDRESS,this.onUpdateDeepLinkAddress.context(this));	//listen to deepLinkingManager to determin whether ArtefactWindow should open or close
+	Globals.deepLinkingManager.checkAddress();																						//check address on init, if an initial hash has been set then it will be picked up here, and the event will be fired as above
+	
 };
 
 ViewController.prototype.build = function(){
+	
+	
 	this._tapestryViewController = new TapestryViewController();
 	this._tapestryViewController.addEventListener(TapestryViewControllerEvent.BUSY_START,this.onTapestryBusyStartHandler.context(this));
 	this._tapestryViewController.addEventListener(TapestryViewControllerEvent.BUSY_COMPLETE,this.onTapestryBusyCompleteHandler.context(this));
@@ -55,13 +60,13 @@ ViewController.prototype.build = function(){
 	this._artefactWindow.addEventListener(ArtefactWindowEvent.ARTEFACT_REMOVE_FROM_FAVOURITES,this.onRemoveFromFavouritesHandler.context(this));
 	
 	this._infoWindow = new InfoWindow();
+	this._infoWindow.addEventListener(InfoWindowEvent.CLOSE,this.onInfoWindowCloseHandler.context(this));							//Event handler used to determing upon close if ViewController needs to open an ArtefactWidow due to deep link.
 	
 	this._fullscreenWindow = new FullScreenWindow();
 	
 	if(Globals.localStorageManager.isShowInfoOnEnter() === true){
 		this._infoWindow.open();	
 	}
-	
 };
 
 ViewController.prototype.onArtefactWindowAddToFavouritesHandler = function(){
@@ -148,8 +153,46 @@ ViewController.prototype.onPopUpCloseHandler = function(){
 	this._isPopupBlocked = false;
 };
 
+/**
+* Event Handler for DeepLinkingManager when address is updated externally
+* @private
+*/
+ViewController.prototype.onUpdateDeepLinkAddress = function(e){
+	//console.log('onUpdateDeepLinkAddress');
+	this.onImplementDeepLinkAddress(e.path);
+};
 
+/**
+* function checks path and determins if arteefact needs opening or closing
+* @private
+*/
+ViewController.prototype.onImplementDeepLinkAddress = function(path){
+	var id;
+	var artefactData;
+	if(path.indexOf('item-') > 0){
+		id = parseInt(path.substr(6));
+		artefactData = Globals.artefactDataManager.getArtefactDataWithId(id);
+		if(artefactData !== false){
+			if(this._infoWindow.isOpen() === false){
+				this._artefactWindow.open(artefactData);
+			}
+		}else{
+			//NO Such Artefact
+			alert("Can't find Item "+id);
+		}
+	}else if(path === "/"){
+		this._artefactWindow.close();
+	}
+};
 
+/**
+* called when InfoWindow is closed, we can then check for any deeplinks
+* @private
+*/
+ViewController.prototype.onInfoWindowCloseHandler = function(){
+	var path = Globals.deepLinkingManager.getAddress();
+	this.onImplementDeepLinkAddress(path);
+};
 
 
 

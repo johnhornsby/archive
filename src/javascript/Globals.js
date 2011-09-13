@@ -16,6 +16,7 @@ Globals.localStorageManager;
 Globals.viewController;
 Globals.planeController;
 Globals.dockViewController;
+Globals.deepLinkingManager;
 
 Globals.debug = true;
 Globals.os = (navigator.userAgent.indexOf("iPad") != -1 ||  navigator.userAgent.indexOf("iPhone") != -1 ||  navigator.userAgent.indexOf("iPod") != -1) ? Globals.OS_IOS : Globals.OS_OTHER;

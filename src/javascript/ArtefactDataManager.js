@@ -538,6 +538,26 @@ ArtefactDataManager.prototype.getCategoryArtefactMetaDataWithIndex = function(in
 	}
 }
 
+ArtefactDataManager.prototype.isArtefactIdValid = function(id){
+	var decrement = this._dataArray.length;
+	while(decrement--){
+		if(this._dataArray[decrement].id === id){
+			return true;
+		}
+	}
+	return false;
+}
+
+ArtefactDataManager.prototype.getArtefactDataWithId = function(id){
+	var decrement = this._dataArray.length;
+	while(decrement--){
+		if(this._dataArray[decrement].id === id){
+			return this._dataArray[decrement];
+		}
+	}
+	return false;
+}
+
 
 
 //Event Classes

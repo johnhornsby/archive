@@ -42,6 +42,7 @@ InfoWindow.prototype.onCanPlayThrough = function(){
 
 InfoWindow.prototype.onCloseButtonClickHandler = function(e){
 	this.close();
+	this.dispatchEvent(new InfoWindowEvent(InfoWindowEvent.CLOSE));
 };
 
 InfoWindow.prototype.onOpen = function(data,bounds){
@@ -100,7 +101,9 @@ InfoWindow.prototype.open = function(data,bounds){
 	this.onOpen(data,bounds);
 };
 
-
+InfoWindow.prototype.isOpen = function(){
+	return this._isOpen;
+};
 
 
 
