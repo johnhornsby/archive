@@ -26,6 +26,8 @@ ArtefactWindow.prototype.init = function(){
 	$("#artefactWindow .fullscreenButton").bind("click",this.onFullscreenButtonClickHandler.context(this));
 	$("#artefactWindow .addToFavouritesButton").bind("click",this.onAddToFavouritesButtonClickHandler.context(this));
 	$("#artefactWindow .removeFromFavouritesButton").bind("click",this.onRemoveFromFavouritesButtonClickHandler.context(this));
+	$("#artefactWindow .facebookShareButton").bind("click",this.onFacebookShareButtonClickHandler.context(this));
+	$("#artefactWindow .twitterShareButton").bind("click",this.onTwitterShareButtonClickHandler.context(this));
 	
 	$("#artefactWindow .vimeoPlayButton").bind("click",this.onPlayButtonClickHandler.context(this)).hide();
 	$("#artefactWindow .vimeoPauseButton").bind("click",this.onPauseButtonClickHandler.context(this)).hide();
@@ -73,6 +75,42 @@ ArtefactWindow.prototype.updateFavouritesButtons = function(){
 	$("#artefactWindow .addToFavouritesButton").css("display",addToFavouritesDisplay);
 	$("#artefactWindow .removeFromFavouritesButton").css("display",removeFromFavouritesDisplay)
 };
+
+ArtefactWindow.prototype.onFacebookShareButtonClickHandler = function(e){
+	var location = window.location.href;
+	var title = this._data.t;
+	window.location.href = "http://www.facebook.com/sharer.php?u="+encodeURIComponent(location)+"&t="+encodeURIComponent(title)+"";
+};
+
+ArtefactWindow.prototype.onTwitterShareButtonClickHandler = function(e){
+	var title = this._data.t;
+	
+	var text = "I wanted to share this great item '"+title+"' from the Donmar Warehouse Archive";
+	text = encodeURIComponent(text);
+	
+	//var login = "johnhornsby";
+	//var api_key = "R_d7376c932c691a1a530ed879fc951773";
+	var long_url = encodeURIComponent(window.location.href);
+	
+	 window.location.href = "http://twitter.com/share?url="+long_url+"&text="+text;
+	
+	//http://api.bitly.com/v3/shorten?login=johnhornsby&apiKey=R_d7376c932c691a1a530ed879fc951773&longUrl=http%3A%2F%2Finteractivelabs.co.uk%2F&format=json
+	/*
+	$.getJSON(
+        "http://api.bitly.com/v3/shorten?login=johnhornsby&apiKey=R_d7376c932c691a1a530ed879fc951773&longUrl=http%3A%2F%2Finteractivelabs.co.uk%2F&format=json",
+        function(response)
+        {
+			var str = "I wanted to share this great link "+ response.data.url;
+			str = encodeURIComponent(str);
+			
+           
+        }
+    );
+	
+	*/
+	
+};
+
 
 
 
