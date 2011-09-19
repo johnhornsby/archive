@@ -77,23 +77,32 @@ ArtefactWindow.prototype.updateFavouritesButtons = function(){
 };
 
 ArtefactWindow.prototype.onFacebookShareButtonClickHandler = function(e){
-	var location = window.location.href;
-	var title = this._data.t;
-	window.location.href = "http://www.facebook.com/sharer.php?u="+encodeURIComponent(location)+"&t="+encodeURIComponent(title)+"";
+	var hyperlink = encodeURIComponent(window.location.href);
+	
+	var production = this._data.p
+	var text = "Check out this archive item from the Donmar production "+production;
+	text = encodeURIComponent(text);
+	window.location.href = "http://www.facebook.com/sharer.php?u="+hyperlink+"&t="+text;
 };
 
 ArtefactWindow.prototype.onTwitterShareButtonClickHandler = function(e){
 	var title = this._data.t;
+	var production = this._data.p
+	/*
+	We should have 114 characters to play with in the message, the remainer will be used for the url which is automatically shortened with twitters t.co service.
+	Initally had problems testing this as the twitter client was not able to shorten http://localhost/ 
+	*/
 	
-	var text = "I wanted to share this great item '"+title+"' from the Donmar Warehouse Archive";
+	var text = "Check out this archive item from the Donmar production "+production;
+	if(text.length >119){
+		text = text.substring(0,116) + "...";
+	}
 	text = encodeURIComponent(text);
+	var hyperlink = encodeURIComponent(window.location.href);
+	window.location.href = "http://twitter.com/share?text="+text+"&related=donmarwarehouse&url="+hyperlink;
 	
 	//var login = "johnhornsby";
 	//var api_key = "R_d7376c932c691a1a530ed879fc951773";
-	var long_url = encodeURIComponent(window.location.href);
-	
-	 window.location.href = "http://twitter.com/share?url="+long_url+"&text="+text;
-	
 	//http://api.bitly.com/v3/shorten?login=johnhornsby&apiKey=R_d7376c932c691a1a530ed879fc951773&longUrl=http%3A%2F%2Finteractivelabs.co.uk%2F&format=json
 	/*
 	$.getJSON(
