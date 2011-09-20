@@ -11,6 +11,7 @@ var ViewController = function(){
 	this._progressFeedbackView;
 	this._siteNavigationView;
 	this._tapestryViewController;
+	this._animationLayer;
 	
 	this._isPopupOpen = false;
 	this._popupBlockerTimer;
@@ -51,7 +52,7 @@ ViewController.prototype.build = function(){
 	
 	this._artefactPopup = new ArtefactPopup();
 	this._artefactPopup.addEventListener(ArtefactPopupEvent.OPEN_ARTEFACT,this.onOpenArefactWindowHandler.context(this));
-	//this._artefactPopup.addEventListener(ArtefactPopupEvent.ARTEFACT_ADD_TO_FAVOURITES,this.onPopUpAddToFavouritesHandler.context(this));
+	this._artefactPopup.addEventListener(ArtefactPopupEvent.ARTEFACT_ADD_TO_FAVOURITES,this.onPopUpAddToFavouritesHandler.context(this));
 	this._artefactPopup.addEventListener(ArtefactPopupEvent.ARTEFACT_REMOVE_FROM_FAVOURITES,this.onRemoveFromFavouritesHandler.context(this));
 	this._artefactPopup.addEventListener(ArtefactPopupEvent.CLOSE,this.onPopUpCloseHandler.context(this));
 	
@@ -63,6 +64,8 @@ ViewController.prototype.build = function(){
 	this._infoWindow.addEventListener(InfoWindowEvent.CLOSE,this.onInfoWindowCloseHandler.context(this));							//Event handler used to determing upon close if ViewController needs to open an ArtefactWidow due to deep link.
 	
 	this._fullscreenWindow = new FullScreenWindow();
+	
+	this._animationLayer = new AnimationLayer();
 	
 	if(Globals.localStorageManager.isShowInfoOnEnter() === true){
 		this._infoWindow.open();	
@@ -101,10 +104,14 @@ ViewController.prototype.onRemoveFromFavouritesHandler = function(){
 	}
 };
 
+ViewController.prototype.onPopUpAddToFavouritesHandler = function(artefactPopupEvent){
+	var myArchiveButtonBounds = this._dockViewController.getMyArchiveButtonBounds();
+	this._animationLayer.addToArchiveFromGridAnimation(artefactPopupEvent.data,artefactPopupEvent.bounds,myArchiveButtonBounds);
+};
+
 ViewController.prototype.onOpenArtefactPopUpHandler = function(e){
 	if(this._isPopupOpen === false){
 		if(this._isPopupBlocked === false ){
-			
 			
 			this._artefactPopup.open(e.data,e.bounds);
 			

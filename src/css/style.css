@@ -222,7 +222,7 @@ DOCK
 
 #dockContainer a {
 	width:auto;
-	height:50px;
+	height:32px;
 	background-color:rgba(204,0,51,1);
 	padding:18px 8px 0px 8px;
 	cursor:pointer;
@@ -942,5 +942,23 @@ FULLSCREEN VIEW
 
 
 
+
+
+/**
+ANIMATION LAYER
+//_______________________________________________________
+*/
+#animationLayer {
+	z-index:9;
+	display:block;
+	position:absolute;
+}
+#animationLayer .animationTile {
+	display:block;
+	position:absolute;
+	background-color:#0FF;
+	left:0px;
+	top:0px;
+}
 
 

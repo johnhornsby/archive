@@ -480,7 +480,11 @@ DockViewController.prototype.setKeywordAndSubmit = function(str){
 	this.submitSearch();
 };
 
-
+DockViewController.prototype.getMyArchiveButtonBounds = function(){
+	var archiveButtonObject = $('#dockMyArchiveButton').parent();
+	var archiveButtonOffset = archiveButtonObject.offset();
+	return new Rectangle(archiveButtonOffset.left, archiveButtonOffset.top, archiveButtonObject.width(), archiveButtonObject.height());
+};
 
 
 
