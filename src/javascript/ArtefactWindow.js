@@ -79,7 +79,7 @@ ArtefactWindow.prototype.updateFavouritesButtons = function(){
 ArtefactWindow.prototype.onFacebookShareButtonClickHandler = function(e){
 	var hyperlink = encodeURIComponent(window.location.href);
 	
-	var production = this._data.p
+	var production = this._data.p;
 	var text = "Check out this archive item from the Donmar production "+production;
 	text = encodeURIComponent(text);
 	window.location.href = "http://www.facebook.com/sharer.php?u="+hyperlink+"&t="+text;
@@ -115,7 +115,6 @@ ArtefactWindow.prototype.onTwitterShareButtonClickHandler = function(e){
            
         }
     );
-	
 	*/
 	
 };
