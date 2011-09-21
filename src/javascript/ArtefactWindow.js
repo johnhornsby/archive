@@ -131,8 +131,9 @@ ArtefactWindow.prototype.onOpen = function(data,bounds){
 	
 	this._data = data;
 	
-	$("#veil").css("display","block");
-	$("#veil").css("opacity","1");
+	//$("#veil").css("display","block");
+	//$("#veil").css("opacity","1");
+	$("#veil").show();
 	
 	$("#artefactWindow").css("display","block");
 	if(data.m === ArtefactDataManager.FILTER_PHOTO || data.m === ArtefactDataManager.FILTER_POSTERS){ //imageView
@@ -170,8 +171,9 @@ ArtefactWindow.prototype.onClose = function(){
 	
 	this._relatedArtefactViewController.clear();
 	this._isOpen = false;
-	$("#veil").css("opacity","0");
-	$("#veil").css("display","none");
+	//$("#veil").css("opacity","0");
+	//$("#veil").css("display","none");
+	$("#veil").hide();
 };
 
 

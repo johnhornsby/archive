@@ -52,8 +52,10 @@ InfoWindow.prototype.onOpen = function(data,bounds){
 	}
 	this._isOpen = true;
 	
-	$("#veil").css("display","block");
-	$("#veil").css("opacity","1");
+	//$("#veil").css("display","block");
+	$("#veil").show();
+	//$("#veil").css("opacity",1);
+	//$("#veil").attr('class','open');
 	
 	$("#infoWindow").css("display","block");
 	
@@ -76,8 +78,10 @@ InfoWindow.prototype.onOpen = function(data,bounds){
 InfoWindow.prototype.close = function(){
 	$("#infoWindow").css("display","none");
 	this._isOpen = false;
-	$("#veil").css("opacity","0");
-	$("#veil").css("display","none");
+	//$("#veil").css("opacity",0);
+	//$("#veil").css("display","none");
+	$("#veil").hide();
+	//$("#veil").attr('class','closed');
 	//this._videoTutorialElement.stop();
 };
 
