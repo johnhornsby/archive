@@ -56,13 +56,13 @@ ArtefactWindow.prototype.onCloseButtonClickHandler = function(e){
 ArtefactWindow.prototype.onAddToFavouritesButtonClickHandler = function(e){
 	Globals.localStorageManager.setArtefactFavourite(this._data, true);
 	this.updateFavouritesButtons();
-	this.dispatchEvent(new ArtefactWindowEvent(ArtefactWindowEvent.ARTEFACT_ADD_TO_FAVOURITES,this._data,this._bounds));
+	this.dispatchEvent(new ArtefactWindowEvent(ArtefactWindowEvent.ARTEFACT_ADD_TO_FAVOURITES,this._data));
 };
 
 ArtefactWindow.prototype.onRemoveFromFavouritesButtonClickHandler = function(e){
 	Globals.localStorageManager.setArtefactFavourite(this._data, false);
 	this.updateFavouritesButtons();
-	this.dispatchEvent(new ArtefactWindowEvent(ArtefactWindowEvent.ARTEFACT_REMOVE_FROM_FAVOURITES,this._data,this._bounds));
+	this.dispatchEvent(new ArtefactWindowEvent(ArtefactWindowEvent.ARTEFACT_REMOVE_FROM_FAVOURITES,this._data));
 };
 
 ArtefactWindow.prototype.onFullscreenButtonClickHandler = function(e){
@@ -133,7 +133,8 @@ ArtefactWindow.prototype.onOpen = function(data,bounds){
 	
 	//$("#veil").css("display","block");
 	//$("#veil").css("opacity","1");
-	$("#veil").show();
+	//$("#veil").show();
+	Globals.viewController.openVeil();
 	
 	$("#artefactWindow").css("display","block");
 	if(data.m === ArtefactDataManager.FILTER_PHOTO || data.m === ArtefactDataManager.FILTER_POSTERS){ //imageView
@@ -173,7 +174,8 @@ ArtefactWindow.prototype.onClose = function(){
 	this._isOpen = false;
 	//$("#veil").css("opacity","0");
 	//$("#veil").css("display","none");
-	$("#veil").hide();
+	//$("#veil").hide();
+	Globals.viewController.closeVeil();
 };
 
 

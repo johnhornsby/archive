@@ -53,9 +53,11 @@ InfoWindow.prototype.onOpen = function(data,bounds){
 	this._isOpen = true;
 	
 	//$("#veil").css("display","block");
-	$("#veil").show();
+	//$("#veil").show();
 	//$("#veil").css("opacity",1);
 	//$("#veil").attr('class','open');
+	console.log('Globals.viewController:'+Globals.viewController);
+	Globals.viewController.openVeil();
 	
 	$("#infoWindow").css("display","block");
 	
@@ -80,9 +82,10 @@ InfoWindow.prototype.close = function(){
 	this._isOpen = false;
 	//$("#veil").css("opacity",0);
 	//$("#veil").css("display","none");
-	$("#veil").hide();
+	//$("#veil").hide();
 	//$("#veil").attr('class','closed');
 	//this._videoTutorialElement.stop();
+	Globals.viewController.closeVeil();
 };
 
 InfoWindow.prototype.onCheckBoxChange = function(e,checkBox){

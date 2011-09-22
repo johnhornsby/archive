@@ -1,7 +1,7 @@
-var AnimationLayer = function(){
+var AnimationLayer = function(element){
 	EventDispatcher.call(this);
 	
-	this._animationLayer = $('#animationLayer')[0];
+	this._animationLayer = element;
 	this._animationObjectArray = [];
 	
 };
@@ -13,12 +13,10 @@ AnimationLayer.prototype = new EventDispatcher();
 //PUBLIC
 //_______________________________________________________________________________________
 AnimationLayer.prototype.addToArchiveFromGridAnimation = function(data,imageBounds,archiveButtonBounds){
-	$('#veil').show();
 	var animationObject = {};
 	this._animationLayer.style.display = 'block';
 	animationObject.element = document.createElement("div");
 	attr(animationObject.element,"class","animationTile");
-	//$(this._animationLayer).append(animationObject.element);
 	append(this._animationLayer,animationObject.element);
 	
 	//determin image size
@@ -26,38 +24,29 @@ AnimationLayer.prototype.addToArchiveFromGridAnimation = function(data,imageBoun
 	animationObject.element.style.backgroundImage = 'url(' + Globals.ARTEFACT_IMAGES_FOLDER + data.id + '_' + imageSize + '.jpg)';
 	animationObject.element.style.width = imageBounds.width + 'px';
 	animationObject.element.style.height = imageBounds.height + 'px';
-	
-	/*
-	animationObject.element.style.msTransformOrigin = '0px 0px';
-	animationObject.element.style.msTransform = 'translate('+imageBounds.left+'px,'+imageBounds.top+'px)';//matrix('+scale+',0,0,'+scale+','+point.x+','+point.y+')';
-	animationObject.element.style.webkitTransformOrigin = '0px 0px';
-	animationObject.element.style.webkitTransform = 'translate('+imageBounds.left+'px,'+imageBounds.top+'px)';//matrix('+scale+',0,0,'+scale+','+point.x+','+point.y+')';
-	animationObject.element.style.MozTransformOrigin = '0px 0px';
-	animationObject.element.style.MozTransform = 'translate('+imageBounds.left+'px,'+imageBounds.top+'px)';//matrix('+scale+',0,0,'+scale+','+point.x+','+point.y+')';
-	*/
-	
 	animationObject.origin = new Point(imageBounds.left, imageBounds.top);
 	animationObject.destination = new Point(archiveButtonBounds.left, archiveButtonBounds.top);
 	animationObject.originScale = 1;
 	animationObject.destinationScale = archiveButtonBounds.width / imageBounds.width; //scale to get the item to be the width of button 
-	
 	animationObject.curve = [{x:animationObject.origin.x, y:animationObject.origin.y},{x:animationObject.destination.x, y:animationObject.origin.y-200},{x:animationObject.destination.x, y:animationObject.destination.y}];
 	animationObject.scaleCurve = [{x:1, y:0},{x:1.5 ,y:0},{x:animationObject.destinationScale, y:0}];
 	
 	this.setTransformOrigin(animationObject.element, 0, 0);
 	this.setTransform(animationObject.element, animationObject.origin.x, animationObject.origin.y, animationObject.originScale);
 	
-	
 	var location = 1;
-	var totalFrames = 30;
+	var totalFrames = 60;
 	var frameDecrement = totalFrames;
 	var point;
 	var scale;
 	var scalePercentage;
 	var self = this;
 	
+	function initRendering(){
+		window.requestAnimFrame(render,animationObject.element);
+	}
 	
-	var renderInterval = setInterval(function(){
+	function render(){
 		frameDecrement--;
 		if(frameDecrement>-1){
 			//location = frameDecrement / totalFrames;
@@ -66,22 +55,19 @@ AnimationLayer.prototype.addToArchiveFromGridAnimation = function(data,imageBoun
 			
 			scale = jsBezier.pointOnCurve(animationObject.scaleCurve,scaleLocation);
 			point = jsBezier.pointOnCurve(animationObject.curve,location);
-			/*
-			animationObject.element.style.msTransform = 'matrix('+scale.x+',0,0,'+scale.x+','+point.x+','+point.y+')';
-			animationObject.element.style.webkitTransform = 'matrix('+scale.x+',0,0,'+scale.x+','+point.x+','+point.y+')';
-			animationObject.element.style.MozTransform = 'matrix('+scale.x+',0,0,'+scale.x+','+point.x+'px,'+point.y+'px)';
-			*/
 			self.setTransform(animationObject.element, point.x, point.y, scale.x);
 			
+			window.requestAnimFrame(render,animationObject.element);
 		}else{
-			console.log('animation complete');
-			clearInterval(renderInterval);
+			
 			self._animationLayer.style.display = 'none';
 			$(animationObject.element).remove();
 			animationObject = undefined;
-			$('#veil').hide();
+			Globals.viewController.closeVeil();
+			self.dispatchEvent(new AnimationLayerEvent(AnimationLayerEvent.ADD_ARTEFACT_TO_DOCK_COMPLETE));
 		}
-	},33);
+	};
+	Globals.viewController.openVeil({time:0.2, callback:initRendering});
 };
 
 AnimationLayer.prototype.setTransform = function(element,x,y,s){
@@ -92,6 +78,66 @@ AnimationLayer.prototype.setTransform = function(element,x,y,s){
 AnimationLayer.prototype.setTransformOrigin = function(element,x,y){
 	element.style.msTransformOrigin = element.style.webkitTransformOrigin = element.style.MozTransformOrigin = element.style.transformOrigin = x +'px '+y+'px';
 };
+
+
+
+
+AnimationLayer.prototype.removeFromMyArchiveInGridAnimation = function(data,imageBounds){
+	var animationObject = {};
+	this._animationLayer.style.display = 'block';
+	animationObject.elementBack = document.createElement("div");
+	attr(animationObject.elementBack,"class","backingTile");
+	append(this._animationLayer,animationObject.elementBack);
+	animationObject.element = document.createElement("div");
+	attr(animationObject.element,"class","animationTile");
+	append(this._animationLayer,animationObject.element);
+	
+	//determin image size
+	var imageSize = String(imageBounds.width / Globals.TILE_WIDTH) + String(imageBounds.height / Globals.TILE_HEIGHT);
+	animationObject.element.style.backgroundImage = 'url(' + Globals.ARTEFACT_IMAGES_FOLDER + data.id + '_' + imageSize + '.jpg)';
+	animationObject.element.style.width = animationObject.elementBack.style.width = imageBounds.width + 'px';
+	animationObject.element.style.height = animationObject.elementBack.style.height = imageBounds.height + 'px';
+	animationObject.origin = new Point(imageBounds.left, imageBounds.top);
+	animationObject.destination = new Point(imageBounds.left, imageBounds.top);
+	
+	animationObject.originScale = 1;
+	animationObject.destinationScale = 1; //scale to get the item to be the width of button 
+
+	animationObject.scaleCurve = [{x:1, y:0},{x:0.5 ,y:0},{x:1.2 ,y:0},{x:1, y:0}];
+	
+	this.setTransform(animationObject.element, animationObject.origin.x, animationObject.origin.y, animationObject.originScale);
+	this.setTransform(animationObject.elementBack, animationObject.origin.x, animationObject.origin.y, animationObject.originScale);
+	
+	var location = 1;
+	var totalFrames = 30;
+	var frameDecrement = totalFrames;
+	var point;
+	var scale;
+	var scalePercentage;
+	var self = this;
+	
+	function initRendering(){
+		window.requestAnimFrame(render,animationObject.element);
+	}
+	
+	function render(){
+		frameDecrement--;
+		if(frameDecrement>-1){
+			scaleLocation = AnimationLayer.easingFunctions.easeOutQuad(frameDecrement,0,1,totalFrames);
+			scale = jsBezier.pointOnCurve(animationObject.scaleCurve,scaleLocation);
+			self.setTransform(animationObject.element, animationObject.origin.x, animationObject.origin.y, scale.x);
+			window.requestAnimFrame(render,animationObject.element);
+		}else{
+			self._animationLayer.style.display = 'none';
+			$(animationObject.elementBack).remove();
+			$(animationObject.element).remove();
+			animationObject = undefined;
+			self.dispatchEvent(new AnimationLayerEvent(AnimationLayerEvent.REMOVE_ARTEFACT_FROM_DOCK_COMPLETE));
+		}
+	};
+	initRendering();
+}
+
 
 /**
  * Easing equation function for a simple linear tweening, with no easing.
@@ -265,3 +311,15 @@ AnimationLayer.easingFunctions = {
     }
 };
 AnimationLayer.easingFunctions.linear = AnimationLayer.easingFunctions.easeNone;
+
+
+
+
+
+
+//Event Classes
+//_________________________________________________________________________________________	
+var AnimationLayerEvent = function(eventType){
+	this.eventType = eventType;
+};
+AnimationLayerEvent.ADD_ARTEFACT_TO_DOCK_COMPLETE = "addArtefactToDockComplete";

@@ -548,6 +548,16 @@ Function.prototype.rEvtContext = function(obj, funcParent){
   return this.evtContext(obj);
 };
 
+window.requestAnimFrame = (function(){
+  return  window.requestAnimationFrame       || 
+		  window.webkitRequestAnimationFrame || 
+		  window.mozRequestAnimationFrame    || 
+		  window.oRequestAnimationFrame      || 
+		  window.msRequestAnimationFrame     || 
+		  function(/* function */ callback, /* DOMElement */ element){
+			window.setTimeout(callback, 1000 / 60);
+		  };
+})();
 
 
 //end of helpers.js

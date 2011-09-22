@@ -12,12 +12,12 @@ var ViewController = function(){
 	this._siteNavigationView;
 	this._tapestryViewController;
 	this._animationLayer;
+	this._veil;
 	
 	this._isPopupOpen = false;
 	this._popupBlockerTimer;
 	this._isPopupBlocked = false;
 	
-	this.init();
 };
 ViewController.prototype = new EventDispatcher();
 
@@ -27,7 +27,7 @@ ViewController.prototype = new EventDispatcher();
 
 //PRIVATE
 //_________________________________________________________________________________
-ViewController.prototype.init = function(){
+ViewController.prototype.onInit = function(){
 	this.build();
 	Globals.deepLinkingManager.addEventListener(DeepLinkingManagerEvent.UPDATE_ADDRESS,this.onUpdateDeepLinkAddress.context(this));	//listen to deepLinkingManager to determin whether ArtefactWindow should open or close
 	Globals.deepLinkingManager.checkAddress();																						//check address on init, if an initial hash has been set then it will be picked up here, and the event will be fired as above
@@ -52,29 +52,33 @@ ViewController.prototype.build = function(){
 	
 	this._artefactPopup = new ArtefactPopup();
 	this._artefactPopup.addEventListener(ArtefactPopupEvent.OPEN_ARTEFACT,this.onOpenArefactWindowHandler.context(this));
-	this._artefactPopup.addEventListener(ArtefactPopupEvent.ARTEFACT_ADD_TO_FAVOURITES,this.onPopUpAddToFavouritesHandler.context(this));
-	this._artefactPopup.addEventListener(ArtefactPopupEvent.ARTEFACT_REMOVE_FROM_FAVOURITES,this.onRemoveFromFavouritesHandler.context(this));
+	this._artefactPopup.addEventListener(ArtefactPopupEvent.ARTEFACT_ADD_TO_FAVOURITES,this.onAddToFavouritesWithinPopUpHandler.context(this));
+	this._artefactPopup.addEventListener(ArtefactPopupEvent.ARTEFACT_REMOVE_FROM_FAVOURITES,this.onRemoveFromFavouritesWithinPopUpHandler.context(this));
 	this._artefactPopup.addEventListener(ArtefactPopupEvent.CLOSE,this.onPopUpCloseHandler.context(this));
 	
 	this._artefactWindow = new ArtefactWindow();
 	this._artefactWindow.addEventListener(ArtefactWindowEvent.OPEN_FULL_SCREEN_WINDOW,this.onOpenFullScreenWindowHandler.context(this));
-	this._artefactWindow.addEventListener(ArtefactWindowEvent.ARTEFACT_REMOVE_FROM_FAVOURITES,this.onRemoveFromFavouritesHandler.context(this));
+	this._artefactWindow.addEventListener(ArtefactWindowEvent.ARTEFACT_REMOVE_FROM_FAVOURITES,this.onRemoveFromFavouritesWithinWindowHandler.context(this));
+	this._artefactWindow.addEventListener(ArtefactWindowEvent.ARTEFACT_ADD_TO_FAVOURITES,this.onAddToFavouritesWithinWindowHandler.context(this));
 	
 	this._infoWindow = new InfoWindow();
 	this._infoWindow.addEventListener(InfoWindowEvent.CLOSE,this.onInfoWindowCloseHandler.context(this));							//Event handler used to determing upon close if ViewController needs to open an ArtefactWidow due to deep link.
 	
 	this._fullscreenWindow = new FullScreenWindow();
 	
-	this._animationLayer = new AnimationLayer();
+	this._animationLayer = new AnimationLayer(document.getElementById('animationLayer'));
+	this._veil = new Veil(document.getElementById('veil'));
 	
 	if(Globals.localStorageManager.isShowInfoOnEnter() === true){
-		this._infoWindow.open();	
+		var self = this;
+		function openInfoWindow(){
+			self._infoWindow.open();
+		}
+		setTimeout(openInfoWindow,1000);
 	}
 };
 
-ViewController.prototype.onArtefactWindowAddToFavouritesHandler = function(){
-	
-};
+
 
 ViewController.prototype.onTapestryBusyStartHandler = function(e){
 	this.dispatchEvent(new ViewControllerEvent(ViewControllerEvent.BUSY_START));
@@ -88,6 +92,9 @@ ViewController.prototype.onTapestryNoResultsHandler = function(e){
 	this._dockViewController.setSelectionObject(Globals.artefactDataManager.getSelectionObject());
 };
 
+
+
+
 ViewController.prototype.onDockChangeSelectionHandler = function(e){
 	this._tapestryViewController.setSelectionObject(e.selectionObject);
 };
@@ -96,18 +103,32 @@ ViewController.prototype.onDockInfoOpenHandler = function(e){
 	this._infoWindow.open();
 };
 
-ViewController.prototype.onRemoveFromFavouritesHandler = function(){
+
+
+
+ViewController.prototype.onRemoveFromFavouritesWithinPopUpHandler = function(artefactPopupEvent){
 	if(Globals.artefactDataManager.getSelectionObject().isFavourite === true){			//if artefacts filter is on then update view
-		//this._tapestryViewController.refresh();	
-		//
 		this._tapestryViewController.setSelectionObject(Globals.artefactDataManager.getSelectionObject());
+	}else{
+		this._animationLayer.removeFromMyArchiveInGridAnimation(artefactPopupEvent.data,artefactPopupEvent.bounds);
 	}
 };
 
-ViewController.prototype.onPopUpAddToFavouritesHandler = function(artefactPopupEvent){
+ViewController.prototype.onAddToFavouritesWithinPopUpHandler = function(artefactPopupEvent){
 	var myArchiveButtonBounds = this._dockViewController.getMyArchiveButtonBounds();
 	this._animationLayer.addToArchiveFromGridAnimation(artefactPopupEvent.data,artefactPopupEvent.bounds,myArchiveButtonBounds);
 };
+
+ViewController.prototype.onRemoveFromFavouritesWithinWindowHandler = function(artefactWindowEvent){
+	if(Globals.artefactDataManager.getSelectionObject().isFavourite === true){			//if artefacts filter is on then update view
+		this._tapestryViewController.setSelectionObject(Globals.artefactDataManager.getSelectionObject());
+	}else{
+		//this._animationLayer.removeFromMyArchiveInGridAnimation(artefactWindowEvent.data,artefactWindowEvent.bounds);
+	}
+};
+ViewController.prototype.onAddToFavouritesWithinWindowHandler = function(artefactWindowEvent){};
+
+
 
 ViewController.prototype.onOpenArtefactPopUpHandler = function(e){
 	if(this._isPopupOpen === false){
@@ -181,6 +202,7 @@ ViewController.prototype.onImplementDeepLinkAddress = function(path){
 		artefactData = Globals.artefactDataManager.getArtefactDataWithId(id);
 		if(artefactData !== false){
 			if(this._infoWindow.isOpen() === false){
+				console.log('ViewController open artefact window');
 				this._artefactWindow.open(artefactData);
 			}
 		}else{
@@ -200,6 +222,10 @@ ViewController.prototype.onInfoWindowCloseHandler = function(){
 	var path = Globals.deepLinkingManager.getAddress();
 	this.onImplementDeepLinkAddress(path);
 };
+
+
+
+
 
 
 
@@ -231,6 +257,20 @@ ViewController.prototype.onRelatedArtefactClick = function(data){
 	this._artefactWindow.open(data);
 };
 
+ViewController.prototype.openVeil = function(options){
+	this._veil.open(options);
+};
+
+ViewController.prototype.closeVeil = function(options){
+	this._veil.close(options);
+};
+
+/**
+ * Called by Main to init only after viewController has been set into Globals, as onInit creates objects that end up calling global
+ */
+ViewController.prototype.init = function(){
+	this.onInit();
+};
 
 
 

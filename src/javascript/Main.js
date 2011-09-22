@@ -52,6 +52,7 @@ Main.prototype.activateDeepLinking = function(){
 Main.prototype.build = function(){
 	this._viewController = new ViewController();
 	Globals.viewController = this._viewController;
+	this._viewController.init(); // init only after viewController has been set into Globals, as it creates objects that end up calling Globals.viewController
 };
 
 
