@@ -32,7 +32,6 @@ var Animator = {
 		while(this._updateDecrement--){
 			this._updateCurrentObject = this._tweeningObjectsArray[this._updateDecrement];
 			this._updateCurrentTime = (new Date() - 0);
-			
 			this._updateTimePercentage = (this._updateCurrentTime - this._updateCurrentObject.startTime) / (this._updateCurrentObject.endTime - this._updateCurrentObject.startTime);
 			this._updateEasingPercentage = Animator.easingFunctions[this._updateCurrentObject.transition](this._updateCurrentTime - this._updateCurrentObject.startTime,0,1,this._updateCurrentObject.endTime - this._updateCurrentObject.startTime);
 	
