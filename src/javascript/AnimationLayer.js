@@ -63,11 +63,11 @@ AnimationLayer.prototype.addToArchiveFromGridAnimation = function(data,imageBoun
 			self._animationLayer.style.display = 'none';
 			$(animationObject.element).remove();
 			animationObject = undefined;
-			Globals.viewController.closeVeil();
+			Globals.viewController.closeVeil({time:0.15});
 			self.dispatchEvent(new AnimationLayerEvent(AnimationLayerEvent.ADD_ARTEFACT_TO_DOCK_COMPLETE));
 		}
 	};
-	Globals.viewController.openVeil({time:0.2, callback:initRendering});
+	Globals.viewController.openVeil({time:0.15, callback:initRendering});
 };
 
 AnimationLayer.prototype.setTransform = function(element,x,y,s){

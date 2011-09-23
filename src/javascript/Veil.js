@@ -31,9 +31,9 @@ Veil.prototype.init = function(){
 //PUBLIC
 //___________________________________________________________________
 Veil.prototype.open = function(options){
-	console.log('Veil open');
+	//console.log('Veil open');
 	var self = this;
-	var time = 1;
+	var time = 0.5;
 	var opacity = 0.5;
 	var callback = function(){};
 	
@@ -71,8 +71,12 @@ Veil.prototype.open = function(options){
 	*/
 	//this._element.style.top = '0px';
 	this._element.style.display = 'block';
-	jTweener.removeTween(this);
-	jTweener.addTween(this,{_opacity:opacity,time:time,transition:'linear',onComplete:this.onOpenTweenComplete.rEvtContext(this),onUpdate:this.onUpdateTween.rEvtContext(this)});
+	//jTweener.removeTween(this);
+	//jTweener.addTween(this,{_opacity:opacity,time:time,transition:'linear',onComplete:this.onOpenTweenComplete.rEvtContext(this),onUpdate:this.onUpdateTween.rEvtContext(this)});
+	Animator.removeTween(this);
+	Animator.addTween(this,{_opacity:opacity,time:time,transition:'linear',onComplete:this.onOpenTweenComplete.rEvtContext(this),onUpdate:this.onUpdateTween.rEvtContext(this)});
+	
+	
 	
 	//this._element.style.transition = '';
 	/*
@@ -88,9 +92,21 @@ Veil.prototype.open = function(options){
 
 
 Veil.prototype.close = function(options){
-	console.log('Veil close');
+	//console.log('Veil close');
 	var self = this;
-	var time = (options!==undefined)?options.time : 0.5;
+	var time = 0.5;
+	var opacity = 0.5;
+	var callback = function(){};
+	
+	
+	if(options !== undefined){
+		time = options.time || time;
+		opacity = options.opacity || opacity;
+		callback = options.callback || callback;
+	}
+	
+	this._callback = callback;
+	
 	/*
 	this._element.style.top = '0px';
 	this._element.style.opacity = 0;
@@ -112,8 +128,10 @@ Veil.prototype.close = function(options){
 	}
 	*/
 	
-	jTweener.removeTween(this);
-	jTweener.addTween(this,{_opacity:0,time:time,transition:'linear',onComplete:this.onCloseTweenComplete.rEvtContext(this),onUpdate:this.onUpdateTween.rEvtContext(this)});
+	//jTweener.removeTween(this);
+	//jTweener.addTween(this,{_opacity:0,time:time,transition:'linear',onComplete:this.onCloseTweenComplete.rEvtContext(this),onUpdate:this.onUpdateTween.rEvtContext(this)});
+	Animator.removeTween(this);
+	Animator.addTween(this,{_opacity:0,time:time,transition:'linear',onComplete:this.onCloseTweenComplete.rEvtContext(this),onUpdate:this.onUpdateTween.rEvtContext(this)});
 };
 
 Veil.prototype.onUpdateTween = function(){
@@ -121,12 +139,12 @@ Veil.prototype.onUpdateTween = function(){
 };
 
 Veil.prototype.onCloseTweenComplete = function(){
-	console.log('Veil close onComplete');
+	//console.log('Veil close onComplete');
 	this._element.style.display = 'none';
 };
 
 Veil.prototype.onOpenTweenComplete = function(){
-	console.log('Veil open onComplete');
+	//console.log('Veil open onComplete');
 	this._callback();
 };
 
