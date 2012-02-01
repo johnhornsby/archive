@@ -441,6 +441,7 @@ ArtefactDataManager.prototype.setSelectionObject = function(selectionObject){
 		prospectiveFeed = [this._dataRandomArray];		//force into an array so we can use same functions as on categories
 	}
 	
+	//Filter for favorites
 	sourceDecrement = prospectiveFeed.length;
 	if(selectionObject.isFavourite === true){					//if we have filters then search for matches
 		this._hasResults = false;								//reset results before we filter, if we have any then set back to true				
@@ -456,6 +457,7 @@ ArtefactDataManager.prototype.setSelectionObject = function(selectionObject){
 		prospectiveFeed = tempDestination;
 	}
 	
+	//Filter for media filters
 	sourceDecrement = prospectiveFeed.length;
 	if(selectionObject.filters.length > 0){					//if we have filters then search for matches
 		this._hasResults = false;							//reset results before we filter, if we have any then set back to true				
@@ -463,14 +465,15 @@ ArtefactDataManager.prototype.setSelectionObject = function(selectionObject){
 		while (sourceDecrement--) {
 			destinationCategory = [];
 			this.filterDataForFilterType(prospectiveFeed[sourceDecrement], destinationCategory, selectionObject.filters);
-			tempDestination.unshift(destinationCategory);
+			tempDestination.unshift(destinationCategory);	//destinationCategory is added to tempDestination even if no results are found
 			if(destinationCategory.length > 0){				//check results length, if we have any turn on has results
 				this._hasResults = true;
 			}
 		}
 		prospectiveFeed = tempDestination;
 	}
-
+	
+	//filter for keyword
 	sourceDecrement = prospectiveFeed.length;
 	if(selectionObject.keywordsArray.length > 0){			//if we have keywords then search for matches
 		this._hasResults = false;							//reset results before we search for keywords, if we have any then set back to true	
@@ -478,8 +481,8 @@ ArtefactDataManager.prototype.setSelectionObject = function(selectionObject){
 		while (sourceDecrement--) {
 			destinationCategory = [];
 			this.searchArrayForKeywordMatch(prospectiveFeed[sourceDecrement], destinationCategory, selectionObject.keywordsArray);
-			tempDestination.unshift(destinationCategory);
 			if(destinationCategory.length > 0){				//check results length, if we have any turn on has results
+				tempDestination.unshift(destinationCategory);
 				this._hasResults = true;
 			}
 		}

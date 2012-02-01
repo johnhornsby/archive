@@ -105,6 +105,8 @@ DockViewController.prototype.onDockButtonMouseUpHandler = function(e){
 DockViewController.prototype.dockButtonActivated = function(label,id){
 	var hasSelectionChanged = false;
 	
+	/*
+	block deactivated to develop onNoResultsHideCategories
 	//if we are home and we are relocating view then save filters and keywords
 	//this is a quick patch to remove filters and search from non home views
 	//the filters will be restored when we arrive back to home form another
@@ -129,7 +131,7 @@ DockViewController.prototype.dockButtonActivated = function(label,id){
 		$("#dockSearchResetButton").css('opacity','1');
 		$("#dockSearchButton").css('opacity','1');
 	}
-	
+	*/
 	
 	
                     
@@ -197,7 +199,7 @@ DockViewController.prototype.dockButtonActivated = function(label,id){
 			this.closeFilterMenu();
 			break;
 		case "dockShowFiltersButton":
-			if(this._artefactsSelectionObject.category !== ArtefactDataManager.CATEGORY_NONE)return;
+			//if(this._artefactsSelectionObject.category !== ArtefactDataManager.CATEGORY_NONE)return;
 			if(this._isFilterMenuOpen === false){
 				this.openFilterMenu();
 			}else{
@@ -205,7 +207,7 @@ DockViewController.prototype.dockButtonActivated = function(label,id){
 			}
 			break;
 		case "filterPhotosButton":
-			if(this._artefactsSelectionObject.category !== ArtefactDataManager.CATEGORY_NONE)return;
+			//if(this._artefactsSelectionObject.category !== ArtefactDataManager.CATEGORY_NONE)return;
 			if(this._artefactsSelectionObject.filters.length > 0){
 				if(this._artefactsSelectionObject.filters.indexOf(ArtefactDataManager.FILTER_PHOTO) === -1){
 					this._artefactsSelectionObject.filters.push(ArtefactDataManager.FILTER_PHOTO);
@@ -222,7 +224,7 @@ DockViewController.prototype.dockButtonActivated = function(label,id){
 			hasSelectionChanged = true;
 			break;
 		case "filterPostersButton":
-			if(this._artefactsSelectionObject.category !== ArtefactDataManager.CATEGORY_NONE)return;
+			//if(this._artefactsSelectionObject.category !== ArtefactDataManager.CATEGORY_NONE)return;
 			if(this._artefactsSelectionObject.filters.length > 0){
 				if(this._artefactsSelectionObject.filters.indexOf(ArtefactDataManager.FILTER_POSTERS) === -1){
 					this._artefactsSelectionObject.filters.push(ArtefactDataManager.FILTER_POSTERS);
@@ -239,7 +241,7 @@ DockViewController.prototype.dockButtonActivated = function(label,id){
 			hasSelectionChanged = true;
 			break;
 		case "filterVideoButton":
-			if(this._artefactsSelectionObject.category !== ArtefactDataManager.CATEGORY_NONE)return;
+			//if(this._artefactsSelectionObject.category !== ArtefactDataManager.CATEGORY_NONE)return;
 			if(this._artefactsSelectionObject.filters.length > 0){
 				if(this._artefactsSelectionObject.filters.indexOf(ArtefactDataManager.FILTER_VIDEO) === -1){
 					this._artefactsSelectionObject.filters.push(ArtefactDataManager.FILTER_VIDEO);
@@ -256,7 +258,7 @@ DockViewController.prototype.dockButtonActivated = function(label,id){
 			hasSelectionChanged = true;
 			break;
 		case "filterAudioButton":
-			if(this._artefactsSelectionObject.category !== ArtefactDataManager.CATEGORY_NONE)return;
+			//if(this._artefactsSelectionObject.category !== ArtefactDataManager.CATEGORY_NONE)return;
 			if(this._artefactsSelectionObject.filters.length > 0){
 				if(this._artefactsSelectionObject.filters.indexOf(ArtefactDataManager.FILTER_AUDIO) === -1){
 					this._artefactsSelectionObject.filters.push(ArtefactDataManager.FILTER_AUDIO);
@@ -285,7 +287,7 @@ DockViewController.prototype.dockButtonActivated = function(label,id){
 		case "dockSearchButton":
 			//var searchField = $("#dockSearchField");
 			//var searchString = searchField.val();
-			if(this._artefactsSelectionObject.category !== ArtefactDataManager.CATEGORY_NONE)return;
+			//if(this._artefactsSelectionObject.category !== ArtefactDataManager.CATEGORY_NONE)return;
 			var searchString = document.getElementById("dockSearchField").value;
 			
 			if(searchString !== ""){
@@ -300,7 +302,7 @@ DockViewController.prototype.dockButtonActivated = function(label,id){
 		case "dockSearchResetButton":
 			//var searchField = $("#dockSearchField");
 			//var searchString = searchField.val();
-			if(this._artefactsSelectionObject.category !== ArtefactDataManager.CATEGORY_NONE)return;
+			//if(this._artefactsSelectionObject.category !== ArtefactDataManager.CATEGORY_NONE)return;
 			var searchString = document.getElementById("dockSearchField").value;
 			
 			

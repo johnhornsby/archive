@@ -69,6 +69,7 @@ CategoryTable.prototype.updateTable = function(){
 	var cellObject;
 	var categoryCell;
 	var r;
+	var categoryTitle;
 	//console.log("top:"+this._windowIndexRange.top+" height:"+this._windowIndexRange.height);
 	for(r = this._windowIndexRange.top; r < this._windowIndexRange.top + this._windowIndexRange.height; r++){
 		if(r > -1 && r < this._maxRows){
@@ -80,7 +81,15 @@ CategoryTable.prototype.updateTable = function(){
 				}
 				categoryCell.setVisible(true);
 				categoryCell.setY(r*this.ROW_HEIGHT);
-				categoryCell.setData(cellObject.data,cellObject.savedState, Globals.artefactDataManager.getCategoryArtefactMetaDataWithIndex(r));
+				//categoryCell.setData(cellObject.data,cellObject.savedState, Globals.artefactDataManager.getCategoryArtefactMetaDataWithIndex(r));
+				//TODO
+				//Needs to be refactored not to directed use private artefactDataManager wrapTitle but access a optimised preformated hash table
+				if(Globals.artefactDataManager.getSelectionObject().category === ArtefactDataManager.CATEGORY_YEAR){
+					categoryTitle = Globals.artefactDataManager.wrapTitle(cellObject.data[0].d / 10000 >> 0);
+				}else {
+					categoryTitle = Globals.artefactDataManager.wrapTitle(cellObject.data[0].p).toUpperCase();
+				}
+				categoryCell.setData(cellObject.data,cellObject.savedState, categoryTitle);
 				cellObject.categoryCell = categoryCell;
 				cellObject.visible = true;
 				this._displayList.push({categoryCell:categoryCell,y:r,cellObject:cellObject});
@@ -209,14 +218,18 @@ CategoryTable.prototype.onDragEnd = function(finalLeftDelta,finalTopDelta,left,t
 CategoryTable.prototype.checkOutsideDragBounds = function(){
 	//is cells out side
 	var offsetTop = this._y;
-	var offsetBottom = offsetTop + (this._maxRows * this.ROW_HEIGHT);
+	var totalHeight = (this._maxRows * this.ROW_HEIGHT);
+	var offsetBottom = offsetTop + totalHeight;
 	var isOutside = false;
 	var correctedOffsetTop = 0;
 	if(offsetTop > 0){ //off top
 		isOutside = true;
-	}else if(offsetBottom < window.innerHeight){
+	}else if(offsetBottom < window.innerHeight && totalHeight > window.innerHeight){
 		isOutside = true;
-		correctedOffsetTop = window.innerHeight - (this._maxRows * this.ROW_HEIGHT);
+		correctedOffsetTop = window.innerHeight - totalHeight;
+	}else if(offsetTop < 0 && totalHeight < window.innerHeight){
+		isOutside = true;
+		correctedOffsetTop = 0;
 	}
 	if(isOutside === true){
 		Globals.log("Constrain offsetTop to :"+correctedOffsetTop+" from:"+offsetTop );

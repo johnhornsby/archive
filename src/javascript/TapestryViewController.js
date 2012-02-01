@@ -75,7 +75,7 @@ TapestryViewController.prototype.onSearchEndHandler = function(e){
 		var selectionObject = Globals.artefactDataManager.getSelectionObject();
 		var containerElement = document.getElementById("plane");
 		
-		if(this._artefactsSelectionObject.category !== selectionObject.category){
+		if(this._artefactsSelectionObject.category !== selectionObject.category){			//if category changes, commented out to debug onNoResultsHideCategory
 			this._currentView.destroy();
 			
 			//TODO 
