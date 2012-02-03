@@ -179,6 +179,21 @@ ArtefactDataManager.prototype.duplicateArray = function(source,destination){
 		destination[i] = this.copyDataObject(source[i]);
 	}
 }
+
+//? milliseconds ipad 1, 0 on iMac
+ArtefactDataManager.prototype.duplicateCategoryArray = function(source,destination){
+	var startTime = new Date().getTime();
+	var c = source.length;
+	var l;
+	while(c--){
+		destination[c] = [];
+		l = source[c].length;
+		while(l--){
+			destination[c][l] = this.copyDataObject(source[c][l]);
+		}
+	}
+	Globals.log("ArtefactDataManager duplicateCategoryArray complete:"+  (new Date().getTime()  - startTime));
+}
 /*
 //959 on iPad 1
 ArtefactDataManager.prototype.randomiseArray = function(source,destination){
@@ -413,6 +428,7 @@ ArtefactDataManager.prototype.mergeLocalStorageFavouritesWithData = function(){
 //PUBLIC
 //______________________________________________________________________________________________
 ArtefactDataManager.prototype.load = function(){
+	//Example {"a":"exercitation Excepteur dolor","id":1,"d":20040101,"c":"adipisicing voluptate","t":"elit, magna","o":1,"m":0,"p":"Grand Hotel – The Musical"}
 	this._lastTime = new Date().getTime();
 	//$.getJSON("data/data_full.json",this.onSuccess.context(this));
 	$.getJSON("data/data_full.json",this.onSuccess.context(this));
@@ -428,17 +444,20 @@ ArtefactDataManager.prototype.setSelectionObject = function(selectionObject){
 	this._lastTime = new Date().getTime();					//temp testing
 	
 	this._hasResults = true;								//we will have results provided no filters or keyword searches are used.
-	var prospectiveFeed;
+	var prospectiveFeed = [];
 	var sourceDecrement;
 	var destinationCategory;
 	var tempDestination;
 	
+	//duplicate relavant feed, this allows modification without altering source, such as tileEngine adding dummy grid objects
 	if(selectionObject.category === ArtefactDataManager.CATEGORY_PRODUCTION){	//Get correct source to work with
-		prospectiveFeed = this._productionCategorisedArray;
+		this.duplicateCategoryArray(this._productionCategorisedArray,prospectiveFeed);	 
 	}else if(selectionObject.category === ArtefactDataManager.CATEGORY_YEAR){
-		prospectiveFeed = this._yearCategorisedArray;
+		//prospectiveFeed = this._yearCategorisedArray;
+		this.duplicateCategoryArray(this._yearCategorisedArray,prospectiveFeed);
 	}else{
-		prospectiveFeed = [this._dataRandomArray];		//force into an array so we can use same functions as on categories
+		//prospectiveFeed = [this._dataRandomArray];		//force into an array so we can use same functions as on categories
+		this.duplicateCategoryArray([this._dataRandomArray],prospectiveFeed);
 	}
 	
 	//Filter for favorites
@@ -507,11 +526,16 @@ ArtefactDataManager.prototype.getSelectionObject = function(){
 	return this._selectionObject;
 };
 
-
+/**
+* getFeed called when selectionObject is updated from TapestryViewController
+**/
 ArtefactDataManager.prototype.getFeed = function(){
 	if(this._selectionObject.category === ArtefactDataManager.CATEGORY_NONE || this._selectionObject.category === ArtefactDataManager.CATEGORY_MY_ARCHIVE){
 		return this._currentFeed[0];
 	}else{
+		//return a copy as category view must modify data by shifting dummy cells into start
+		
+		
 		return this._currentFeed;
 	}
 };
@@ -560,7 +584,6 @@ ArtefactDataManager.prototype.getArtefactDataWithId = function(id){
 	}
 	return false;
 }
-
 
 
 //Event Classes

@@ -73,11 +73,13 @@ TileEngine.prototype.onClear = function(){
 };
 
 
-TileEngine.prototype.onSetData = function(data,restoreStateObject){
+TileEngine.prototype.onSetData = function(data,restoreStateObject,noOfStubTiles){	
 	this.onClear();
 	
 	if(restoreStateObject !== undefined){
 		this.restoreState(restoreStateObject);
+	}else if(noOfStubTiles !== undefined){
+		this.createStubTiles(data,noOfStubTiles);
 	}
 	
 	this._currentData = data;
@@ -132,6 +134,24 @@ TileEngine.prototype.restoreState = function(restoreStateObject){
 
 };
 
+/**
+* Prepopulate blank tiles to fill grid so content is not obsured by title in category view.
+**/
+TileEngine.prototype.createStubTiles = function(data,noOfStubTiles){
+	//{"a":"exercitation Excepteur dolor","id":1,"d":20040101,"c":"adipisicing voluptate","t":"elit, magna","o":1,"m":0,"p":"Grand Hotel – The Musical"}
+	var gridObject;
+	var i;
+	for(i=0;i<noOfStubTiles;i++){
+		//copy date and produciton title from real data, this is because the dummy becomes the first data cell and will be used to display the title
+		//m is set to 4 and simply uses a black gif, lazy hack here, but I did not want to alter the engine much to implement these stub tiles.
+		data.unshift({a:"",id:0,d:data[0].d,c:"",t:"",o:0,m:4,p:data[0].p});	
+		gridObject = this.getGridObject(i, 0);
+		gridObject.data = data[this._totalTiles];					//this must be in this if block and be before we increment totalTiles
+		gridObject.ocupied = true;
+		this._totalTiles++;
+	}
+};
+
 //994 on iPad and 224 on iMac
 TileEngine.prototype.floodGrid = function(){
 	
@@ -154,7 +174,7 @@ TileEngine.prototype.floodGrid = function(){
 			//_______________________________________________________________
 			if(gridObject.ocupied === false){											//Check if we need to create a new tile or use existing one
 				// NEW TILE //
-				if(this._totalTiles + 1 === this._currentData.length ){ 				//no more tiles to be populated
+				if(this._totalTiles + 1 === this._maxTiles ){ 							//no more tiles to be populated
 					continue; 															//continue to next loop
 				}
 				
@@ -229,7 +249,7 @@ TileEngine.prototype.update = function(){
 						//_______________________________________________________________
 						if(gridObject.ocupied === false){											//Check if we need to create a new tile or use existing one
 							// NEW TILE //
-							if(this._totalTiles === this._currentData.length ){ 					//no more tiles to be populated
+							if(this._totalTiles === this._maxTiles){ 								//no more tiles to be populated
 								continue; 															//continue to next loop
 							}
 							
@@ -901,8 +921,8 @@ TileEngine.prototype.render = function(){
 	this.update();
 };
 
-TileEngine.prototype.setData = function(data,restoredStateObject){
-	this.onSetData(data,restoredStateObject);
+TileEngine.prototype.setData = function(data,restoredStateObject,noOfStubTiles){
+	this.onSetData(data,restoredStateObject,noOfStubTiles);
 };
 
 TileEngine.prototype.getSaveState = function(){

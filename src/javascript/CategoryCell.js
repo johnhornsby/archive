@@ -178,7 +178,11 @@ CategoryCell.prototype.setData = function(tilesData,restoreStateObject,titleData
 	
 	//titleData = this._categoryIndex;
 	this._titleBlockElement.html(titleData);
-	this._tileEngine.setData(tilesData,restoreStateObject);
+	
+	
+	
+	
+	this._tileEngine.setData(tilesData,restoreStateObject,4);
 };
 
 CategoryCell.prototype.setScrollDeltaX = function(x){
