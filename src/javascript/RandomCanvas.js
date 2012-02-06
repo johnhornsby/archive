@@ -157,6 +157,10 @@ RandomCanvas.prototype.stopPlaneAnimation = function(){
 RandomCanvas.prototype.resetTileContainer = function(){
 	this._tileContainerX = Math.round(window.innerWidth/2);
 	this._tileContainerY = Math.round(window.innerHeight/2);
+	//IE8
+	//this._tileContainerX = Math.round($(window).width()/2);
+	//this._tileContainerY = Math.round($(window).height()/2);
+	//-
 	this._tilesContainer.style.left = this._tileContainerX + "px";
 	this._tilesContainer.style.top = this._tileContainerY + "px";
 };

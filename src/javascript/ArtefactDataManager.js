@@ -65,7 +65,8 @@ ArtefactDataManager.prototype.onSuccess = function(e){
 	this._yearCategorisedMetaDataArray = [];
 	var title;
 	while(categoryDecrement--){
-		title = this.wrapTitle(this._yearCategorisedArray[categoryDecrement][0].d / 10000 >> 0);
+		//title = this.wrapTitle(this._yearCategorisedArray[categoryDecrement][0].d / 10000 >> 0);
+		title = this._yearCategorisedArray[categoryDecrement][0].d / 10000 >> 0;
 		this._yearCategorisedMetaDataArray.unshift({html:title});
 	}
 	
@@ -81,7 +82,8 @@ ArtefactDataManager.prototype.onSuccess = function(e){
 	this._productionCategorisedMetaDataArray = [];
 	var title;
 	while(categoryDecrement--){
-		title = this.wrapTitle(this._productionCategorisedArray[categoryDecrement][0].p);	//check to force wrap all titles 
+		//title = this.wrapTitle(this._productionCategorisedArray[categoryDecrement][0].p);	//check to force wrap all titles 
+		title = this._productionCategorisedArray[categoryDecrement][0].p;	//check to force wrap all titles 
 		this._productionCategorisedMetaDataArray.unshift({html:title.toUpperCase()});
 	}
 	

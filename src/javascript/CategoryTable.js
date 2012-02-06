@@ -85,9 +85,9 @@ CategoryTable.prototype.updateTable = function(){
 				//TODO
 				//Needs to be refactored not to directed use private artefactDataManager wrapTitle but access a optimised preformated hash table
 				if(Globals.artefactDataManager.getSelectionObject().category === ArtefactDataManager.CATEGORY_YEAR){
-					categoryTitle = Globals.artefactDataManager.wrapTitle(cellObject.data[0].d / 10000 >> 0);
+					categoryTitle = cellObject.data[0].d / 10000 >> 0;
 				}else {
-					categoryTitle = Globals.artefactDataManager.wrapTitle(cellObject.data[0].p).toUpperCase();
+					categoryTitle = cellObject.data[0].p.toUpperCase();
 				}
 				categoryCell.setData(cellObject.data,cellObject.savedState, categoryTitle);
 				cellObject.categoryCell = categoryCell;
@@ -308,8 +308,12 @@ CategoryTable.prototype.clear = function(){
 	this.onClear();
 };
 
+/**
+* Called from TapestryViewController, after data has been flooded
+*/
 CategoryTable.prototype.update = function(){
 	this.updateTable();
+	this.checkOutsideDragBounds();	//need to check boundry as container maybe vertically outside bounds due to prevous scrolling
 };
 
 CategoryTable.prototype.setData = function(categorisedData){

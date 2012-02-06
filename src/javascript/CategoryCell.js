@@ -5,6 +5,10 @@ var CategoryCell = function(categoryIndex){
 	this._parentTableContainer = document.getElementById("plane");
 	this._containerElement;
 	this._tilesContainer;
+	this._titleContainer;
+	this._titleContainerElement;
+	this._titleBackground;
+	this._titleIsAnimating = false;
 	this._y = 0;
 	this._tileContainerX = 0;
 	this._veilElement;
@@ -28,7 +32,10 @@ CategoryCell.prototype.build = function(){
 	var html='';
 	html +='<div class="categoryCellContainer" id="categoryCell'+this._categoryIndex+'">';
 	html +='<div class="categoryCellTilesContainer"></div>';
-	html +='<h1 class="categoryTitleBlockContainer"></h1>';
+	html +='<div class="categoryCellTitleContainer">';
+	html +='<div class="categoryCellTitleBackground"></div>';
+	html +='<h1 class="categoryCellTitleBlockContainer"></h1>';
+	html +='</div>';
 	//html +='<div class="categoryVeilContainer"></div>';
 	html +='</div>';
 	
@@ -36,7 +43,10 @@ CategoryCell.prototype.build = function(){
 	
 	this._containerElement = $("#categoryCell"+this._categoryIndex).get(0);
 	this._tilesContainer = $("#categoryCell"+this._categoryIndex+" > .categoryCellTilesContainer").get(0);
-	this._titleBlockElement = $("#categoryCell"+this._categoryIndex+" > .categoryTitleBlockContainer");
+	this._titleContainer = $("#categoryCell"+this._categoryIndex+" > .categoryCellTitleContainer");
+	this._titleContainerElement = this._titleContainer.get(0);
+	this._titleBackground = $("#categoryCell"+this._categoryIndex+"  .categoryCellTitleBackground");
+	this._titleBlockElement = $("#categoryCell"+this._categoryIndex+"  .categoryCellTitleBlockContainer");
 	//this._veilElement = $("#categoryCell"+this._categoryIndex+" > .categoryVeilContainer").get(0);
 	
 	var tileEngineConfiguration = new TileEngineConfiguration();
@@ -128,6 +138,7 @@ CategoryCell.prototype.getAnimaitonProperties = function(delta){
 CategoryCell.prototype.onTweenUpdate = function(){
 	//this._tileContainerX = $(this._tilesContainer).offset().left;
 	this._tilesContainer.style.left = this._tileContainerX+"px";
+	this.checkAnimateTitle();
 	this._tileEngine.render();
 };
 
@@ -143,6 +154,17 @@ CategoryCell.prototype.stopPlaneAnimation = function(){
 	}
 };
 
+CategoryCell.prototype.checkAnimateTitle = function(){
+	if(this._tileContainerX >= 0){
+		this._titleIsAnimating = true;
+		this._titleContainerElement.style.left	= this._tileContainerX+"px";
+	}else{
+		if(this._titleIsAnimating === true){
+			this._titleIsAnimating = false;
+			this._titleContainerElement.style.left	= "0px";
+		}
+	}
+};
 
 
 
@@ -170,25 +192,28 @@ CategoryCell.prototype.setY = function(y){
 CategoryCell.prototype.setData = function(tilesData,restoreStateObject,titleData){
 	if(restoreStateObject!==undefined){
 		this._tileContainerX = restoreStateObject.tileContainerX;
-		this._tilesContainer.style.left = this._tileContainerX + "px";
 	}else{
 		this._tileContainerX = 0;
-		this._tilesContainer.style.left = this._tileContainerX + "px";
 	}
+	this._tilesContainer.style.left = this._tileContainerX + "px";
+	//this._titleContainer.get(0).style.left = this._tileContainerX + "px";
+	this.checkAnimateTitle();
 	
 	//titleData = this._categoryIndex;
 	this._titleBlockElement.html(titleData);
+	var titleWidth = this._titleBlockElement.width();
+	var shouldOccupyNoOfCells = Math.ceil(titleWidth / Globals.TILE_WIDTH);
+	var shouldOccupyWidth = shouldOccupyNoOfCells * Globals.TILE_WIDTH;
+	this._titleBackground.width(shouldOccupyWidth);
 	
-	
-	
-	
-	this._tileEngine.setData(tilesData,restoreStateObject,4);
+	this._tileEngine.setData(tilesData,restoreStateObject,shouldOccupyNoOfCells);
 };
 
 CategoryCell.prototype.setScrollDeltaX = function(x){
 	this.stopPlaneAnimation();
 	this._tileContainerX += x;
 	this._tilesContainer.style.left = this._tileContainerX + "px";
+	this.checkAnimateTitle();
 };
 
 CategoryCell.prototype.setVisible = function(b){

@@ -89,7 +89,7 @@ TapestryViewController.prototype.onSearchEndHandler = function(e){
 				this._currentView = new CategoryTable();
 			}
 		}
-	
+		
 		this._artefactsSelectionObject = selectionObject.clone();//clone as selectionObject is the dataManagers version
 		
 		Globals.artefactDataManager.removeEventListener(ArtefactDataManagerEvent.SEARCH_END,this.onSearchEndHandler.rEvtContext(this));	
