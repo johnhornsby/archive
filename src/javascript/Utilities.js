@@ -15,13 +15,15 @@ EventDispatcher.prototype.removeEventListener = function(eventType,func){
 	return true;
 };
 
-Array.prototype.indexOf = function(value){
-	for(var i=0;i<this.length;i++){
-		if(this[i] === value){
-			return i;
+if (!Array.prototype.indexOf){
+	Array.prototype.indexOf = function(value){
+		for(var i=0;i<this.length;i++){
+			if(this[i] === value){
+				return i;
+			}
 		}
+		return -1;
 	}
-	return -1;
 }
 
 Array.prototype.clone = function(){

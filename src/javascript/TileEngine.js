@@ -228,6 +228,8 @@ TileEngine.prototype.update = function(){
 	var modY;
 	var gridObject;
 	var searchDirectionString;
+	var displayObject;
+	var src;
 	
 	if(this._maxTiles === 0) return false;	//tileEngine may have no tiles because of filtered data
 	
@@ -313,7 +315,9 @@ TileEngine.prototype.update = function(){
 						}
 						
 						//This element simply resused to and made to fit the content we want
-						el.style.backgroundImage = 'url('+Globals.ARTEFACT_IMAGES_FOLDER+gridObject.data.id+'_'+this.getImageAreaPathIdentifier(gridObject.a)+'.jpg)';
+						//el.style.backgroundImage = 'url('+Globals.ARTEFACT_IMAGES_FOLDER+gridObject.data.id+'_'+this.getImageAreaPathIdentifier(gridObject.a)+'.jpg)';
+						src = Globals.ARTEFACT_IMAGES_FOLDER+gridObject.data.id+'_'+this.getImageAreaPathIdentifier(gridObject.a)+'.jpg';
+						
 						
 						//element top and left are resest to x and y taking into account the offet of the gridObject.
 						//this c and r will be the x and y of the cell, but the tile may need to placed with offset.
@@ -387,7 +391,12 @@ TileEngine.prototype.update = function(){
 						
 						//gridObject.visible = true;
 						//displayObject coords based on top left of element
-						this._displayList.push({element:el,x:c-gridObject.oX,y:r-gridObject.oY,r:(c-gridObject.oX)+(elementWidth-1),b:(r-gridObject.oY)+(elementHeight-1),gridObjects:gridObjectsArray})
+						
+						displayObject = {src:src,loaded:false,element:el,x:c-gridObject.oX,y:r-gridObject.oY,r:(c-gridObject.oX)+(elementWidth-1),b:(r-gridObject.oY)+(elementHeight-1),gridObjects:gridObjectsArray};
+						
+						Globals.imageLoadManager.requestImageLoad(src, this.loadImageTileComplete.context(this), displayObject);
+						
+						this._displayList.push(displayObject)
 						
 					}
 				}
@@ -403,6 +412,11 @@ TileEngine.prototype.update = function(){
 	*/
 	//this._nowTime =  new Date().getTime()  - this._lastTime
 	//console.log("layout complete:"+ this._nowTime);
+};
+
+TileEngine.prototype.loadImageTileComplete = function(displayObject){
+	displayObject.element.style.backgroundImage = 'url('+displayObject.src+')';
+	displayObject.loaded = true;
 };
 
 TileEngine.prototype.dressElement = function(){
@@ -781,6 +795,11 @@ TileEngine.prototype.queueClippedElements = function(rect){
 			for(gridObjectIndex=0;gridObjectIndex<this._displayList[i].gridObjects.length;gridObjectIndex++){
 				this._displayList[i].gridObjects[gridObjectIndex].visible = false;
 			}
+			
+			if(this._displayList[i].loaded === false){
+				Globals.imageLoadManager.cancelRequestedImageLoad(this._displayList[i].src);
+			}
+			
 			this._displayList.splice(i,1);
 		}
 	}

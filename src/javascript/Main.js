@@ -5,6 +5,7 @@ var Main = function(){
 	this._localStorageManager;
 	this._viewController;
 	this._deepLinkingManager;
+	this._imageLoadManager;
 	
 	this._loadedDecrement = 1;
 	
@@ -50,12 +51,12 @@ Main.prototype.activateDeepLinking = function(){
 };
 
 Main.prototype.build = function(){
+	this._imageLoadManager = new ImageLoadManager();
+	Globals.imageLoadManager = this._imageLoadManager;	
 	this._viewController = new ViewController();
 	Globals.viewController = this._viewController;
 	this._viewController.init(); // init only after viewController has been set into Globals, as it creates objects that end up calling Globals.viewController
 };
-
-
 
 
 //PUBLIC
