@@ -230,6 +230,7 @@ TileEngine.prototype.update = function(){
 	var searchDirectionString;
 	var displayObject;
 	var src;
+	var imageLoadUniqueID;
 	
 	if(this._maxTiles === 0) return false;	//tileEngine may have no tiles because of filtered data
 	
@@ -316,6 +317,7 @@ TileEngine.prototype.update = function(){
 						
 						//This element simply resused to and made to fit the content we want
 						//el.style.backgroundImage = 'url('+Globals.ARTEFACT_IMAGES_FOLDER+gridObject.data.id+'_'+this.getImageAreaPathIdentifier(gridObject.a)+'.jpg)';
+						el.style.backgroundImage = 'url(images/tile_11.jpg)';
 						src = Globals.ARTEFACT_IMAGES_FOLDER+gridObject.data.id+'_'+this.getImageAreaPathIdentifier(gridObject.a)+'.jpg';
 						
 						
@@ -392,9 +394,13 @@ TileEngine.prototype.update = function(){
 						//gridObject.visible = true;
 						//displayObject coords based on top left of element
 						
-						displayObject = {src:src,loaded:false,element:el,x:c-gridObject.oX,y:r-gridObject.oY,r:(c-gridObject.oX)+(elementWidth-1),b:(r-gridObject.oY)+(elementHeight-1),gridObjects:gridObjectsArray};
 						
-						Globals.imageLoadManager.requestImageLoad(src, this.loadImageTileComplete.context(this), displayObject);
+						
+						displayObject = {imageID:undefined, src:src, loaded:false, element:el, x:c-gridObject.oX, y:r-gridObject.oY,r:(c-gridObject.oX)+(elementWidth-1),b:(r-gridObject.oY)+(elementHeight-1),gridObjects:gridObjectsArray};
+						imageLoadUniqueID = Globals.imageLoadManager.requestImageLoad(src, this.loadImageTileComplete.context(this), displayObject);
+						displayObject.imageID = imageLoadUniqueID;
+						
+						
 						
 						this._displayList.push(displayObject)
 						
@@ -554,6 +560,7 @@ TileEngine.prototype.getOffsetXModifierForAreaAndDirection = function(area,direc
 	}
 	return 0;
 }
+
 TileEngine.prototype.getOffsetYModifierForAreaAndDirection = function(area,direction){
 	if(area===1){
 		return 0;
@@ -797,7 +804,7 @@ TileEngine.prototype.queueClippedElements = function(rect){
 			}
 			
 			if(this._displayList[i].loaded === false){
-				Globals.imageLoadManager.cancelRequestedImageLoad(this._displayList[i].src);
+				Globals.imageLoadManager.cancelRequestedImageLoad(this._displayList[i].imageID);
 			}
 			
 			this._displayList.splice(i,1);
@@ -808,6 +815,10 @@ TileEngine.prototype.queueClippedElements = function(rect){
 TileEngine.prototype.queueAllElements = function(){
 	for(var i=this._displayList.length-1;i>-1;i--){
 		this.queueElement(this._displayList[i].element);
+		
+		if(this._displayList[i].loaded === false){
+			Globals.imageLoadManager.cancelRequestedImageLoad(this._displayList[i].imageID);
+		}
 		this._displayList.splice(i,1);
 	}
 };

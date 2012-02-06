@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>currentDocument</key>
-	<string>src/javascript/TileEngine.js</string>
+	<string>src/javascript/ImageLoadManager.js</string>
 	<key>documents</key>
 	<array>
 		<dict>
@@ -26,14 +26,14 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>18</integer>
+				<integer>9</integer>
 				<key>line</key>
-				<integer>88</integer>
+				<integer>80</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>48</integer>
+			<integer>69</integer>
 		</dict>
 		<key>src/index.html</key>
 		<dict>
@@ -105,7 +105,7 @@
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>109</integer>
+			<integer>141</integer>
 		</dict>
 		<key>src/javascript/CategoryTable.js</key>
 		<dict>
@@ -140,44 +140,28 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>34</integer>
+				<integer>24</integer>
 				<key>line</key>
-				<integer>5</integer>
+				<integer>16</integer>
 			</dict>
-			<key>columnSelection</key>
-			<false/>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
 			<integer>0</integer>
-			<key>selectFrom</key>
-			<dict>
-				<key>column</key>
-				<integer>89</integer>
-				<key>line</key>
-				<integer>5</integer>
-			</dict>
-			<key>selectTo</key>
-			<dict>
-				<key>column</key>
-				<integer>34</integer>
-				<key>line</key>
-				<integer>5</integer>
-			</dict>
 		</dict>
 		<key>src/javascript/ImageLoadManager.js</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>46</integer>
+				<integer>50</integer>
 				<key>line</key>
-				<integer>58</integer>
+				<integer>127</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>1</integer>
+			<integer>68</integer>
 		</dict>
 		<key>src/javascript/Main.js</key>
 		<dict>
@@ -242,14 +226,14 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>33</integer>
+				<integer>40</integer>
 				<key>line</key>
-				<integer>384</integer>
+				<integer>398</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>342</integer>
+			<integer>353</integer>
 		</dict>
 		<key>src/javascript/TileEngineConfiguration.js</key>
 		<dict>
