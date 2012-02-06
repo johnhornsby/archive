@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>currentDocument</key>
-	<string>src/javascript/CategoryCell.js</string>
+	<string>src/css/style.css</string>
 	<key>documents</key>
 	<array>
 		<dict>
@@ -21,6 +21,36 @@
 	<integer>292</integer>
 	<key>metaData</key>
 	<dict>
+		<key>src/css/style.css</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>8</integer>
+				<key>line</key>
+				<integer>74</integer>
+			</dict>
+			<key>columnSelection</key>
+			<false/>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>25</integer>
+			<key>selectFrom</key>
+			<dict>
+				<key>column</key>
+				<integer>11</integer>
+				<key>line</key>
+				<integer>74</integer>
+			</dict>
+			<key>selectTo</key>
+			<dict>
+				<key>column</key>
+				<integer>8</integer>
+				<key>line</key>
+				<integer>74</integer>
+			</dict>
+		</dict>
 		<key>src/index.html</key>
 		<dict>
 			<key>caret</key>
@@ -70,14 +100,14 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>26</integer>
+				<integer>1</integer>
 				<key>line</key>
-				<integer>157</integer>
+				<integer>181</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>136</integer>
+			<integer>128</integer>
 		</dict>
 		<key>src/javascript/CategoryTable.js</key>
 		<dict>
@@ -193,7 +223,7 @@
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>60</integer>
+			<integer>77</integer>
 		</dict>
 		<key>src/javascript/TileEngineConfiguration.js</key>
 		<dict>
@@ -234,6 +264,7 @@
 		<string>src/javascript/DockViewController.js</string>
 		<string>src/javascript/ArtefactDataManager.js</string>
 		<string>src/javascript/CategoryCell.js</string>
+		<string>src/css/style.css</string>
 		<string>src/javascript/TileEngine.js</string>
 		<string>src/javascript/Globals.js</string>
 		<string>src/javascript/TileEngineConfiguration.js</string>
@@ -241,6 +272,6 @@
 	<key>showFileHierarchyDrawer</key>
 	<true/>
 	<key>windowFrame</key>
-	<string>{{-3, 9}, {1421, 1409}}</string>
+	<string>{{0, 9}, {1421, 1409}}</string>
 </dict>
 </plist>
