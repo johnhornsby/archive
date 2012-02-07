@@ -105,16 +105,26 @@ PLANE
 TILES
 //________________________________________________________
 */
+@-webkit-keyframes tileFadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+@-webkit-keyframes tileHold {
+	0% { opacity: 1; }
+    100% { opacity: 1; }
+}
+
 .tile{
 	position:absolute;
 	top:0px;
 	left:0px;
-	display:block;
-	background-color:#333;
+	display:none;
+	background-color:#000;
 	--border:2px solid white;
 	--border-right:0;
 	--border-bottom:0;
-	
+	opacity:0;
+	-webkit-transition: opacity 0s linear;
 }
 .tile > .tileBorder{
 	border:1px solid white;

@@ -313,6 +313,11 @@ TileEngine.prototype.update = function(){
 						el = this.dequeueElement();
 						if(el===undefined){
 							el = this.createTile();
+						}else{
+							var displayString = $(el).css("opacity");
+							if(displayString != "0"){
+								console.log("sajd");
+							}
 						}
 						
 						//This element simply resused to and made to fit the content we want
@@ -320,7 +325,15 @@ TileEngine.prototype.update = function(){
 						//el.style.backgroundImage = 'url(images/tile_11.jpg)';
 						el.style.backgroundImage = 'none';
 						src = Globals.ARTEFACT_IMAGES_FOLDER+gridObject.data.id+'_'+this.getImageAreaPathIdentifier(gridObject.a)+'.jpg';
-						
+						//ensure it is at 0
+						//el.style.webkitTransform = "opacity 0s";
+						//el.style.opacity = 0;
+						el.style.webkitTransition = "opacity 0s";
+						//$(el).css('display','none');
+						//setTimeout(function(){
+						$(el).css('opacity',0);
+						//},0);
+						//el.style.webkitAnimationName = "tileHold";
 						
 						//element top and left are resest to x and y taking into account the offet of the gridObject.
 						//this c and r will be the x and y of the cell, but the tile may need to placed with offset.
@@ -415,6 +428,24 @@ TileEngine.prototype.update = function(){
 
 TileEngine.prototype.loadImageTileComplete = function(displayObject){
 	displayObject.element.style.backgroundImage = 'url('+displayObject.src+')';
+	//displayObject.element.style.webkitTransform = "opacity 2s ease-in";
+	//displayObject.element.style.opacity = 0;
+	$(displayObject.element).css("opacity",0);
+	//displayObject.element.style.webkitAnimationName = "tileFadeIn";
+	/*
+	$(displayObject.element).anim({
+	    opacity: 1
+	  }, 500, "linear");
+	*/
+	displayObject.element.style.webkitTransition = "opacity 1s ease-in";
+	//$(displayObject.element).css("webkitTransition","opacity 10s ease-in");
+	setTimeout(function(){
+		$(displayObject.element).css("opacity",1);
+	},0);
+	
+	
+	//jTweener.addTween(displayObject.element,{opacity:1,time:10});
+	//$(displayObject.element).fadeIn();
 	displayObject.loaded = true;
 };
 
@@ -829,7 +860,17 @@ TileEngine.prototype.createTile = function(){
 
 TileEngine.prototype.queueElement = function(el){
 	//el.style.display = "none";
-	$(el).css('display','none');
+	
+	
+	//$(el).css('display','none');
+	el.style.webkitTransition = "opacity 0s";
+	$(el).css({'display':'none','opacity':0});
+	
+	//$(el).stop();
+//	el.style.webkitTransform = "opacity 0s";
+	//el.style.webkitAnimationName = "tileHold";
+	//el.style.opacity = 0;
+	
 	this._queuedElements.push(el);
 }
 TileEngine.prototype.dequeueElement = function(){
@@ -838,6 +879,10 @@ TileEngine.prototype.dequeueElement = function(){
 	}
 	return undefined;
 }
+
+/**
+* When tileEngine is destroyed all elements are finally removed after being cleared
+*/
 TileEngine.prototype.removeAllElements = function(){
 	if ( this._containerElement.hasChildNodes()){
 		while ( this._containerElement.childNodes.length >= 1 ){
