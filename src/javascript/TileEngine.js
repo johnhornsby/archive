@@ -317,7 +317,8 @@ TileEngine.prototype.update = function(){
 						
 						//This element simply resused to and made to fit the content we want
 						//el.style.backgroundImage = 'url('+Globals.ARTEFACT_IMAGES_FOLDER+gridObject.data.id+'_'+this.getImageAreaPathIdentifier(gridObject.a)+'.jpg)';
-						el.style.backgroundImage = 'url(images/tile_11.jpg)';
+						//el.style.backgroundImage = 'url(images/tile_11.jpg)';
+						el.style.backgroundImage = 'none';
 						src = Globals.ARTEFACT_IMAGES_FOLDER+gridObject.data.id+'_'+this.getImageAreaPathIdentifier(gridObject.a)+'.jpg';
 						
 						
@@ -391,19 +392,11 @@ TileEngine.prototype.update = function(){
 							gridObjectsArray[i].visible = true;
 						}
 						
-						//gridObject.visible = true;
-						//displayObject coords based on top left of element
-						
-						
-						
 						displayObject = {imageID:undefined, src:src, loaded:false, element:el, x:c-gridObject.oX, y:r-gridObject.oY,r:(c-gridObject.oX)+(elementWidth-1),b:(r-gridObject.oY)+(elementHeight-1),gridObjects:gridObjectsArray};
-						imageLoadUniqueID = Globals.imageLoadManager.requestImageLoad(src, this.loadImageTileComplete.context(this), displayObject);
-						displayObject.imageID = imageLoadUniqueID;
-						
-						
-						
-						this._displayList.push(displayObject)
-						
+						displayObject.imageID = Globals.imageLoadManager.requestImageIdentifier()+"_"+gridObject.data.id;
+						this._displayList.push(displayObject);
+						//last thing we do is to initiate the load
+						Globals.imageLoadManager.requestImageLoad(displayObject.imageID,src, this.loadImageTileComplete.context(this), displayObject);
 					}
 				}
 			}

@@ -11,6 +11,8 @@ var ImageLoadManager = function(){
 	this._srcLoaded = [];
 	this._activeLoaders = [];
 	this._inactiveLoaders = [];
+	this._timeoutTimer;
+	this._loaderTimeoutHistory = [{}];
 	
 	this._loadIncrement = 0;
 	
@@ -20,7 +22,7 @@ var ImageLoadManager = function(){
 ImageLoadManager.prototype = new EventDispatcher();
 
 ImageLoadManager.IMAGELOADED = "imageLoaded";
-
+ImageLoadManager.TIME_OUT = 15000;
 
 
 //PRIVATE
@@ -32,45 +34,47 @@ ImageLoadManager.prototype._init = function(){
 		imageLoader = new Image();
 		$(imageLoader).bind("load",this._onLoadComplete.context(this));
 		$(imageLoader).bind("error",this._onLoadError.context(this));
-		
+		$(imageLoader).bind("abort",this._onAbortError.context(this));
 		this._inactiveLoaders.push(imageLoader);
 	}
+	this._timeoutTimer = setInterval(this._checkForTimeouts.context(this),2000);
 };
 
 ImageLoadManager.prototype._onLoadComplete = function(e){
 	
 	var identifier = e.currentTarget.identifier;
-	console.log("loaded "+identifier);
+	//console.log("loaded "+identifier);
 	var src = e.currentTarget.src;
-	var imageLoadObject = this._srcToCallBackHashTable[identifier];
-
-	var index = this._srcLoading.indexOf(identifier);
-	this._srcLoaded.push(this._srcLoading.splice(index,1)[0]);
 	
-	if(index == -1){
-		console.log("no index");
-	}
+	//get image object from hashtable, maybe undefined, if cancelled
+	var imageLoadObject = this._srcToCallBackHashTable[identifier];
+	var result = " success";
 	
 	if(imageLoadObject === undefined){
-		console.log("_onLoadComplete: call back already deleted");
+		//console.log("_onLoadComplete: call back already deleted");
+		result = " cancelled while loading";
 	}else{
 		//perform callback, with displayObject
 		imageLoadObject.callback(imageLoadObject.param,src);
 		//delete callback object data
-		this._srcToCallBackHashTable[identifier] = undefined;
-		delete this._srcToCallBackHashTable[identifier];
+		this._deleteIdentifierFromHashTable(identifier);
 	}
-
-	//deactivate loader
-	var loaderIndex = this._activeLoaders.indexOf(e.currentTarget);
-	this._inactiveLoaders.push(this._activeLoaders.splice(loaderIndex,1)[0]);
-	//check
+	//move identifier to loaded array from loading for logging
+	this._moveLoadingIdentifierToLoaded(identifier, result);
+	//deactivate image loader
+	this._deactivateLoader(e.currentTarget);
+	//check for next
 	this._checkIdReadyToLoad();
 };
 
 ImageLoadManager.prototype._onLoadError = function(e){
 	var identifier = e.currentTarget.identifier;
-	console.log("error "+identifier);
+	//console.log("error "+identifier);
+};
+
+ImageLoadManager.prototype._onAbortError = function(e){
+	var identifier = e.currentTarget.identifier;
+	//console.log("abort "+identifier);
 };
 
 ImageLoadManager.prototype._checkIdReadyToLoad = function(){
@@ -81,11 +85,7 @@ ImageLoadManager.prototype._checkIdReadyToLoad = function(){
 			var loader = this._inactiveLoaders.shift();
 			this._activeLoaders.push(loader);
 			identifier = this._srcQueue.splice(0,1)[0];
-			try{
-				src = this._srcToCallBackHashTable[identifier].src;
-			}catch(e){
-				console.log("ahsh");
-			}
+			src = this._srcToCallBackHashTable[identifier].src;
 			loader.src = src;
 			loader.identifier = identifier;
 			this._srcLoading.push(identifier);
@@ -93,24 +93,65 @@ ImageLoadManager.prototype._checkIdReadyToLoad = function(){
 	}
 };
 
+ImageLoadManager.prototype._checkForTimeouts = function(){
+	var decrement = this._activeLoaders.length;
+	var loader;
+	var identifier;
+	var previousHistoryObject;
+	var nowHistoryObject;
+	var time;
+	var nowTime;
+	
+	if(decrement > 0){
+		previousHistoryObject = this._loaderTimeoutHistory.pop();
+		nowHistoryObject = {}
+		nowTime = new Date().getTime();
+		while(decrement--){
+			loader = this._activeLoaders[decrement];
+			identifier = loader.identifier;
+			time = previousHistoryObject[identifier];
+			
+			if(time !== undefined){
+				if(nowTime - time > ImageLoadManager.TIME_OUT){
+					//console.log("Timeout identifier:"+identifier);
+					this._deleteIdentifierFromHashTable(identifier);
+					this._moveLoadingIdentifierToLoaded(identifier, " timeout");
+					loader.src = "";
+					this._deactivateLoader(loader);
+					this._checkIdReadyToLoad();
+				}else{
+					nowHistoryObject[identifier] = time;			//copy across the time to new time snapshot
+				}
+			}else{
+				nowHistoryObject[identifier] = nowTime;
+			}
+		}
+		this._loaderTimeoutHistory.push(previousHistoryObject);
+		this._loaderTimeoutHistory.push(nowHistoryObject);
+	}
+}
 
+ImageLoadManager.prototype._deactivateLoader = function(activeLoader){
+	//activeLoader.src = "";
+	var loaderIndex = this._activeLoaders.indexOf(activeLoader);
+	this._inactiveLoaders.push(this._activeLoaders.splice(loaderIndex,1)[0]);
+}
 
-
-
+ImageLoadManager.prototype._moveLoadingIdentifierToLoaded = function(identifier, result){
+	var index = this._srcLoading.indexOf(identifier);
+	this._srcLoaded.push(this._srcLoading.splice(index,1)[0] + result);
+}
+ImageLoadManager.prototype._deleteIdentifierFromHashTable = function(identifier){
+	this._srcToCallBackHashTable[identifier] = undefined;
+	delete this._srcToCallBackHashTable[identifier];
+}
 
 //PUBLIC
 //_____________________________________________________________________________________________
-ImageLoadManager.prototype.requestImageLoad = function(src,callback,param){
-	if(param == undefined){
-		console.log("no param");
-	}
-	this._loadIncrement ++;
-	var identifier = "_"+this._loadIncrement;
-	
+ImageLoadManager.prototype.requestImageLoad = function(identifier,src,callback,param){
 	this._srcQueue.push(identifier);
 	this._srcToCallBackHashTable[identifier] = {callback:callback,param:param,src:src};
 	this._checkIdReadyToLoad();
-	return identifier;
 }
 
 /**
@@ -119,18 +160,22 @@ ImageLoadManager.prototype.requestImageLoad = function(src,callback,param){
 */
 ImageLoadManager.prototype.cancelRequestedImageLoad = function(identifier){	
 	//remove form queue
-	console.log("cancelRequestedImageLoad "+identifier);
+	//console.log("cancelRequestedImageLoad "+identifier);
 	var index = this._srcQueue.indexOf(identifier);
 	if(index > -1){
-		this._srcQueue.splice(index,1);
-		//remove callback
-		this._srcToCallBackHashTable[identifier] = undefined;
-		delete this._srcToCallBackHashTable[identifier];
+		this._srcQueue.splice(index,1);	
 	}else if(this._srcLoading.indexOf(identifier) > -1){
-		console.log("cancel  but already loading");
+		//console.log("Cancel but already loading");
 	}
-
+	//remove callback, if alreadying loading then it needs to check for the pressence of identifier in hask table.
+	this._srcToCallBackHashTable[identifier] = undefined;
+	delete this._srcToCallBackHashTable[identifier];
 }
+
+ImageLoadManager.prototype.requestImageIdentifier = function(){
+	this._loadIncrement += 1;
+	return "_"+this._loadIncrement;
+}	
 
 
 
