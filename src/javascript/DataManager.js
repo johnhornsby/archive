@@ -43,7 +43,8 @@ DataManager.prototype.gleenKeywords = function(){
 	var o;
 	while(decrement--){
 		o = jsonData[decrement];
-		this.groomString(o.p);
+		//this.groomString(o.p);	//cut strings into separate words
+		this.tryToAddKeyword(o.p);	//add whole production title
 	}
 	this._autoCompleteKeywordArray.sort();
 };

@@ -416,7 +416,7 @@ DOCK
 #autoCompleteOutput
 {
 	font-family:Helvetica, Arial, sans-serif;
-	font-size: 16pt;
+	font-size: 11pt;
 	font-weight:bold;
 	color:black;
 	padding:0px;
@@ -462,10 +462,18 @@ DOCK
 
 #autoCompleteOutput > div{
 	position:relative;
-	padding:7px;
 	border-top:1px solid #CCCCCC;
 	-webkit-tap-highlight-color:rgba(0,145,247,0.5);
 	cursor:pointer;
+	overflow:hidden;
+	height:40px;
+}
+
+#autoCompleteOutput span{
+	position:absolute;
+	padding:12px;
+	display:block;
+	width:2000px;
 }
 #autoCompleteOutput > div:nth-child(1){
 	border-top:0px;

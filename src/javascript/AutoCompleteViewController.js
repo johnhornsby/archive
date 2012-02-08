@@ -132,14 +132,14 @@ AutoCompleteViewController.prototype.setVisible = function(visi){
 };
 
 AutoCompleteViewController.prototype.hideVeil = function(){
-	console.log('hideVeil');
+	Globals.log('hideVeil');
 	$('#dockVeil').css('opacity','0');
 	$("#dockVeil").css("display","none");
 	
 };
 
 AutoCompleteViewController.prototype.showVeil = function(){
-	console.log('showVeil');
+	Globals.log('showVeil');
 	$("#dockVeil").css("display","block");
 	$('#dockVeil').css('opacity','1');
 };
@@ -200,7 +200,10 @@ AutoCompleteViewController.prototype.lookAt = function(){
 	
 AutoCompleteViewController.prototype.addWord = function(word){
 	var sp = document.createElement("div");
-	sp.appendChild(document.createTextNode(word));
+	var span = document.createElement("span");
+	var textNode = document.createTextNode(word);
+	span.appendChild(textNode);
+	sp.appendChild(span);
 	/*
 	sp.onmouseover = this.mouseHandler;
 	sp.onmouseout = this.mouseHandlerOut;
@@ -226,15 +229,21 @@ AutoCompleteViewController.prototype.clearOutput = function(){
 	
 AutoCompleteViewController.prototype.getWord = function(beginning){
 	var words = new Array();
+	var beginingLowerCase = beginning.toLowerCase();
 	this.suggestions = Globals.dataManager.getAutoCompleteKeywordArray();
 	for (var i=0;i < this.suggestions.length; ++i){
 		var j = -1;
 		var correct = 1;
+		/*
 		while (correct == 1 && ++j < beginning.length){
 			if (this.suggestions[i].charAt(j) != beginning.charAt(j)){
 				if (this.suggestions[i].charAt(j) != beginning.charAt(j).toUpperCase())
 				 correct = 0;
 			}
+		}
+		*/
+		if(this.suggestions[i].toLowerCase().indexOf(beginingLowerCase) === -1){
+			correct = 0;
 		}
 		if (correct == 1) words[words.length] = this.suggestions[i];
 	}
@@ -264,14 +273,14 @@ AutoCompleteViewController.prototype.keyHandler = function(event){
 					this.input = this._textField.value;
 				}
 				this.setColor(++this._listIndex, "#0091f7", "white");
-				this._textField.value = this.outp.childNodes[this._listIndex].firstChild.nodeValue;
+				this._textField.value = this.outp.childNodes[this._listIndex].firstChild.firstChild.nodeValue;
 			}
 		}else if (this.key == 38){ //Key up
 			if (this.words.length > 0){
 				if (this._listIndex >=1){
 					this.setColor(this._listIndex, "#fff", "black");
 					this.setColor(--this._listIndex, "#0091f7", "white");
-					this._textField.value = this.outp.childNodes[this._listIndex].firstChild.nodeValue;
+					this._textField.value = this.outp.childNodes[this._listIndex].firstChild.firstChild.nodeValue;
 				}else if(this._listIndex === 0){
 					this.setColor(this._listIndex, "#fff", "black");
 					this._textField.value = this.input;
@@ -321,22 +330,21 @@ AutoCompleteViewController.prototype.mouseClick = function(e,el){
 	//this._textField.value = el.firstChild.nodeValue;
 	if(this._touchPanelViewController.isStopChildMouseUp() === false){
 	//if(this._isStopChildMouseUp === false){
-		console.log('mouseClick');
+		Globals.log('mouseClick');
 		this._isMouseDown = false;
 		this.setVisible("hidden");
 		this.hideVeil();
 		this._listIndex = -1;
 		this.oldins = el.firstChild.nodeValue;
-		
-		this._dockViewController.setKeywordAndSubmit(el.firstChild.nodeValue);
+		this._dockViewController.setKeywordAndSubmit(el.firstChild.firstChild.nodeValue);
 	}else{
-		console.log('mouseClick canceled');	
+		Globals.log('mouseClick canceled');	
 	}
 }
 	
 	
 AutoCompleteViewController.prototype.mouseDownHandler = function(e){
-	console.log('mouseDownHandler');
+	Globals.log('mouseDownHandler');
 	/*
 	On desktop this will cause the tf to loose focus, so we either deal with the event here, or do not hide the autoComplete on mouseDown 
 	*/
@@ -344,7 +352,7 @@ AutoCompleteViewController.prototype.mouseDownHandler = function(e){
 }
 
 AutoCompleteViewController.prototype.mouseLeaveHandler = function(e){
-	console.log('mouseLeaveHandler');
+	Globals.log('mouseLeaveHandler');
 	this._isMouseDown = false;
 	
 }

@@ -319,13 +319,21 @@ ArtefactDataManager.prototype.searchArrayForKeywordMatch = function(source,desti
 	var keywordDecrement = keywordArray.length;
 	var keywordLength = keywordArray.length;
 	var keywordsMatch = false;
+	var lowerCaseKeywordArray = [];
+	
+	while(keywordDecrement--){
+		lowerCaseKeywordArray.unshift(keywordArray[keywordDecrement].toLowerCase());
+	}
+	keywordDecrement = keywordArray.length;
+	
+	
 	//var hasResults = false;
 	
 	while (sourceDecrement--) {				//interate through category array of artefacts
 		keywordDecrement = keywordLength;
 		keywordsMatch = false;
 		while(keywordDecrement--){
-			if(source[sourceDecrement].t.indexOf(keywordArray[keywordDecrement])!=-1 || source[sourceDecrement].p.indexOf(keywordArray[keywordDecrement])!=-1 || source[sourceDecrement].c.indexOf(keywordArray[keywordDecrement])!=-1 || source[sourceDecrement].a.indexOf(keywordArray[keywordDecrement])!=-1 ){
+			if(source[sourceDecrement].t.toLowerCase().indexOf(lowerCaseKeywordArray[keywordDecrement])!=-1 || source[sourceDecrement].p.toLowerCase().indexOf(lowerCaseKeywordArray[keywordDecrement])!=-1 || source[sourceDecrement].c.toLowerCase().indexOf(lowerCaseKeywordArray[keywordDecrement])!=-1 || source[sourceDecrement].a.toLowerCase().indexOf(lowerCaseKeywordArray[keywordDecrement])!=-1 ){
 				keywordsMatch = true;
 			}else{
 				keywordsMatch = false;
@@ -405,11 +413,11 @@ ArtefactDataManager.prototype.copyDataObject = function(s){
 }
 
 ArtefactDataManager.prototype.onComplete = function(e){
-	console.log(e);
+	Globals.log(e);
 };
 
 ArtefactDataManager.prototype.onError = function(e){
-	console.log(e);
+	Globals.log(e);
 };
 
 ArtefactDataManager.prototype.onSearchEnd = function(){
