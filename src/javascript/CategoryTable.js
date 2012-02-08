@@ -209,7 +209,7 @@ CategoryTable.prototype.onDragEnd = function(finalLeftDelta,finalTopDelta,left,t
 	}
 	
 	if(outsideDragBounds === false){		//animate inertia
-		if(Math.abs(finalLeftDelta) < Math.abs(finalTopDelta) && Globals.os === Globals.OS_OTHER){
+		if(Math.abs(finalLeftDelta) < Math.abs(finalTopDelta) && Globals.isDesktop){
 			this.initInertiaAnimation(finalTopDelta);
 		}
 	}

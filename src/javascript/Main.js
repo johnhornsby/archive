@@ -17,6 +17,7 @@ var Main = function(){
 //PRIVATE
 //____________________________________________________________________________________________________
 Main.prototype.init = function(){
+	Globals.init();
 	this._localStorageManager = new LocalStorageManager();
 	Globals.localStorageManager = this._localStorageManager;
 	this.load();

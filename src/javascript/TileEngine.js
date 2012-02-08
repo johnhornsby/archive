@@ -316,22 +316,39 @@ TileEngine.prototype.update = function(){
 						}else{
 							var displayString = $(el).css("opacity");
 							if(displayString != "0"){
-								console.log("sajd");
+								//console.log("sajd");
 							}
 						}
 						
 						//This element simply resused to and made to fit the content we want
 						//el.style.backgroundImage = 'url('+Globals.ARTEFACT_IMAGES_FOLDER+gridObject.data.id+'_'+this.getImageAreaPathIdentifier(gridObject.a)+'.jpg)';
 						//el.style.backgroundImage = 'url(images/tile_11.jpg)';
-						el.style.backgroundImage = 'none';
+						//el.style.backgroundImage = 'none';
+						el.childNodes[0].style.backgroundImage = 'none';
 						src = Globals.ARTEFACT_IMAGES_FOLDER+gridObject.data.id+'_'+this.getImageAreaPathIdentifier(gridObject.a)+'.jpg';
 						//ensure it is at 0
 						//el.style.webkitTransform = "opacity 0s";
 						//el.style.opacity = 0;
-						el.style.webkitTransition = "opacity 0s";
+						//el.style.webkitTransition = "opacity 0s";
 						//$(el).css('display','none');
 						//setTimeout(function(){
-						$(el).css('opacity',0);
+						//$(el).css('opacity',0);
+						
+						
+						
+						if(Globals.isDesktop){
+							if(Globals.browser === "Explorer"){
+								$(el).children().first().css('opacity',0);
+							}else{
+								el.childNodes[0].style.webkitTransition = "opacity 0s";
+								el.childNodes[0].style.opacity = 0;
+							}
+						}else{
+							el.childNodes[0].style.opacity = 0;
+						}
+						
+						
+						
 						//},0);
 						//el.style.webkitAnimationName = "tileHold";
 						
@@ -349,40 +366,54 @@ TileEngine.prototype.update = function(){
 							case 1:
 								el.style.width = this._TILE_WIDTH * 1 + "px";
 								el.style.height = this._TILE_HEIGHT * 1 + "px";
-								$(el).children().first().css("width",(this._TILE_WIDTH * 1)-2 + "px").css("height",(this._TILE_HEIGHT * 1)-2 + "px");
+								//$(el).children().first().css("width",(this._TILE_WIDTH * 1)-2 + "px").css("height",(this._TILE_HEIGHT * 1)-2 + "px");
+								el.childNodes[1].style.width = this._TILE_WIDTH-2 + "px";
+								el.childNodes[1].style.height = this._TILE_HEIGHT-2 + "px";
 								elementWidth = 1;
 								elementHeight = 1;
 								break;
 							case 2:
 								el.style.width = this._TILE_WIDTH * 1 + "px";
 								el.style.height = this._TILE_HEIGHT * 2 + "px";
-								$(el).children().first().css("width",(this._TILE_WIDTH * 1)-2 + "px").css("height",(this._TILE_HEIGHT * 2)-2 + "px");
+								//$(el).children().first().css("width",(this._TILE_WIDTH * 1)-2 + "px").css("height",(this._TILE_HEIGHT * 2)-2 + "px");
+								el.childNodes[1].style.width = this._TILE_WIDTH-2 + "px";
+								el.childNodes[1].style.height = (this._TILE_HEIGHT * 2)-2 + "px";
 								elementWidth = 1;
 								elementHeight = 2;
 								break; 
 							case 4:
 								el.style.width = this._TILE_WIDTH * 2 + "px";
 								el.style.height = this._TILE_HEIGHT * 2 + "px";
-								$(el).children().first().css("width",(this._TILE_WIDTH * 2)-2 + "px").css("height",(this._TILE_HEIGHT * 2)-2 + "px"); 
+								//$(el).children().first().css("width",(this._TILE_WIDTH * 2)-2 + "px").css("height",(this._TILE_HEIGHT * 2)-2 + "px");
+								el.childNodes[1].style.width = (this._TILE_WIDTH * 2)-2 + "px";
+								el.childNodes[1].style.height = (this._TILE_HEIGHT * 2)-2 + "px";
 								elementWidth = 2;
 								elementHeight = 2;
 								break;
 							case 6:
 								el.style.width = this._TILE_WIDTH * 2 + "px";
 								el.style.height = this._TILE_HEIGHT * 3 + "px";
-								$(el).children().first().css("width",(this._TILE_WIDTH * 2)-2 + "px").css("height",(this._TILE_HEIGHT * 3)-2 + "px");
+								//$(el).children().first().css("width",(this._TILE_WIDTH * 2)-2 + "px").css("height",(this._TILE_HEIGHT * 3)-2 + "px");
+								el.childNodes[1].style.width = (this._TILE_WIDTH * 2)-2 + "px";
+								el.childNodes[1].style.height = (this._TILE_HEIGHT * 3)-2 + "px";
 								elementWidth = 2;
 								elementHeight = 3;
 								break;
 							case 9:
 								el.style.width = this._TILE_WIDTH * 3 + "px";
 								el.style.height = this._TILE_HEIGHT * 3 + "px";
-								$(el).children().first().css("width",(this._TILE_WIDTH * 3)-2 + "px").css("height",(this._TILE_HEIGHT * 3)-2 + "px");
+								//$(el).children().first().css("width",(this._TILE_WIDTH * 3)-2 + "px").css("height",(this._TILE_HEIGHT * 3)-2 + "px");
+								el.childNodes[1].style.width = (this._TILE_WIDTH * 3)-2 + "px";
+								el.childNodes[1].style.height = (this._TILE_HEIGHT * 3)-2 + "px";
+								
 								elementWidth = 3;
 								elementHeight = 3;
 								break;  
 						}
-						$(el).children().last().css("background-image","url(images/mediaType_"+gridObject.data.m+".gif)");
+						//$(el).children().last().css("background-image","url(images/mediaType_"+gridObject.data.m+".gif)");
+						
+						el.childNodes[2].style.backgroundImage = "url(images/mediaType_"+gridObject.data.m+".gif)";
+						
 						/*
 						switch(gridObject.m){
 							case ArtefactDataManager.FILTER_PHOTO:
@@ -427,22 +458,33 @@ TileEngine.prototype.update = function(){
 };
 
 TileEngine.prototype.loadImageTileComplete = function(displayObject){
-	displayObject.element.style.backgroundImage = 'url('+displayObject.src+')';
+	//displayObject.element.style.backgroundImage = 'url('+displayObject.src+')';
+	displayObject.element.childNodes[0].style.backgroundImage = 'url('+displayObject.src+')';
 	//displayObject.element.style.webkitTransform = "opacity 2s ease-in";
 	//displayObject.element.style.opacity = 0;
-	$(displayObject.element).css("opacity",0);
+	
 	//displayObject.element.style.webkitAnimationName = "tileFadeIn";
 	/*
 	$(displayObject.element).anim({
 	    opacity: 1
 	  }, 500, "linear");
 	*/
-	displayObject.element.style.webkitTransition = "opacity 1s ease-in";
-	//$(displayObject.element).css("webkitTransition","opacity 10s ease-in");
-	setTimeout(function(){
-		$(displayObject.element).css("opacity",1);
-	},0);
 	
+	//$(displayObject.element).css("webkitTransition","opacity 10s ease-in");
+	
+	if(Globals.isDesktop){
+		if(Globals.browser === "Explorer"){
+			$(displayObject.element).children().first().css('opacity',1);
+		}else{
+			displayObject.element.childNodes[0].style.opacity = 0;
+			displayObject.element.childNodes[0].style.webkitTransition = "opacity 1s ease-in";
+			setTimeout(function(){
+				displayObject.element.childNodes[0].style.opacity = 1;
+			},0);
+		}
+	}else{
+		displayObject.element.childNodes[0].style.opacity = 1;
+	}
 	
 	//jTweener.addTween(displayObject.element,{opacity:1,time:10});
 	//$(displayObject.element).fadeIn();
@@ -855,7 +897,7 @@ TileEngine.prototype.createTile = function(){
 	return el;
 	*/
 	
-	return $(this._containerElement).append('<div class="tile"><div class="tileBorder"></div><div class="tileIcon"></div></div>').children().last().get(0);
+	return $(this._containerElement).append('<div class="tile"><div class="titleImage"></div><div class="tileBorder"></div><div class="tileIcon"></div></div>').children().last().get(0);
 }
 
 TileEngine.prototype.queueElement = function(el){
@@ -863,8 +905,21 @@ TileEngine.prototype.queueElement = function(el){
 	
 	
 	//$(el).css('display','none');
-	el.style.webkitTransition = "opacity 0s";
-	$(el).css({'display':'none','opacity':0});
+	//el.style.webkitTransition = "opacity 0s";
+	//$(el).css({'display':'none','opacity':0});
+	
+	if(Globals.isDesktop){
+		el.childNodes[0].style.webkitTransition = "opacity 0s";
+	}
+	if(Globals.browser === "Explorer"){
+		$(el).css({'display':'none'});
+		$(el).children().first().css({'opacity':0});
+	}else{
+		//el.childNodes[0].style.display = 'none';
+		el.childNodes[0].style.opacity = 0;
+		el.style.display = 'none';
+	}
+	
 	
 	//$(el).stop();
 //	el.style.webkitTransform = "opacity 0s";

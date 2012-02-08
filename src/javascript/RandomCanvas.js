@@ -60,7 +60,7 @@ RandomCanvas.prototype.onSetScrollDelta = function(dx,dy,x,y){
 RandomCanvas.prototype.onDragEnd = function(finalLeftDelta,finalTopDelta,left,top){
 	var outsideDragBounds = this.checkOutsideDragBounds();
 	if(outsideDragBounds === false){		//animate inertia
-		if(Globals.os === Globals.OS_OTHER){
+		if(Globals.isDesktop){
 			this.initInertiaAnimation(finalLeftDelta,finalTopDelta);
 		}
 	}

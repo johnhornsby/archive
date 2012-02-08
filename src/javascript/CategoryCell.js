@@ -63,7 +63,7 @@ CategoryCell.prototype.build = function(){
 CategoryCell.prototype.onDragEnd = function(finalLeftDelta,finalTopDelta,left,top){
 	var outsideDragBounds = this.checkOutsideDragBounds();
 	if(outsideDragBounds === false){		//animate inertia
-		if(Math.abs(finalLeftDelta) > Math.abs(finalTopDelta) && Globals.os === Globals.OS_OTHER){
+		if(Math.abs(finalLeftDelta) > Math.abs(finalTopDelta) && Globals.isDesktop){
 			this.initInertiaAnimation(finalLeftDelta);
 		}
 	}

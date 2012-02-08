@@ -119,16 +119,16 @@ TILES
 	top:0px;
 	left:0px;
 	display:none;
-	background-color:#000;
-	--border:2px solid white;
-	--border-right:0;
-	--border-bottom:0;
+	background-color:#212121;
+	opacity:1;
+	
+}
+
+.tile > .titleImage {
+	width:inherit;
+	height:inherit;
 	opacity:0;
 	-webkit-transition: opacity 0s linear;
-}
-.tile > .tileBorder{
-	border:1px solid white;
-	position:absolute;
 }
 
 .tile > .tileIcon{
@@ -155,7 +155,7 @@ TILES
 	border-color:#000;
 	width:111px;
 	height:83px;
-	position:relative;
+	position:absolute;
 	top:0px;
 	left:0px;
 }
