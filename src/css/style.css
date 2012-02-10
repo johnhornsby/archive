@@ -745,33 +745,28 @@ ARTEFACT WINDOW
 	cursor:pointer;
 }
 
-#relatedArtefactsContainer {
+#relatedArtefactsFrame {
 	width:574px;
 	height:140px;
 	position:relative;
 	overflow:hidden;
-	float:left;
+	display:block;
 }
 
-
-#relatedArtefactsView ul{
+#relatedArtefactsContainer {
+	position:absolute;
 	margin:0px;
 	padding:0px;
-	position:relative;
-	width:5000%;
-	height:140px;
 	left:0px;
-	--webkit-transition: left 1s ease;
 }
 
 .relatedArtefact{
-	float:left;
-	position:relative;
+	position:absolute;
 	width:113px;
 	padding:0px;
 	height:140px;
-	opacity:0;
-	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+	opacity:1;
+	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=1)";
 	-webkit-transition: opacity 0.5s ease;
 }
 
@@ -820,6 +815,14 @@ ARTEFACT WINDOW
 	
 }
 
+.ScrollableCellContainer {
+	position:absolute;
+	width:113px;
+	padding:0px;
+	height:140px;
+	background-color:#F0F;
+	display:block;
+}
 
 
 

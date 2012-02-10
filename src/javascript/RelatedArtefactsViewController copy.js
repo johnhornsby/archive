@@ -9,9 +9,6 @@ var RelatedArtefactsViewController = function(){
 	this._relatedArtefactImagesLoadedIncrement = 0;
 	this._relatedArtefactImagesLoadedStatus = false;
 	
-	
-	this._scrollableTable;
-	
 	this.init();
 };
 RelatedArtefactsViewController.prototype = new EventDispatcher();
@@ -23,8 +20,8 @@ RelatedArtefactsViewController.prototype = new EventDispatcher();
 //PRIVATE
 //_____________________________________________________________________________________
 RelatedArtefactsViewController.prototype.init = function(){
-	//$("#relatedArtefactsView .leftCarouselButton").bind("click",this.onLeftCarouselClickHandler.context(this));
-	//$("#relatedArtefactsView .rightCarouselButton").bind("click",this.onRightCarouselClickHandler.context(this));
+	$("#relatedArtefactsView .leftCarouselButton").bind("click",this.onLeftCarouselClickHandler.context(this));
+	$("#relatedArtefactsView .rightCarouselButton").bind("click",this.onRightCarouselClickHandler.context(this));
 	
 	/*
 	HACK
@@ -37,21 +34,9 @@ RelatedArtefactsViewController.prototype.init = function(){
 	after every animation frame update, onComplete and clear the forcedDomUpdatesContainer is emptied.
 	*/
 	$("#relatedArtefactsView").append('<div id="forcedDomUpdatesContainer"></div>');
-	
-	this._scrollableTable = new ScrollableTable({
-		direction: ScrollableTable.DIRECTION_HORIZONTAL,
-		cellClass: RelatedArtefactCell,
-		dataDelegate: this,
-		delegate: this,
-		containerElement: $("#relatedArtefactsContainer").get(0),
-		frameElement: $("#relatedArtefactsFrame").get(0),
-		cellWidth: 113,
-		cellHeight: 140
-	});
-	
 };
 
-/*
+
 RelatedArtefactsViewController.prototype.createRelatedArtefact = function(data){
 	var html = "";
 	html += '<li class="relatedArtefact">';
@@ -69,7 +54,7 @@ RelatedArtefactsViewController.prototype.createRelatedArtefact = function(data){
 	});
 	
 };
-*/
+
 RelatedArtefactsViewController.prototype.onRelatedArtefactClickHandler = function(e,data){
 	Globals.viewController.onRelatedArtefactClick(data);
 };
@@ -93,7 +78,7 @@ RelatedArtefactsViewController.prototype.removeRelatedArtefacts = function(){
 	$("#relatedArtefactsContainer > ul").css("left",0);
 };
 
-/*
+
 RelatedArtefactsViewController.prototype.onLeftCarouselClickHandler = function(e){
 	var targetIndex = this._relatedArtefactFarLeftIndex - 5;
 	if(targetIndex < 0){
@@ -124,19 +109,29 @@ RelatedArtefactsViewController.prototype.onRightCarouselClickHandler = function(
 	//console.log("onRightCarouselClickHandler targetIndex:"+targetIndex+" destinationX:"+destinationX+" ul left:"+$("#relatedArtefactsContainer > ul").get(0).offsetLeft);
 	
 	this.slideToIndexXPos(destinationX);
+	
+	
 };
 
 
 RelatedArtefactsViewController.prototype.slideToIndexXPos = function(destinationX){
-	jTweener.addTween($("#relatedArtefactsContainer").get(0), {
+	jTweener.addTween($("#relatedArtefactsContainer > ul").get(0), {
 		time: 0.75,
 		transition: 'easeOutQuad',
 		left: destinationX,
 		onUpdate:this.forceUpdate,
 		onComplete:this.removeForceUpdates
 	});
+	/*
+	$('#relatedArtefactsContainer > ul').animate({ left: destinationX + "px" }, {
+		easing: "ease",
+		duration: 1000,
+		step: this.forceUpdate,
+		complete: this.slideAnimationComplete
+	});
+	*/
 };
-*/
+
 /**
 *@description: add a div to the forcedDomUpdatesContainer, this forces the ipad browser to update changes to the display, this is called in the above slideToIndexXPos() function
 */
@@ -154,28 +149,18 @@ RelatedArtefactsViewController.prototype.removeForceUpdates = function(){
 
 
 
-
-//SCROLLABLE TABLE DATA DELEGATE METHODS
-//__________________________________________________________________________
-RelatedArtefactsViewController.prototype.getNumberOfCells = function(){
-	return this._relatedArtefactsDataArray.length;
-}
-
-RelatedArtefactsViewController.prototype.getDataForCellIndex = function(index){
-	return this._relatedArtefactsDataArray[index];
-}
-
-
-
-
-
 //PUBLIC
 //___________________________________________________________________________
 RelatedArtefactsViewController.prototype.setData = function(jsonDataObject){
 	this._data = jsonDataObject;
+	$("#relatedArtefactsContainer > ul").css("left",0);
+
 	this._relatedArtefactsDataArray = Globals.artefactDataManager.getRelatedArtefacts(this._data);
-	$("#relatedArtefactsContainer").css("left",0);
-	this._scrollableTable.reloadTable();
+	var relatedArtefactData;
+	for(var i=0; i< this._relatedArtefactsDataArray.length;i++){
+		relatedArtefactData = this._relatedArtefactsDataArray[i];
+		this.createRelatedArtefact(relatedArtefactData);
+	}
 };
 
 RelatedArtefactsViewController.prototype.clear = function(){
