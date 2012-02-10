@@ -760,17 +760,18 @@ ARTEFACT WINDOW
 	left:0px;
 }
 
-.relatedArtefact{
+.relatedArtefactCell {
 	position:absolute;
 	width:113px;
 	padding:0px;
 	height:140px;
+	display:block;
 	opacity:1;
 	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=1)";
 	-webkit-transition: opacity 0.5s ease;
 }
 
-.relatedArtefact a {
+.relatedArtefactCell a {
 	position:absolute;
 	display:block;
 	top:0px;
@@ -786,7 +787,7 @@ ARTEFACT WINDOW
 	
 }
 
-.relatedArtefact span {
+.relatedArtefactCell span {
 	display:block;
 	margin-top:85px;
 	padding:0px 6px 6px 6px;
@@ -796,32 +797,23 @@ ARTEFACT WINDOW
 	font-family:Georgia, "Times New Roman", Times, serif;
 }
 
-.relatedArtefact a:hover{
+.relatedArtefactCell a:hover{
 	opacity:1;
 	-webkit-transition: opacity 0.25s ease;
 	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
 }
 
-.relatedArtefact img{
+.relatedArtefactCell img{
 	margin:0px;
 	padding:0px;
 	border:none;
 }
 
-.relatedArtefact p{
+.relatedArtefactCell p{
 	margin:0px;
 	padding:0px;
 	font-size:12px;
 	
-}
-
-.ScrollableCellContainer {
-	position:absolute;
-	width:113px;
-	padding:0px;
-	height:140px;
-	background-color:#F0F;
-	display:block;
 }
 
 

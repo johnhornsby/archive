@@ -80,6 +80,7 @@ ScrollableTable.prototype.updateTable = function(){
 				if(cell===undefined){
 					cell = new this._cellClass({index:i,containerElement:this._container});
 				}
+				cell.setData(cellObject.data,cellObject.savedState);
 				cell.setVisible(true);
 				if(this._direction === ScrollableTable.DIRECTION_VERTICAL){
 					cell.setX(0);
@@ -88,7 +89,6 @@ ScrollableTable.prototype.updateTable = function(){
 					cell.setX(i*this._cellWidth);
 					cell.setY(0);
 				}
-				cell.setData(cellObject.data,cellObject.savedState);
 				cellObject.cell = cell;
 				cellObject.visible = true;
 				this._displayList.push({cell:cell,index:i,cellObject:cellObject});//TODO
@@ -124,6 +124,7 @@ ScrollableTable.prototype.queueAllCells = function(){
 
 ScrollableTable.prototype.queueCell = function(cell){
 	cell.setVisible(false);
+	cell.clear();
 	//NOTE: Does not clear! Should it?
 	this._queuedCellsArray.push(cell);
 }

@@ -79,7 +79,6 @@ CategoryTable.prototype.updateTable = function(){
 				if(categoryCell===undefined){
 					categoryCell = new CategoryCell(r);
 				}
-				categoryCell.setVisible(true);
 				categoryCell.setY(r*this.ROW_HEIGHT);
 				//categoryCell.setData(cellObject.data,cellObject.savedState, Globals.artefactDataManager.getCategoryArtefactMetaDataWithIndex(r));
 				//TODO
