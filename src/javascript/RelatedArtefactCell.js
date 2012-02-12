@@ -13,10 +13,11 @@ RelatedArtefactCell.prototype.supr = ScrollableCell.prototype;
 //___________________________________________________________________________________
 //build
 RelatedArtefactCell.prototype.build = function(){
-	RelatedArtefactCell.__super__.build();
+	this.supr.build.call(this);
 	
 	this._image = new Image();
 	this._anchor = document.createElement("a");
+	$(this._containerElement).addClass("relatedArtefactCell");
 	$(this._containerElement).append(this._image);
 	$(this._containerElement).append(this._anchor);
 	$(this._anchor).bind('click',this.onClick.context(this));
@@ -25,12 +26,12 @@ RelatedArtefactCell.prototype.build = function(){
 //destroy
 RelatedArtefactCell.prototype.destroy = function(){
 	this._$anchor.unbind('click');
-	RelatedArtefactCell.__super__.destroy();
+	this.supr.destroy.call(this);
 };
 
 //setData
 RelatedArtefactCell.prototype.setData = function(data,restoreStateObject){
-	RelatedArtefactCell.__super__.setData(data,restoreStateObject);
+	this.supr.setData.call(this,data,restoreStateObject);
 	this._image.src = Globals.ARTEFACT_IMAGES_FOLDER+this._data.id+"_11.jpg";
 }
 

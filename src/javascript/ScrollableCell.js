@@ -34,7 +34,7 @@ ScrollableCell.prototype.destroy = function(){
 };
 
 ScrollableCell.prototype.clear = function(){
-	$(this._containerElement).empty();
+	//$(this._containerElement).empty();
 };
 
 ScrollableCell.prototype.getX = function(){
