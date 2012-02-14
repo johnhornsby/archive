@@ -1,6 +1,6 @@
 var ScrollableCell = function(options){
 	EventDispatcher.call(this);
-	if(options===undefined)return;
+	if(options===undefined)return;	//return here if options are undefined to protect from errors when constructor is simply called to inherit methods
 	
 	this._index = options.index;
 	this._parentTableContainer = options.containerElement;

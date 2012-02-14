@@ -247,34 +247,62 @@ TouchScrollPanel.prototype.scrollY = function(delta,noBoundryOffset){
 };
 
 TouchScrollPanel.prototype.checkScrollBoundry = function(){
-	var y = this._y;
-	//var contentHeight = $(this._contentElement).offset().height;
-	var contentHeight = $(this._contentElement).height();
-	var frameHeight = this._frameElement.clientHeight;
-	var destination;
-	if(y > 0){
-		jTweener.addTween(this,{_y:0,time:0.5,onUpdate:this.updateDomScrollPosition.context(this)});
-	}else if(y < -(contentHeight-frameHeight)){
-		jTweener.addTween(this,{_y:-(contentHeight-frameHeight),time:0.5,onUpdate:this.updateDomScrollPosition.context(this)});
+	if(this._scrollDirection === TouchScrollPanel.SCROLL_DIRECTION_VERTICAL){
+		var y = this._y;
+		var contentHeight = $(this._contentElement).height();
+		var frameHeight = this._frameElement.clientHeight;
+		var destination;
+		if(y > 0){
+			jTweener.addTween(this,{_y:0,time:0.5,onUpdate:this.updateDomScrollPosition.context(this)});
+		}else if(y < -(contentHeight-frameHeight)){
+			jTweener.addTween(this,{_y:-(contentHeight-frameHeight),time:0.5,onUpdate:this.updateDomScrollPosition.context(this)});
+		}
+	}else{
+		var x = this._x;
+		var contentWidth = $(this._contentElement).width();
+		var frameWidth = this._frameElement.clientWidth;
+		var destination;
+		if(x > 0){
+			jTweener.addTween(this,{_x:0,time:0.5,onUpdate:this.updateDomScrollPosition.context(this)});
+		}else if(x < -(contentWidth-frameWidth)){
+			jTweener.addTween(this,{_x:-(contentWidth-frameWidth),time:0.5,onUpdate:this.updateDomScrollPosition.context(this)});
+		}
 	}
 };
 
 TouchScrollPanel.prototype.updateDomScrollPosition = function(){
-	this._contentElement.style.top = this._y+"px";
+	if(this._scrollDirection === TouchScrollPanel.SCROLL_DIRECTION_VERTICAL){
+		this._contentElement.style.top = this._y+"px";
+	}else{
+		this._contentElement.style.left = this._x+"px";
+	}
 	this.updateScrollThumbPosition();
 };
 
 TouchScrollPanel.prototype.updateScrollThumbPosition = function(){
-	var destinationY = this._y;//position not availbale in zepto
-	//var contentHeight = $(this._contentElement).offset().height;
-	var contentHeight = $(this._contentElement).height();
-	var frameHeight = this._frameElement.clientHeight;
-	var maxScrollDistance = contentHeight - frameHeight;
-	var destinationScrollPercentage = destinationY / maxScrollDistance;
-	var frameToContentDimensionRatio = frameHeight / contentHeight;
-	var scrollThumbMaxTrackLength = (1 - frameToContentDimensionRatio) * frameHeight;
-	var scrollThumbDestinationY = (destinationScrollPercentage * scrollThumbMaxTrackLength) * -1;
-	$(this._thumbElement).css('top',scrollThumbDestinationY+"px");
+	if(this._scrollDirection === TouchScrollPanel.SCROLL_DIRECTION_VERTICAL){
+		var destinationY = this._y;//position not availbale in zepto
+		//var contentHeight = $(this._contentElement).offset().height;
+		var contentHeight = $(this._contentElement).height();
+		var frameHeight = this._frameElement.clientHeight;
+		var maxScrollDistance = contentHeight - frameHeight;
+		var destinationScrollPercentage = destinationY / maxScrollDistance;
+		var frameToContentDimensionRatio = frameHeight / contentHeight;
+		var scrollThumbMaxTrackLength = (1 - frameToContentDimensionRatio) * frameHeight;
+		var scrollThumbDestinationY = (destinationScrollPercentage * scrollThumbMaxTrackLength) * -1;
+		$(this._thumbElement).css('top',scrollThumbDestinationY+"px");
+	}else{
+		var destinationX = this._x;//position not availbale in zepto
+		//var contentHeight = $(this._contentElement).offset().height;
+		var contentWidth = $(this._contentElement).width();
+		var frameWidth = this._frameElement.clientWidth;
+		var maxScrollDistance = contentWidth - frameWidth;
+		var destinationScrollPercentage = destinationX / maxScrollDistance;
+		var frameToContentDimensionRatio = frameWidth / contentWidth;
+		var scrollThumbMaxTrackLength = (1 - frameToContentDimensionRatio) * frameWidth;
+		var scrollThumbDestinationX = (destinationScrollPercentage * scrollThumbMaxTrackLength) * -1;
+		$(this._thumbElement).css('left',scrollThumbDestinationX+"px");
+	}
 };
 
 TouchScrollPanel.prototype.setScrollThumbHeight = function(){

@@ -26,29 +26,29 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>17</integer>
+				<integer>59</integer>
 				<key>line</key>
-				<integer>789</integer>
+				<integer>783</integer>
 			</dict>
 			<key>columnSelection</key>
 			<false/>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>740</integer>
+			<integer>746</integer>
 			<key>selectFrom</key>
 			<dict>
 				<key>column</key>
-				<integer>1</integer>
+				<integer>16</integer>
 				<key>line</key>
-				<integer>789</integer>
+				<integer>784</integer>
 			</dict>
 			<key>selectTo</key>
 			<dict>
 				<key>column</key>
-				<integer>20</integer>
+				<integer>59</integer>
 				<key>line</key>
-				<integer>789</integer>
+				<integer>783</integer>
 			</dict>
 		</dict>
 		<key>src/index.html</key>
@@ -196,9 +196,9 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>12</integer>
+				<integer>28</integer>
 				<key>line</key>
-				<integer>4</integer>
+				<integer>15</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
@@ -240,9 +240,9 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>3</integer>
+				<integer>58</integer>
 				<key>line</key>
-				<integer>36</integer>
+				<integer>16</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
@@ -310,14 +310,14 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>20</integer>
+				<integer>54</integer>
 				<key>line</key>
-				<integer>69</integer>
+				<integer>314</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>30</integer>
+			<integer>298</integer>
 		</dict>
 		<key>src/javascript/Utilities.js</key>
 		<dict>
