@@ -257,7 +257,8 @@ TouchScrollPanel.prototype.initInertiaAnimation = function(finalTopDelta){
 };
 
 TouchScrollPanel.prototype.updateAnimation = function(){
-	//Globals.log("updateAnimation");
+	/
+	Globals.log("updateAnimation");
 	if(this._isAnimating===false)return;
 	this._velocity = this._velocity * this._friction;
 	//Globals.log(this._velocity);
@@ -272,16 +273,25 @@ TouchScrollPanel.prototype.updateAnimation = function(){
 		this.setScrollY(this._y + this._velocity);
 	}else{
 		boundryModifier = 0;
-		containerBottom = this._x + this._contentWidth;
-		ammountIntoBoundry = this._contentWidth - containerBottom;
-		if(ammountIntoBoundry < 0){
+		
+		if(this._x > 0){
+			containerBottom = this._x + this._contentWidth;
+			ammountIntoBoundry = this._contentWidth - containerBottom;
 			
-			(Math.PI / 180) * ammountIntoBoundry;
+			ammountIntoBoundry =  Math.min(90,ammountIntoBoundry);
+			ammountIntoBoundry =  Math.max(0,ammountIntoBoundry);
+			ammountIntoBoundry = Math.sin(this.degreesToRadians(ammountIntoBoundry));
+			ammountIntoBoundry = 100 - (ammountIntoBoundry * 100);
+			boundryModifier = ammountIntoBoundry;
 			
+		}else if(this._x < (this._frameElement.clientWidth - this._contentWidth)) {
+			ammountIntoBoundry = (this._frameElement.clientWidth - this._contentWidth) - this._x;
 			
-			Math.cos()
-			
-			boundryModifier = ammountIntoBoundry / 10;
+			ammountIntoBoundry =  Math.min(90,ammountIntoBoundry);
+			ammountIntoBoundry =  Math.max(0,ammountIntoBoundry);
+			ammountIntoBoundry = Math.sin(this.degreesToRadians(ammountIntoBoundry));
+			ammountIntoBoundry = 100 - (ammountIntoBoundry * 100);
+			boundryModifier = ammountIntoBoundry;
 		}
 
 		acceleration = this._velocity + boundryModifier;
@@ -297,6 +307,10 @@ TouchScrollPanel.prototype.updateAnimation = function(){
 	}
 	
 	
+}
+
+TouchScrollPanel.prototype.degreesToRadians = function(d){
+	return (Math.PI/180) * d;
 }
 
 
