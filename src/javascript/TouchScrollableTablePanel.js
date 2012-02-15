@@ -3,6 +3,7 @@ var TouchScrollableTablePanel = function(options){
 	if(options === undefined) return;				// inheritance handling
 	
 	this._scrollableTable = options.scrollableTable;
+	this._isAnimating = false;
 	
 };
 //inheritance
@@ -13,12 +14,14 @@ TouchScrollableTablePanel.prototype.supr = TouchScrollPanel.prototype;
 //OVERRIDE
 //__
 TouchScrollableTablePanel.prototype.updateDomScrollPosition = function(){
+	/*
 	if(this._scrollDirection === TouchScrollPanel.SCROLL_DIRECTION_VERTICAL){
-		//this._contentElement.style.top = this._y+"px";
+		this._contentElement.style.top = this._y+"px";
 	
 	}else{
-		//this._contentElement.style.left = this._x+"px";
+		this._contentElement.style.left = this._x+"px";
 	}
-	this._scrollableTable.setScrollPosition(this._x, this._y);
+	*/
+	this._scrollableTable.setScrollRect({left:this._x, top:this._y, width:this._frameElement.clientWidth, height:this._frameElement.clientHeight});
 	this.updateScrollThumbPosition();
 };

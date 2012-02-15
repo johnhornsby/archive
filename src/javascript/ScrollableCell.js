@@ -57,16 +57,10 @@ ScrollableCell.prototype.setY = function(y){
 	this._containerElement.style.top = this._y +"px";
 };
 
-
-
 ScrollableCell.prototype.setData = function(data,restoreStateObject){
 	this._data = data;
 	if(restoreStateObject!==undefined){
 	}
-};
-
-ScrollableCell.prototype.setScrollDelta = function(dx,dy,x,y){
-
 };
 
 ScrollableCell.prototype.setVisible = function(b){

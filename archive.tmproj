@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>currentDocument</key>
-	<string>src/javascript/ArtefactDataManager.js</string>
+	<string>src/javascript/TouchScrollPanel.js</string>
 	<key>documents</key>
 	<array>
 		<dict>
@@ -61,21 +61,21 @@
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>246</integer>
+			<integer>0</integer>
 		</dict>
 		<key>src/javascript/Animator.js</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>0</integer>
+				<integer>40</integer>
 				<key>line</key>
-				<integer>0</integer>
+				<integer>54</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>17</integer>
+			<integer>91</integer>
 		</dict>
 		<key>src/javascript/ArtefactDataManager.js</key>
 		<dict>
@@ -89,7 +89,7 @@
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>530</integer>
+			<integer>531</integer>
 		</dict>
 		<key>src/javascript/ArtefactWindow.js</key>
 		<dict>
@@ -172,12 +172,28 @@
 				<key>column</key>
 				<integer>0</integer>
 				<key>line</key>
-				<integer>0</integer>
+				<integer>247</integer>
 			</dict>
+			<key>columnSelection</key>
+			<false/>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>256</integer>
+			<integer>220</integer>
+			<key>selectFrom</key>
+			<dict>
+				<key>column</key>
+				<integer>2</integer>
+				<key>line</key>
+				<integer>296</integer>
+			</dict>
+			<key>selectTo</key>
+			<dict>
+				<key>column</key>
+				<integer>0</integer>
+				<key>line</key>
+				<integer>247</integer>
+			</dict>
 		</dict>
 		<key>src/javascript/DockViewController.js</key>
 		<dict>
@@ -209,19 +225,65 @@
 				<integer>494</integer>
 			</dict>
 		</dict>
+		<key>src/javascript/Geom.js</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>25</integer>
+				<key>line</key>
+				<integer>1</integer>
+			</dict>
+			<key>columnSelection</key>
+			<false/>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+			<key>selectFrom</key>
+			<dict>
+				<key>column</key>
+				<integer>46</integer>
+				<key>line</key>
+				<integer>1</integer>
+			</dict>
+			<key>selectTo</key>
+			<dict>
+				<key>column</key>
+				<integer>25</integer>
+				<key>line</key>
+				<integer>1</integer>
+			</dict>
+		</dict>
 		<key>src/javascript/Globals.js</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>3</integer>
+				<integer>0</integer>
 				<key>line</key>
-				<integer>32</integer>
+				<integer>3</integer>
 			</dict>
+			<key>columnSelection</key>
+			<false/>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
 			<integer>0</integer>
+			<key>selectFrom</key>
+			<dict>
+				<key>column</key>
+				<integer>18</integer>
+				<key>line</key>
+				<integer>3</integer>
+			</dict>
+			<key>selectTo</key>
+			<dict>
+				<key>column</key>
+				<integer>0</integer>
+				<key>line</key>
+				<integer>3</integer>
+			</dict>
 		</dict>
 		<key>src/javascript/ImageLoadManager.js</key>
 		<dict>
@@ -356,42 +418,72 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>95</integer>
+				<integer>13</integer>
 				<key>line</key>
-				<integer>191</integer>
+				<integer>144</integer>
+			</dict>
+			<key>columnSelection</key>
+			<false/>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>99</integer>
+			<key>selectFrom</key>
+			<dict>
+				<key>column</key>
+				<integer>6</integer>
+				<key>line</key>
+				<integer>144</integer>
+			</dict>
+			<key>selectTo</key>
+			<dict>
+				<key>column</key>
+				<integer>22</integer>
+				<key>line</key>
+				<integer>144</integer>
+			</dict>
+		</dict>
+		<key>src/javascript/ScrollableCell.coffee</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>47</integer>
+				<key>line</key>
+				<integer>48</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>116</integer>
+			<integer>0</integer>
 		</dict>
 		<key>src/javascript/ScrollableCell.js</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>13</integer>
+				<integer>2</integer>
 				<key>line</key>
-				<integer>10</integer>
+				<integer>57</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>0</integer>
+			<integer>18</integer>
 		</dict>
 		<key>src/javascript/ScrollableTable.js</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>1</integer>
+				<integer>2</integer>
 				<key>line</key>
-				<integer>11</integer>
+				<integer>205</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>36</integer>
+			<integer>112</integer>
 		</dict>
 		<key>src/javascript/TapestryViewController.js</key>
 		<dict>
@@ -440,28 +532,44 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>33</integer>
+				<integer>49</integer>
 				<key>line</key>
-				<integer>363</integer>
+				<integer>274</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>305</integer>
+			<integer>258</integer>
 		</dict>
 		<key>src/javascript/TouchScrollableTablePanel.js</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>2</integer>
+				<integer>28</integer>
 				<key>line</key>
-				<integer>6</integer>
+				<integer>24</integer>
 			</dict>
+			<key>columnSelection</key>
+			<false/>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
 			<integer>0</integer>
+			<key>selectFrom</key>
+			<dict>
+				<key>column</key>
+				<integer>23</integer>
+				<key>line</key>
+				<integer>24</integer>
+			</dict>
+			<key>selectTo</key>
+			<dict>
+				<key>column</key>
+				<integer>36</integer>
+				<key>line</key>
+				<integer>24</integer>
+			</dict>
 		</dict>
 		<key>src/javascript/Utilities.js</key>
 		<dict>
@@ -676,6 +784,7 @@
 		<string>src/javascript/TileEngine.js</string>
 		<string>src/javascript/TapestryViewController.js</string>
 		<string>src/javascript/ScrollableTable.js</string>
+		<string>src/javascript/Geom.js</string>
 		<string>src/javascript/ScrollableCell.js</string>
 		<string>src/javascript/RelatedArtefactCell.coffee</string>
 		<string>src/javascript/RelatedArtefactCell.js</string>
@@ -683,6 +792,7 @@
 		<string>src/javascript/ArtefactWindow.js</string>
 		<string>src/javascript/RelatedArtefactsViewController copy.js</string>
 		<string>src/javascript/RelatedArtefactsViewController.js</string>
+		<string>src/javascript/ScrollableCell.coffee</string>
 		<string>src/javascript/AutoCompleteViewController.js</string>
 		<string>src/javascript/TouchScrollPanel.js</string>
 		<string>src/javascript/TouchScrollableTablePanel.js</string>

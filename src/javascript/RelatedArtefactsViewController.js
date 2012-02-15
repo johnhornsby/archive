@@ -24,8 +24,8 @@ RelatedArtefactsViewController.prototype = new EventDispatcher();
 //PRIVATE
 //_____________________________________________________________________________________
 RelatedArtefactsViewController.prototype.init = function(){
-	//$("#relatedArtefactsView .leftCarouselButton").bind("click",this.onLeftCarouselClickHandler.context(this));
-	//$("#relatedArtefactsView .rightCarouselButton").bind("click",this.onRightCarouselClickHandler.context(this));
+	$("#relatedArtefactsView .leftCarouselButton").bind("click",this.onLeftCarouselClickHandler.context(this));
+	$("#relatedArtefactsView .rightCarouselButton").bind("click",this.onRightCarouselClickHandler.context(this));
 	
 	/*
 	HACK
@@ -109,50 +109,60 @@ RelatedArtefactsViewController.prototype.removeRelatedArtefacts = function(){
 
 
 
-/*
+
 RelatedArtefactsViewController.prototype.onLeftCarouselClickHandler = function(e){
-	var targetIndex = this._relatedArtefactFarLeftIndex - 5;
-	if(targetIndex < 0){
-		return false;
+	this.clearUpdateTweenScrollX();
+	var excludeIntersected = true;
+	var range = this._scrollableTable.getVisibleIndexRange(excludeIntersected);
+	var frameWidth = this._scrollablePanel.getFrameWidth();
+	var maxCellsVisibleInFrame = Math.floor(frameWidth / Globals.TILE_WIDTH);
+	var destinationIndex = range.index - maxCellsVisibleInFrame;
+	var maxCells = this._relatedArtefactsDataArray.length;
+	var destinationX;
+	if(destinationIndex <= 0){
+		destinationX = 0;
+	}else{
+		destinationX = Globals.TILE_WIDTH * destinationIndex * -1;
 	}
-	var destinationX  = (targetIndex * Globals.TILE_WIDTH) * -1;
-	this._relatedArtefactFarLeftIndex = targetIndex;
-	
-	//$("#relatedArtefactsContainer > ul").css("left",destinationX);
-	
-	//console.log("onLeftCarouselClickHandler targetIndex:"+targetIndex+" destinationX:"+destinationX+" ul left:"+$("#relatedArtefactsContainer > ul").get(0).offsetLeft);
-	
 	this.slideToIndexXPos(destinationX);
-	
 };
 
 
 RelatedArtefactsViewController.prototype.onRightCarouselClickHandler = function(e){
-	var targetIndex = this._relatedArtefactFarLeftIndex + 5;
-	if(targetIndex >= this._relatedArtefactsDataArray.length){
-		return false;
+	this.clearUpdateTweenScrollX();
+	var excludeIntersected = true;
+	var range = this._scrollableTable.getVisibleIndexRange(excludeIntersected);
+	var frameWidth = this._scrollablePanel.getFrameWidth();
+	var maxCellsVisibleInFrame = Math.floor(frameWidth / Globals.TILE_WIDTH);
+	var destinationIndex = range.index + maxCellsVisibleInFrame;
+	var maxCells = this._relatedArtefactsDataArray.length;
+	var destinationX;
+	if(destinationIndex + maxCellsVisibleInFrame >= maxCells){
+		destinationX = frameWidth - (Globals.TILE_WIDTH * (maxCells-1));
+	}else{
+		destinationX = Globals.TILE_WIDTH * destinationIndex * -1;
 	}
-	var destinationX  = (targetIndex * Globals.TILE_WIDTH) * -1;
-	this._relatedArtefactFarLeftIndex = targetIndex;
-	
-	//$("#relatedArtefactsContainer > ul").css("left",destinationX + "px");
-	
-	//console.log("onRightCarouselClickHandler targetIndex:"+targetIndex+" destinationX:"+destinationX+" ul left:"+$("#relatedArtefactsContainer > ul").get(0).offsetLeft);
-	
 	this.slideToIndexXPos(destinationX);
 };
 
 
 RelatedArtefactsViewController.prototype.slideToIndexXPos = function(destinationX){
-	jTweener.addTween($("#relatedArtefactsContainer").get(0), {
-		time: 0.75,
-		transition: 'easeOutQuad',
-		left: destinationX,
-		onUpdate:this.forceUpdate,
-		onComplete:this.removeForceUpdates
-	});
+	this.__tempX = this._scrollablePanel.getScrollX();
+	Animator.addTween(this,{__tempX:destinationX, time:0.5, transition:'easeOutQuad', onUpdate:this.updateTweenedScrollX.context(this), onComplete:this.updateTweenScrollXComplete.context(this)});
 };
-*/
+
+RelatedArtefactsViewController.prototype.updateTweenedScrollX = function(){
+	this._scrollablePanel.setScrollX(this.__tempX);
+};
+
+RelatedArtefactsViewController.prototype.updateTweenScrollXComplete = function(){
+	//Globals.log("updateTweenScrollXComplete");
+};
+RelatedArtefactsViewController.prototype.clearUpdateTweenScrollX = function(){
+	//Globals.log("clearUpdateTweenScrollX");
+	Animator.removeTween(this);
+};
+
 /**
 *@description: add a div to the forcedDomUpdatesContainer, this forces the ipad browser to update changes to the display, this is called in the above slideToIndexXPos() function
 */
@@ -190,14 +200,17 @@ RelatedArtefactsViewController.prototype.getDataForCellIndex = function(index){
 RelatedArtefactsViewController.prototype.setData = function(jsonDataObject){
 	this._data = jsonDataObject;
 	this._relatedArtefactsDataArray = Globals.artefactDataManager.getRelatedArtefacts(this._data);
-	this._scrollableTable.setScrollPosition(0,0);
+	//this._scrollableTable.setScrollPosition(0,0);
+	
 	this._scrollableTable.reloadTable();
 	this._scrollablePanel.setScrollX(0);
 	this._scrollablePanel.updateThumb();
 };
 
 RelatedArtefactsViewController.prototype.clear = function(){
-	jTweener.removeTween($("#relatedArtefactsContainer > ul").get(0));
+	//Globals.log("clear");
+	//jTweener.removeTween($("#relatedArtefactsContainer > ul").get(0));
+	this.clearUpdateTweenScrollX();
 	this.removeForceUpdates();
 	this.removeRelatedArtefacts();
 	this._relatedArtefactsDataArray = [];

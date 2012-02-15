@@ -24,6 +24,7 @@ var ScrollableTable = function(options){
 	this._direction = options.direction || ScrollableTable.DIRECTION_VERTICAL;
 	this._cellDimensionValue = (options.direction === ScrollableTable.DIRECTION_VERTICAL)? this._cellHeight : this._cellWidth;
 	this._frameDimensionValue = 574;//(options.direction === ScrollableTable.DIRECTION_VERTICAL)? this._frameElement.style.height : this._frameElement.style.width;
+	this._displayRect = {left:0,top:0,width:0,height:0};
 }
 ScrollableTable.prototype = new EventDispatcher();
 ScrollableTable.prototype.constructor = ScrollableTable;
@@ -47,7 +48,6 @@ ScrollableTable.prototype.onDestroy = function(){
 
 ScrollableTable.prototype.onClear = function(){
 	this._maxCells = 0;
-	this.stopPlaneAnimation();
 	this.queueAllCells();
 };
 
@@ -174,7 +174,8 @@ ScrollableTable.prototype.createCellObject = function(index){
 	return {data:undefined,visible:false,index:index,cell:undefined,savedState:undefined};
 };
 
-ScrollableTable.prototype.getWindowIndexRange = function(){
+
+ScrollableTable.prototype.getWindowIndexRange = function(excludeIntersected){
 	var frame = {};
 	//var offsetTop = window.layout.getPlaneController().getPlaneY();
 	
@@ -186,36 +187,25 @@ ScrollableTable.prototype.getWindowIndexRange = function(){
 	}
 	//or
 	//var offsetTop = this._containerElement.offsetTop
-	if(offsetDimensionValue > 0){
-		frame.top = Math.ceil(Math.abs(offsetDimensionValue / this._cellDimensionValue))* -1;
-	}else{
-		frame.top = Math.floor(Math.abs(offsetDimensionValue / this._cellDimensionValue)) ;
-	}
-	frame.height = Math.ceil(( (this._frameDimensionValue - offsetDimensionValue) - (frame.top * this._cellDimensionValue) ) / this._cellDimensionValue);
-	return frame;
-};
-
-/**
-	Remove or alter this function, this function is a hang over from CategoryTable
-*/
-ScrollableTable.prototype.onSetScrollDelta = function(dx,dy,x,y){
-	this.stopPlaneAnimation();
-	//console.log(this._y);
-	if(Math.abs(dy) > Math.abs(dx)){
-		this._y += dy;
-		this._container.style.top = this._y+"px";
-		this.updateTable();
-	}else{
-		var cellObject = this.getCellObjectWithY(y);
-		if(cellObject.cell !== undefined){
-			cellObject.cell.setScrollDeltaX(dx);
-			cellObject.cell.update();
+	if(excludeIntersected){
+		if(offsetDimensionValue > 0){
+			frame.top = Math.floor(Math.abs(offsetDimensionValue / this._cellDimensionValue))* -1;
+		}else{
+			frame.top = Math.ceil(Math.abs(offsetDimensionValue / this._cellDimensionValue)) ;
 		}
+		frame.height = Math.floor(( (this._frameDimensionValue - offsetDimensionValue) - (frame.top * this._cellDimensionValue) ) / this._cellDimensionValue);
+	}else{
+		if(offsetDimensionValue > 0){
+			frame.top = Math.ceil(Math.abs(offsetDimensionValue / this._cellDimensionValue))* -1;
+		}else{
+			frame.top = Math.floor(Math.abs(offsetDimensionValue / this._cellDimensionValue)) ;
+		}
+		frame.height = Math.ceil(( (this._frameDimensionValue - offsetDimensionValue) - (frame.top * this._cellDimensionValue) ) / this._cellDimensionValue);
 	}
+		return frame;
 };
 
 ScrollableTable.prototype.onSetScrollPosition = function(x,y){
-	this.stopPlaneAnimation();
 	this._x = x;
 	this._y = y;
 	this._container.style.left = this._x+"px";
@@ -228,111 +218,14 @@ ScrollableTable.prototype.getCellObjectWithY = function(y){
 	return this.getCellObject(index);
 };
 
-ScrollableTable.prototype.onDragEnd = function(finalLeftDelta,finalTopDelta,left,top){
-	var outsideDragBounds = this.checkOutsideDragBounds();
-	var cellObject = this.getCellObjectWithY(top);
-	if(cellObject.cell !== undefined){
-		cellObject.cell.dragEnd(finalLeftDelta,finalTopDelta,left,top);
-		//cellObject.cell.update();
-	}
-	
-	if(outsideDragBounds === false){		//animate inertia
-		if(Math.abs(finalLeftDelta) < Math.abs(finalTopDelta) && Globals.isDesktop){
-			this.initInertiaAnimation(finalTopDelta);
-		}
-	}
-};
-
-ScrollableTable.prototype.checkOutsideDragBounds = function(){
-	//is cells out side
-	var offsetTop = this._y;
-	var totalHeight = (this._maxCells * this._cellHeight);
-	var offsetBottom = offsetTop + totalHeight;
-	var isOutside = false;
-	var correctedOffsetTop = 0;
-	if(offsetTop > 0){ //off top
-		isOutside = true;
-	}else if(offsetBottom < this._frameDimensionValue && totalHeight > this._frameDimensionValue){
-		isOutside = true;
-		correctedOffsetTop = this._frameDimensionValue - totalHeight;
-	}else if(offsetTop < 0 && totalHeight < this._frameDimensionValue){
-		isOutside = true;
-		correctedOffsetTop = 0;
-	}
-	if(isOutside === true){
-		Globals.log("Constrain offsetTop to :"+correctedOffsetTop+" from:"+offsetTop );
-		jTweener.addTween(this, {
-			time: Globals.CONSTRAINT_TWEEN_TIME,
-			transition: 'easeOutQuad',
-			_y:correctedOffsetTop,
-			onUpdate: this.onTweenUpdate.context(this),
-			onComplete: this.onTweenComplete.context(this)
-		});
-		this._isAnimating = true;
-		return true;
-	}
-	return false;
-};
-
-ScrollableTable.prototype.initInertiaAnimation = function(finalTopDelta){
-	var topAnimationProperties = this.getAnimaitonProperties(finalTopDelta);
-	var destination = this._y + topAnimationProperties.distance;
-	var contentHeight = this._frameDimensionValue - (this._maxCells * this._cellHeight);
-	if(destination > 0){
-		destination = 0;
-	}else if(destination < contentHeight){
-		destination = contentHeight;
-	}
-	
-	jTweener.addTween(this, {
-		time: topAnimationProperties.time,
-		transition: 'easeOutQuad',
-		_y: destination,
-		onUpdate: this.onTweenUpdate.context(this),
-		onComplete: this.onTweenComplete.context(this)
-	});
-	this._isAnimating = true;
-};
-
-ScrollableTable.prototype.getAnimaitonProperties = function(delta){
-	var frameCount = 0;
-	var distance = 0;
-	while(delta > 0.5 || delta < -0.5){
-		delta *= 0.9;
-		distance += delta;
-		frameCount++;
-	}
-	var fps = 30;
-	var milliseconds = (1000/fps); 
-	var time = (1 / milliseconds) * frameCount;
-	return {time:time, distance:distance};
-};
-
-ScrollableTable.prototype.onTweenUpdate = function(){
-	if(this._direction === ScrollableTable.DIRECTION_VERTICAL){
-		this._container.style.top = this._y + "px";
-	}else{
-		this._container.style.left = this._x + "px";
-	}
-	this.updateTable();
-};
-
-ScrollableTable.prototype.onTweenComplete = function(){
-	this.stopPlaneAnimation();
-	this.checkOutsideDragBounds();
-};
-
-ScrollableTable.prototype.stopPlaneAnimation = function(){
-	if(this._isAnimating === true){
-		jTweener.removeTween(this);
-		this._isAnimating = false;
-	}
-};
-
 ScrollableTable.prototype.onCellClickHandler = function(e){
 	//Globals.log(e.eventType);
 	this.dispatchEvent(new ScrollableTableEvent(ScrollableTableEvent.CELL_CLICK,e.data));
 };
+
+
+
+
 
 //PUBLIC
 //_______________________________________________________________________________________________
@@ -344,38 +237,42 @@ ScrollableTable.prototype.clear = function(){
 	this.onClear();
 };
 
-/**
-* Called from TapestryViewController, after data has been flooded
-*/
 ScrollableTable.prototype.reloadTable = function(){
 	this.onSetData();
 	this.updateTable();
-	this.checkOutsideDragBounds();	//need to check boundry as container maybe vertically outside bounds due to prevous scrolling
-};
-
-ScrollableTable.prototype.setData = function(categorisedData){
-	this.onSetData(categorisedData);
-};
-
-ScrollableTable.prototype.setScrollDelta = function(dx,dy,x,y){
-	this.onSetScrollDelta(dx,dy,x,y);
 };
 
 ScrollableTable.prototype.setScrollPosition = function(x,y){
 	this.onSetScrollPosition(x,y);
 };
 
-ScrollableTable.prototype.dragEnd = function(finalLeftDelta,finalTopDelta,left,top){
-	this.onDragEnd(finalLeftDelta,finalTopDelta,left,top);
+ScrollableTable.prototype.setScrollRect = function(rect){
+	if(this._direction === ScrollableTable.DIRECTION_VERTICAL){
+		this._frameDimensionValue = rect.height;
+	}else{
+		this._frameDimensionValue = rect.width;
+	}
+	this._displayRect = rect;
+	this.setScrollPosition(rect.left, rect.top);
 };
 
+ScrollableTable.prototype.getVisibleIndexRange = function(excludeIntersected){
+	var frame = this.getWindowIndexRange(excludeIntersected);
+	var range = {index:frame.top,length:frame.height};
+	return range;
+};
+/*
 ScrollableTable.prototype.getArtefactInformationAtPoint = function(pt){
-	var cellObject = this.getCellObjectWithY(pt.y);
-	
+	var cellObject;
+	if(this._direction === ScrollableTable.DIRECTION_VERTICAL){
+		cellObject = this.getCellObjectWithY(pt.y);
+	}else{
+		cellObject = this.getCellObjectWithY(pt.x);
+	}
 	return cellObject.cell.getArtefactInformationAtPoint(pt);
 	
 };
-
+*/
 
 
 

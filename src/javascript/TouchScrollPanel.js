@@ -17,6 +17,7 @@ var TouchScrollPanel = function(options){
 	this._isDragging = false;
 	this._downStartTime = 0;
 	this._isStopChildMouseUp = false;
+	this._isAnimating = false;
 	
 	this._inertiaInterval = undefined;
 	this._fadeThumbInterval = undefined;
@@ -26,6 +27,11 @@ var TouchScrollPanel = function(options){
 	this._y = 0;
 	this._x = 0;
 	
+	this._inertiaInterval;
+	this._friction = 0.9;
+	this._acceleration = 0;
+	this._contentWidth = 0;
+	this._contentHeight = 0;
 	
 	this.init();
 };
@@ -54,6 +60,7 @@ TouchScrollPanel.prototype.init = function(){
 	$(this._frameElement).bind('touchstart',this.onDownFrameHandler.context(this));
 	//addEvent(this._frameElement,'touchstart',this.onDownFrameHandler.context(this));
 	this.build();
+	window.requestAnimFrame(this.updateAnimation.context(this));
 };
 
 TouchScrollPanel.prototype.build = function(){
@@ -75,7 +82,7 @@ TouchScrollPanel.prototype.build = function(){
 
 TouchScrollPanel.prototype.onDownFrameHandler = function(e){
 	console.log('onDownFrameHandler');
-	
+	this.stopTweenAnimation();
 	jTweener.removeTween(this._contentElement);
 	var pageX;
 	var pageY;
@@ -188,7 +195,16 @@ TouchScrollPanel.prototype.onUpWindowHandler = function(e){
 		//console.log('stop click');
 		this._isStopChildMouseUp = true;
 		setTimeout(this.releaseStopChildMouseUpTrap.context(this),33);//only release the trap ofter a frame, this is to ensure that we block all 
-		this.checkScrollBoundry();
+		var outside = this.checkScrollBoundry();
+		var delta = 0;
+		if(outside === false){
+			if(this._scrollDirection === TouchScrollPanel.SCROLL_DIRECTION_VERTICAL){
+				delta = this._topDelta;
+			}else{
+				delta = this._leftDelta;
+			}
+			this.initInertiaAnimation(delta);
+		}
 	}
 	
 	this._fadeThumbTimeout = setTimeout(this.onFadeOutThumb.context(this),1000);
@@ -196,6 +212,134 @@ TouchScrollPanel.prototype.onUpWindowHandler = function(e){
 	
 	return false;
 };
+
+TouchScrollPanel.prototype.initInertiaAnimation = function(finalTopDelta){
+	var topAnimationProperties = this.getAnimaitonProperties(finalTopDelta);
+	var destination;
+	
+	if(this._scrollDirection === TouchScrollPanel.SCROLL_DIRECTION_VERTICAL){
+		destination = this._y + topAnimationProperties.distance;
+		/*
+		var contentHeight = this._frameElement.clientHeight - (this._maxCells * Globals.TILE_HEIGHT);
+		if(destination > 0){
+			destination = 0;
+		}else if(destination < contentHeight){
+			destination = contentHeight;
+		}
+		*/
+		this.__tempZ = this._y;
+	}else{
+		destination = this._x + topAnimationProperties.distance;
+		/*
+		var contentWidth = this._frameElement.clientWidth - (this._maxCells * Globals.TILE_WIDTH);
+		if(destination > 0){
+			destination = 0;
+		}else if(destination < contentWidth){
+			destination = contentWidth;
+		}
+		*/
+		this.__tempZ = this._x
+	}
+	/*
+	Animator.addTween(this,{
+		__tempZ:destination,
+		time:topAnimationProperties.time,
+		transition:'easeOutQuad',
+		onUpdate:this.onTweenUpdate.context(this),
+		onComplete:this.onTweenComplete.context(this)
+	});
+	*/
+	this._velocity = finalTopDelta;
+	this._contentWidth = $(this._contentElement).width();
+	this._inertiaInterval = setInterval(this.updateAnimation.context(this),33);
+	
+	this._isAnimating = true;
+};
+
+TouchScrollPanel.prototype.updateAnimation = function(){
+	//Globals.log("updateAnimation");
+	if(this._isAnimating===false)return;
+	this._velocity = this._velocity * this._friction;
+	//Globals.log(this._velocity);
+	
+	var containerBottom;
+	var boundryModifier;
+	var ammountIntoBoundry;
+	var acceleration;
+	var destination;
+	
+	if(this._scrollDirection === TouchScrollPanel.SCROLL_DIRECTION_VERTICAL){
+		this.setScrollY(this._y + this._velocity);
+	}else{
+		boundryModifier = 0;
+		containerBottom = this._x + this._contentWidth;
+		ammountIntoBoundry = this._contentWidth - containerBottom;
+		if(ammountIntoBoundry < 0){
+			
+			(Math.PI / 180) * ammountIntoBoundry;
+			
+			
+			Math.cos()
+			
+			boundryModifier = ammountIntoBoundry / 10;
+		}
+
+		acceleration = this._velocity + boundryModifier;
+		
+		destination = this._x + acceleration;
+		this.setScrollX(this._x + acceleration);
+		
+		//Globals.log("boundryModifier:"+boundryModifier);
+		
+		if((acceleration < 0.5 && acceleration > -0.5) && (boundryModifier < 0.5 && boundryModifier > -0.5)){
+			this.stopTweenAnimation();
+		}
+	}
+	
+	
+}
+
+
+TouchScrollPanel.prototype.getAnimaitonProperties = function(delta){
+	var frameCount = 0;
+	var distance = 0;
+	while(delta > 0.5 || delta < -0.5){
+		delta *= 0.9;
+		distance += delta;
+		frameCount++;
+	}
+	var fps = 30;
+	var milliseconds = (1000/fps); 
+	var time = (1 / milliseconds) * frameCount;
+	return {time:time, distance:distance};
+};
+
+TouchScrollPanel.prototype.onTweenUpdate = function(){
+	if(this._scrollDirection === TouchScrollPanel.SCROLL_DIRECTION_VERTICAL){
+		this.setScrollY(this.__tempZ);
+	}else{
+		this.setScrollX(this.__tempZ);
+	}
+};
+
+TouchScrollPanel.prototype.onTweenComplete = function(){
+	this.stopTweenAnimation();
+	this.checkScrollBoundry();
+};
+
+TouchScrollPanel.prototype.stopTweenAnimation = function(){
+	if(this._isAnimating === true){
+		Globals.log("stopTweenAnimation");
+		//Animator.removeTween(this);
+		clearInterval(this._inertiaInterval);
+		this._isAnimating = false;
+	}
+};
+
+
+//---------------
+
+
 
 TouchScrollPanel.prototype.onFadeOutThumb = function(){
 	this._isThumbVisible = false;
@@ -290,9 +434,11 @@ TouchScrollPanel.prototype.checkScrollBoundry = function(){
 		var destination;
 		if(y > 0){
 			jTweener.addTween(this,{_y:0,time:0.5,onUpdate:this.updateDomScrollPosition.context(this)});
+			return true;
 		}else if(y < -(contentHeight-frameHeight)){
 			jTweener.addTween(this,{_y:-(contentHeight-frameHeight),time:0.5,onUpdate:this.updateDomScrollPosition.context(this)});
-		}
+			return true;
+		}return false;
 	}else{
 		var x = this._x;
 		var contentWidth = $(this._contentElement).width();
@@ -300,9 +446,11 @@ TouchScrollPanel.prototype.checkScrollBoundry = function(){
 		var destination;
 		if(x > 0){
 			jTweener.addTween(this,{_x:0,time:0.5,onUpdate:this.updateDomScrollPosition.context(this)});
+			return true;
 		}else if(x < -(contentWidth-frameWidth)){
 			jTweener.addTween(this,{_x:-(contentWidth-frameWidth),time:0.5,onUpdate:this.updateDomScrollPosition.context(this)});
-		}
+			return true;
+		}return false;
 	}
 };
 
@@ -370,7 +518,7 @@ TouchScrollPanel.prototype.setScrollThumbDimension = function(){
 };
 
 TouchScrollPanel.prototype.onDOMMouseScrollHandler = function(e){
-	console.log('onDOMMouseScrollHandler');
+	//Globals.log('onDOMMouseScrollHandler');
     var delta = -e.detail;
 	this.setMouseWheenDelta(delta);
 };
@@ -382,7 +530,7 @@ TouchScrollPanel.prototype.onMouseWheelHandler = function(e){
 };
 
 TouchScrollPanel.prototype.setMouseWheenDelta = function(delta){
-	//console.log('onMouseWheel:'+e);
+	//Globals.log('onMouseWheel:'+delta);
 	if(this._isThumbVisible === false){
 		this.onFadeInThumb();
 	}else{
@@ -394,7 +542,7 @@ TouchScrollPanel.prototype.setMouseWheenDelta = function(delta){
 			break;
 		case TouchScrollPanel.SCROLL_DIRECTION_HORIZONTAL:
 			//this.scrollX(e.wheelDelta,true);
-			this,scrollX(delta,true);
+			this.scrollX(delta,true);
 			break;
 	}
 }
@@ -411,20 +559,42 @@ TouchScrollPanel.prototype.isStopChildMouseUp = function(){
 TouchScrollPanel.prototype.isDragging = function(){
 	return 	this._isDragging;
 };
+
+TouchScrollPanel.prototype.getScrollY = function(){
+	return this._y;
+}
 TouchScrollPanel.prototype.setScrollY = function(y){
 	this._y = y;
 	this.updateDomScrollPosition();
 };
+
+TouchScrollPanel.prototype.getScrollX = function(){
+	return this._x;
+}
 TouchScrollPanel.prototype.setScrollX = function(x){
 	this._x = x;
 	this.updateDomScrollPosition();
 };
+/*
+TouchScrollPanel.prototype.scrollToPos = function(){
+	
+};
+*/
 TouchScrollPanel.prototype.getScrollMinY = function(){
 	return 0;
 };
 TouchScrollPanel.prototype.getScrollMinX = function(){
 	return 0;
 };
+
+TouchScrollPanel.prototype.getFrameWidth = function(){
+	return this._frameElement.clientWidth;
+};
+
+TouchScrollPanel.prototype.getFrameHeight = function(){
+	return this._frameElement.clientHeight;
+};
+
 TouchScrollPanel.prototype.updateThumb = function(){
 	this.onFadeInThumb();
 	this._fadeThumbTimeout = setTimeout(this.onFadeOutThumb.context(this),2000);
