@@ -40,5 +40,12 @@ RelatedArtefactCell.prototype.setData = function(data,restoreStateObject){
 //PRIVATE
 //_________________________________________________________________________________
 RelatedArtefactCell.prototype.onClick = function(){
-	Globals.viewController.onRelatedArtefactClick(this._data);
+	//Globals.viewController.onRelatedArtefactClick(this._data);
+	this.dispatchEvent(new ScrollableCellEvent(ScrollableCellEvent.CLICK,this._data));
 };
+
+
+
+
+
+

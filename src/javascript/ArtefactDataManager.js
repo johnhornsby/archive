@@ -555,7 +555,7 @@ ArtefactDataManager.prototype.getHasResults = function(){
 };
 
 ArtefactDataManager.prototype.getRelatedArtefacts = function(data){
-	var maxRelatedArtefacts = 10;
+	var maxRelatedArtefacts = 20;
 	var individuals = data.a.split(" ");
 	var l = individuals.length;
 	var randomIndex;

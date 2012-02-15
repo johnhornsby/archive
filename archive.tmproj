@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>currentDocument</key>
-	<string>src/javascript/TouchScrollPanel.js</string>
+	<string>src/javascript/ArtefactDataManager.js</string>
 	<key>documents</key>
 	<array>
 		<dict>
@@ -26,44 +26,42 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>59</integer>
+				<integer>13</integer>
 				<key>line</key>
-				<integer>783</integer>
+				<integer>765</integer>
 			</dict>
-			<key>columnSelection</key>
-			<false/>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>746</integer>
-			<key>selectFrom</key>
-			<dict>
-				<key>column</key>
-				<integer>16</integer>
-				<key>line</key>
-				<integer>784</integer>
-			</dict>
-			<key>selectTo</key>
-			<dict>
-				<key>column</key>
-				<integer>59</integer>
-				<key>line</key>
-				<integer>783</integer>
-			</dict>
+			<integer>740</integer>
 		</dict>
 		<key>src/index.html</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>57</integer>
+				<integer>39</integer>
 				<key>line</key>
-				<integer>83</integer>
+				<integer>182</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>31</integer>
+			<integer>167</integer>
+		</dict>
+		<key>src/javascript/AnimationLayer.js</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>0</integer>
+				<key>line</key>
+				<integer>0</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>246</integer>
 		</dict>
 		<key>src/javascript/Animator.js</key>
 		<dict>
@@ -77,21 +75,81 @@
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
+			<integer>17</integer>
+		</dict>
+		<key>src/javascript/ArtefactDataManager.js</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>29</integer>
+				<key>line</key>
+				<integer>557</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
 			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>530</integer>
 		</dict>
 		<key>src/javascript/ArtefactWindow.js</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>0</integer>
+				<integer>1</integer>
 				<key>line</key>
-				<integer>0</integer>
+				<integer>8</integer>
 			</dict>
+			<key>columnSelection</key>
+			<false/>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
+			<integer>5</integer>
+			<key>selectFrom</key>
+			<dict>
+				<key>column</key>
+				<integer>36</integer>
+				<key>line</key>
+				<integer>8</integer>
+			</dict>
+			<key>selectTo</key>
+			<dict>
+				<key>column</key>
+				<integer>1</integer>
+				<key>line</key>
+				<integer>8</integer>
+			</dict>
+		</dict>
+		<key>src/javascript/AutoCompleteViewController.js</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>1</integer>
+				<key>line</key>
+				<integer>330</integer>
+			</dict>
+			<key>columnSelection</key>
+			<false/>
+			<key>firstVisibleColumn</key>
 			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>279</integer>
+			<key>selectFrom</key>
+			<dict>
+				<key>column</key>
+				<integer>67</integer>
+				<key>line</key>
+				<integer>330</integer>
+			</dict>
+			<key>selectTo</key>
+			<dict>
+				<key>column</key>
+				<integer>1</integer>
+				<key>line</key>
+				<integer>330</integer>
+			</dict>
 		</dict>
 		<key>src/javascript/CategoryCell.js</key>
 		<dict>
@@ -106,6 +164,50 @@
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
 			<integer>167</integer>
+		</dict>
+		<key>src/javascript/CategoryTable.js</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>0</integer>
+				<key>line</key>
+				<integer>0</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>256</integer>
+		</dict>
+		<key>src/javascript/DockViewController.js</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>0</integer>
+				<key>line</key>
+				<integer>494</integer>
+			</dict>
+			<key>columnSelection</key>
+			<false/>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>423</integer>
+			<key>selectFrom</key>
+			<dict>
+				<key>column</key>
+				<integer>47</integer>
+				<key>line</key>
+				<integer>501</integer>
+			</dict>
+			<key>selectTo</key>
+			<dict>
+				<key>column</key>
+				<integer>0</integer>
+				<key>line</key>
+				<integer>494</integer>
+			</dict>
 		</dict>
 		<key>src/javascript/Globals.js</key>
 		<dict>
@@ -191,14 +293,28 @@
 			<key>firstVisibleLine</key>
 			<integer>19</integer>
 		</dict>
+		<key>src/javascript/RelatedArtefactCell.coffee</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>0</integer>
+				<key>line</key>
+				<integer>0</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
 		<key>src/javascript/RelatedArtefactCell.js</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>28</integer>
+				<integer>80</integer>
 				<key>line</key>
-				<integer>15</integer>
+				<integer>43</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
@@ -235,14 +351,28 @@
 				<integer>42</integer>
 			</dict>
 		</dict>
+		<key>src/javascript/RelatedArtefactsViewController.js</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>95</integer>
+				<key>line</key>
+				<integer>191</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>116</integer>
+		</dict>
 		<key>src/javascript/ScrollableCell.js</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>58</integer>
+				<integer>13</integer>
 				<key>line</key>
-				<integer>16</integer>
+				<integer>10</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
@@ -254,14 +384,14 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>27</integer>
+				<integer>1</integer>
 				<key>line</key>
-				<integer>91</integer>
+				<integer>11</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>62</integer>
+			<integer>36</integer>
 		</dict>
 		<key>src/javascript/TapestryViewController.js</key>
 		<dict>
@@ -310,28 +440,88 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>54</integer>
+				<integer>33</integer>
 				<key>line</key>
-				<integer>314</integer>
+				<integer>363</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>298</integer>
+			<integer>305</integer>
+		</dict>
+		<key>src/javascript/TouchScrollableTablePanel.js</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>2</integer>
+				<key>line</key>
+				<integer>6</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
 		</dict>
 		<key>src/javascript/Utilities.js</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>4</integer>
+				<integer>26</integer>
 				<key>line</key>
-				<integer>22</integer>
+				<integer>539</integer>
 			</dict>
+			<key>columnSelection</key>
+			<false/>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>22</integer>
+			<integer>487</integer>
+			<key>selectFrom</key>
+			<dict>
+				<key>column</key>
+				<integer>19</integer>
+				<key>line</key>
+				<integer>539</integer>
+			</dict>
+			<key>selectTo</key>
+			<dict>
+				<key>column</key>
+				<integer>30</integer>
+				<key>line</key>
+				<integer>539</integer>
+			</dict>
+		</dict>
+		<key>src/javascript/ViewController.js</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>1</integer>
+				<key>line</key>
+				<integer>5</integer>
+			</dict>
+			<key>columnSelection</key>
+			<false/>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>207</integer>
+			<key>selectFrom</key>
+			<dict>
+				<key>column</key>
+				<integer>21</integer>
+				<key>line</key>
+				<integer>5</integer>
+			</dict>
+			<key>selectTo</key>
+			<dict>
+				<key>column</key>
+				<integer>1</integer>
+				<key>line</key>
+				<integer>5</integer>
+			</dict>
 		</dict>
 		<key>src/javascript/lib/BrowserDetect.js</key>
 		<dict>
@@ -487,9 +677,15 @@
 		<string>src/javascript/TapestryViewController.js</string>
 		<string>src/javascript/ScrollableTable.js</string>
 		<string>src/javascript/ScrollableCell.js</string>
+		<string>src/javascript/RelatedArtefactCell.coffee</string>
 		<string>src/javascript/RelatedArtefactCell.js</string>
+		<string>src/javascript/ViewController.js</string>
+		<string>src/javascript/ArtefactWindow.js</string>
 		<string>src/javascript/RelatedArtefactsViewController copy.js</string>
+		<string>src/javascript/RelatedArtefactsViewController.js</string>
+		<string>src/javascript/AutoCompleteViewController.js</string>
 		<string>src/javascript/TouchScrollPanel.js</string>
+		<string>src/javascript/TouchScrollableTablePanel.js</string>
 		<string>src/javascript/Utilities.js</string>
 		<string>src/javascript/Globals.js</string>
 		<string>src/javascript/RandomCanvas.js</string>
@@ -503,6 +699,11 @@
 		<string>src/javascript/Main.js</string>
 		<string>src/css/style.css</string>
 		<string>src/javascript/CategoryCell.js</string>
+		<string>src/javascript/CategoryTable.js</string>
+		<string>src/javascript/ArtefactDataManager.js</string>
+		<string>src/javascript/Animator.js</string>
+		<string>src/javascript/AnimationLayer.js</string>
+		<string>src/javascript/DockViewController.js</string>
 		<string>src/javascript/ImageLoadManager.js</string>
 	</array>
 	<key>showFileHierarchyDrawer</key>

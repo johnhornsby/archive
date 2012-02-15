@@ -1,4 +1,7 @@
 var ScrollableTable = function(options){
+	EventDispatcher.call(this);
+	if(options===undefined)return;				//inheritance handling
+	
 	this._cellWidth = options.cellWidth || 0;
 	this._cellHeight = options.cellHeight || 0;
 	
@@ -22,6 +25,9 @@ var ScrollableTable = function(options){
 	this._cellDimensionValue = (options.direction === ScrollableTable.DIRECTION_VERTICAL)? this._cellHeight : this._cellWidth;
 	this._frameDimensionValue = 574;//(options.direction === ScrollableTable.DIRECTION_VERTICAL)? this._frameElement.style.height : this._frameElement.style.width;
 }
+ScrollableTable.prototype = new EventDispatcher();
+ScrollableTable.prototype.constructor = ScrollableTable;
+ScrollableTable.prototype.supr = EventDispatcher.prototype;
 
 ScrollableTable.DIRECTION_VERTICAL = 0;
 ScrollableTable.DIRECTION_HORIZONTAL = 1;
@@ -49,6 +55,11 @@ ScrollableTable.prototype.onClear = function(){
 ScrollableTable.prototype.onSetData = function(){
 	this.onClear();
 	this._maxCells = this._dataDelegate.getNumberOfCells() || 0;
+	if(this._direction === ScrollableTable.DIRECTION_VERTICAL){
+		this._container.style.height = this._maxCells * this._cellHeight + "px";
+	}else{
+		this._container.style.width = this._maxCells * this._cellWidth + "px";
+	}
 	this.floodTable();
 };
 
@@ -79,6 +90,7 @@ ScrollableTable.prototype.updateTable = function(){
 				cell = this.dequeueCell();
 				if(cell===undefined){
 					cell = new this._cellClass({index:i,containerElement:this._container});
+					cell.addEventListener(ScrollableCellEvent.CLICK,this.onCellClickHandler.context(this));
 				}
 				cell.setData(cellObject.data,cellObject.savedState);
 				cell.setVisible(true);
@@ -136,6 +148,12 @@ ScrollableTable.prototype.dequeueCell = function(){
 };
 
 ScrollableTable.prototype.removeAllCells = function(){
+	var cell;
+	var i = this._queuedCellsArray.length;
+	while(i--){
+		cell = this.__queuedCellsArray[i];
+		cell.removeEventListener(ScrollableCell.CLICK);
+	}
 	if ( this._container.hasChildNodes()){
 		while ( this._container.childNodes.length >= 1 ){
 			this._container.removeChild(this._container.firstChild);       
@@ -177,6 +195,9 @@ ScrollableTable.prototype.getWindowIndexRange = function(){
 	return frame;
 };
 
+/**
+	Remove or alter this function, this function is a hang over from CategoryTable
+*/
 ScrollableTable.prototype.onSetScrollDelta = function(dx,dy,x,y){
 	this.stopPlaneAnimation();
 	//console.log(this._y);
@@ -191,6 +212,15 @@ ScrollableTable.prototype.onSetScrollDelta = function(dx,dy,x,y){
 			cellObject.cell.update();
 		}
 	}
+};
+
+ScrollableTable.prototype.onSetScrollPosition = function(x,y){
+	this.stopPlaneAnimation();
+	this._x = x;
+	this._y = y;
+	this._container.style.left = this._x+"px";
+	this._container.style.top = this._y+"px";
+	this.updateTable();
 };
 
 ScrollableTable.prototype.getCellObjectWithY = function(y){
@@ -299,6 +329,10 @@ ScrollableTable.prototype.stopPlaneAnimation = function(){
 	}
 };
 
+ScrollableTable.prototype.onCellClickHandler = function(e){
+	//Globals.log(e.eventType);
+	this.dispatchEvent(new ScrollableTableEvent(ScrollableTableEvent.CELL_CLICK,e.data));
+};
 
 //PUBLIC
 //_______________________________________________________________________________________________
@@ -327,6 +361,10 @@ ScrollableTable.prototype.setScrollDelta = function(dx,dy,x,y){
 	this.onSetScrollDelta(dx,dy,x,y);
 };
 
+ScrollableTable.prototype.setScrollPosition = function(x,y){
+	this.onSetScrollPosition(x,y);
+};
+
 ScrollableTable.prototype.dragEnd = function(finalLeftDelta,finalTopDelta,left,top){
 	this.onDragEnd(finalLeftDelta,finalTopDelta,left,top);
 };
@@ -337,3 +375,15 @@ ScrollableTable.prototype.getArtefactInformationAtPoint = function(pt){
 	return cellObject.cell.getArtefactInformationAtPoint(pt);
 	
 };
+
+
+
+
+
+//Event Classes
+//_________________________________________________________________________________________	
+var ScrollableTableEvent = function(eventType,data){
+	this.eventType = eventType;
+	this.data = data;
+};
+ScrollableTableEvent.CELL_CLICK = "cellClick";

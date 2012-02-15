@@ -1,5 +1,6 @@
 var TouchScrollPanel = function(options){
 	EventDispatcher.call(this);
+	if(options === undefined) return;				// inheritance handling
 	
 	this._frameElement = options.frameElement;
 	this._contentElement = options.contentElement;
@@ -30,6 +31,8 @@ var TouchScrollPanel = function(options){
 };
 //inheritance
 TouchScrollPanel.prototype = new EventDispatcher();
+TouchScrollPanel.prototype.constructor = TouchScrollPanel;
+TouchScrollPanel.prototype.supr = EventDispatcher.prototype;
 
 TouchScrollPanel.SCROLL_DIRECTION_VERTICAL = 0;
 TouchScrollPanel.SCROLL_DIRECTION_HORIZONTAL = 1;
@@ -246,6 +249,39 @@ TouchScrollPanel.prototype.scrollY = function(delta,noBoundryOffset){
 	this.updateDomScrollPosition();
 };
 
+TouchScrollPanel.prototype.scrollX = function(delta,noBoundryOffset){
+//	console.log('delta:'+delta);
+	//var y = this._y;
+	var x = this._x;
+	var container = this._contentElement;
+	//var contentHeight = $(this._contentElement).offset().height;
+	var contentWidth = $(this._contentElement).width();
+	var frameWidth = this._frameElement.clientWidth;
+	var maxScrollDistance = contentWidth - frameWidth;
+	var boundryOffset = (noBoundryOffset === true)?0:40;
+	var right = 0;
+	var left = maxScrollDistance * -1
+	var lowerLimit = right + boundryOffset;
+	var upperLimit = left - boundryOffset;
+		
+	var destinationX = x + delta;
+	if(destinationX <= right &&  destinationX >= left){				// within normal boundry
+		//destination is cool
+	}else if(destinationX >= lowerLimit){							//beyond lower boundry
+		destinationX = lowerLimit;
+	}else if(destinationX <= upperLimit){							//beyong upper boundry
+		destinationX = upperLimit;	
+	}else if(destinationX > right && destinationX < lowerLimit){	//within lower boundry			
+		destinationX = x + (delta/4);
+	}else if(destinationX < left && destinationX > upperLimit){		//within upper boundry
+		destinationX = x + (delta/4);
+	}
+	
+	this._x = destinationX;
+	
+	this.updateDomScrollPosition();
+};
+
 TouchScrollPanel.prototype.checkScrollBoundry = function(){
 	if(this._scrollDirection === TouchScrollPanel.SCROLL_DIRECTION_VERTICAL){
 		var y = this._y;
@@ -305,18 +341,31 @@ TouchScrollPanel.prototype.updateScrollThumbPosition = function(){
 	}
 };
 
-TouchScrollPanel.prototype.setScrollThumbHeight = function(){
+TouchScrollPanel.prototype.setScrollThumbDimension = function(){
 	var jQObject = $(this._contentElement);
 	//var offsetObject = jQObject.offset();
-	var contentHeight = jQObject.height();
-	var frameHeight = this._frameElement.clientHeight;
-	var visiblePercentage = frameHeight / contentHeight;
-	var thumbHeight = frameHeight * visiblePercentage;
-	$(this._thumbElement).css('height',thumbHeight+"px");
-	if(contentHeight <= frameHeight){
-		$(this._thumbElement).css('display','none');
+	if(this._scrollDirection === TouchScrollPanel.SCROLL_DIRECTION_VERTICAL){
+		var contentHeight = jQObject.height();
+		var frameHeight = this._frameElement.clientHeight;
+		var visiblePercentage = frameHeight / contentHeight;
+		var thumbHeight = frameHeight * visiblePercentage;
+		$(this._thumbElement).css('height',thumbHeight+"px");
+		if(contentHeight <= frameHeight){
+			$(this._thumbElement).css('display','none');
+		}else{
+			$(this._thumbElement).css('display','block');
+		}
 	}else{
-		$(this._thumbElement).css('display','block');
+		var contentWidth = jQObject.width();
+		var frameWidth = this._frameElement.clientWidth;
+		var visiblePercentage = frameWidth / contentWidth;
+		var thumbWidth = frameWidth * visiblePercentage;
+		$(this._thumbElement).css('width',thumbWidth+"px");
+		if(contentWidth <= frameWidth){
+			$(this._thumbElement).css('display','none');
+		}else{
+			$(this._thumbElement).css('display','block');
+		}
 	}
 };
 
@@ -345,6 +394,7 @@ TouchScrollPanel.prototype.setMouseWheenDelta = function(delta){
 			break;
 		case TouchScrollPanel.SCROLL_DIRECTION_HORIZONTAL:
 			//this.scrollX(e.wheelDelta,true);
+			this,scrollX(delta,true);
 			break;
 	}
 }
@@ -362,17 +412,22 @@ TouchScrollPanel.prototype.isDragging = function(){
 	return 	this._isDragging;
 };
 TouchScrollPanel.prototype.setScrollY = function(y){
-	//$(this._contentElement).css('top',y+'px');
 	this._y = y;
 	this.updateDomScrollPosition();
-	
+};
+TouchScrollPanel.prototype.setScrollX = function(x){
+	this._x = x;
+	this.updateDomScrollPosition();
 };
 TouchScrollPanel.prototype.getScrollMinY = function(){
+	return 0;
+};
+TouchScrollPanel.prototype.getScrollMinX = function(){
 	return 0;
 };
 TouchScrollPanel.prototype.updateThumb = function(){
 	this.onFadeInThumb();
 	this._fadeThumbTimeout = setTimeout(this.onFadeOutThumb.context(this),2000);
-	this.setScrollThumbHeight();
+	this.setScrollThumbDimension();
 	this.updateScrollThumbPosition();
 };

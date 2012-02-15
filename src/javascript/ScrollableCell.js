@@ -26,6 +26,10 @@ ScrollableCell.prototype.build = function(){
 };
 
 
+
+
+
+
 //PUBLIC
 //____________________________________________________________________________________________________
 ScrollableCell.prototype.destroy = function(){
@@ -85,3 +89,14 @@ ScrollableCell.prototype.getSaveState = function(){
 ScrollableCell.prototype.dragEnd = function(finalLeftDelta,finalTopDelta,left,top){
 
 };
+
+
+
+
+//Event Classes
+//_________________________________________________________________________________________	
+var ScrollableCellEvent = function(eventType,data){
+	this.eventType = eventType;
+	this.data = data;
+};
+ScrollableCellEvent.CLICK = "click";

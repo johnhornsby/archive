@@ -720,7 +720,7 @@ ARTEFACT WINDOW
 
 #relatedArtefactsView {
 	width:668px;
-	height:140px;
+	height:85px;
 	padding:0px;
 	margin:0px;
 }
@@ -747,10 +747,11 @@ ARTEFACT WINDOW
 
 #relatedArtefactsFrame {
 	width:574px;
-	height:140px;
+	height:85px;
 	position:relative;
 	overflow:hidden;
 	display:block;
+	float:left;
 }
 
 #relatedArtefactsContainer {
@@ -764,7 +765,7 @@ ARTEFACT WINDOW
 	position:absolute;
 	width:113px;
 	padding:0px;
-	height:140px;
+	height:85px;
 	display:block;
 	opacity:1;
 	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=1)";
@@ -777,7 +778,7 @@ ARTEFACT WINDOW
 	top:0px;
 	left:0px;
 	width:113px;
-	height:140px;
+	height:85px;
 	background-image:url(../images/carousel.gif);
 	background-repeat:no-repeat;
 	opacity:0;

@@ -11,6 +11,7 @@ var RelatedArtefactsViewController = function(){
 	
 	
 	this._scrollableTable;
+	this._scrollablePanel;
 	
 	this.init();
 };
@@ -48,7 +49,15 @@ RelatedArtefactsViewController.prototype.init = function(){
 		cellWidth: 113,
 		cellHeight: 140
 	});
-	
+	this._scrollableTable.addEventListener(ScrollableTableEvent.CELL_CLICK,this.onTableCellClick.context(this));
+
+	this._scrollablePanel = new TouchScrollableTablePanel({
+		frameElement: $("#relatedArtefactsFrame").get(0),
+		contentElement: $("#relatedArtefactsContainer").get(0),
+		scrollDirection:TouchScrollPanel.SCROLL_DIRECTION_HORIZONTAL,
+		scrollableTable:this._scrollableTable
+	});
+
 };
 
 /*
@@ -70,9 +79,14 @@ RelatedArtefactsViewController.prototype.createRelatedArtefact = function(data){
 	
 };
 */
-RelatedArtefactsViewController.prototype.onRelatedArtefactClickHandler = function(e,data){
-	Globals.viewController.onRelatedArtefactClick(data);
+RelatedArtefactsViewController.prototype.onTableCellClick = function(e){
+	if(this._scrollablePanel.isStopChildMouseUp() === false){
+		Globals.viewController.onRelatedArtefactClick(e.data);
+	}else{
+		Globals.log("onRelatedArtefactClickHandler canceled");
+	}
 };
+
 
 
 RelatedArtefactsViewController.prototype.relatedArtefactImageLoaded = function(e,imageObject){
@@ -92,6 +106,8 @@ RelatedArtefactsViewController.prototype.removeRelatedArtefacts = function(){
 	$("#relatedArtefactsContainer > ul").empty();
 	$("#relatedArtefactsContainer > ul").css("left",0);
 };
+
+
 
 /*
 RelatedArtefactsViewController.prototype.onLeftCarouselClickHandler = function(e){
@@ -174,8 +190,10 @@ RelatedArtefactsViewController.prototype.getDataForCellIndex = function(index){
 RelatedArtefactsViewController.prototype.setData = function(jsonDataObject){
 	this._data = jsonDataObject;
 	this._relatedArtefactsDataArray = Globals.artefactDataManager.getRelatedArtefacts(this._data);
-	$("#relatedArtefactsContainer").css("left",0);
+	this._scrollableTable.setScrollPosition(0,0);
 	this._scrollableTable.reloadTable();
+	this._scrollablePanel.setScrollX(0);
+	this._scrollablePanel.updateThumb();
 };
 
 RelatedArtefactsViewController.prototype.clear = function(){
