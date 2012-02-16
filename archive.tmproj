@@ -40,14 +40,14 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>39</integer>
+				<integer>58</integer>
 				<key>line</key>
-				<integer>182</integer>
+				<integer>211</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>167</integer>
+			<integer>174</integer>
 		</dict>
 		<key>src/javascript/AnimationLayer.js</key>
 		<dict>
@@ -532,14 +532,14 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>47</integer>
+				<integer>63</integer>
 				<key>line</key>
-				<integer>281</integer>
+				<integer>184</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>249</integer>
+			<integer>165</integer>
 		</dict>
 		<key>src/javascript/TouchScrollableTablePanel.js</key>
 		<dict>

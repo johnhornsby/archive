@@ -29,6 +29,8 @@ var TouchScrollPanel = function(options){
 	
 	this._inertiaInterval;
 	this._friction = 0.9;
+	this._inertia = 0;
+	this._velocity = 0;
 	this._acceleration = 0;
 	this._contentWidth = 0;
 	this._contentHeight = 0;
@@ -203,8 +205,9 @@ TouchScrollPanel.prototype.onUpWindowHandler = function(e){
 			}else{
 				delta = this._leftDelta;
 			}
-			this.initInertiaAnimation(delta);
+			
 		}
+		this.initInertiaAnimation(delta);
 	}
 	
 	this._fadeThumbTimeout = setTimeout(this.onFadeOutThumb.context(this),1000);
@@ -249,7 +252,7 @@ TouchScrollPanel.prototype.initInertiaAnimation = function(finalTopDelta){
 		onComplete:this.onTweenComplete.context(this)
 	});
 	*/
-	this._velocity = finalTopDelta;
+	this._inertia = finalTopDelta;
 	this._contentWidth = $(this._contentElement).width();
 	this._inertiaInterval = setInterval(this.updateAnimation.context(this),33);
 	
@@ -257,10 +260,10 @@ TouchScrollPanel.prototype.initInertiaAnimation = function(finalTopDelta){
 };
 
 TouchScrollPanel.prototype.updateAnimation = function(){
-	/
-	Globals.log("updateAnimation");
+	//
+	//Globals.log("updateAnimation");
 	if(this._isAnimating===false)return;
-	this._velocity = this._velocity * this._friction;
+	
 	//Globals.log(this._velocity);
 	
 	var containerBottom;
@@ -268,40 +271,66 @@ TouchScrollPanel.prototype.updateAnimation = function(){
 	var ammountIntoBoundry;
 	var acceleration;
 	var destination;
+	var boundryDivider = 5;
+	var velocity;
 	
 	if(this._scrollDirection === TouchScrollPanel.SCROLL_DIRECTION_VERTICAL){
+		this._inertia = this._inertia * this._friction;
 		this.setScrollY(this._y + this._velocity);
 	}else{
 		boundryModifier = 0;
 		
 		if(this._x > 0){
 			containerBottom = this._x + this._contentWidth;
-			ammountIntoBoundry = this._contentWidth - containerBottom;
-			
-			ammountIntoBoundry =  Math.min(90,ammountIntoBoundry);
-			ammountIntoBoundry =  Math.max(0,ammountIntoBoundry);
-			ammountIntoBoundry = Math.sin(this.degreesToRadians(ammountIntoBoundry));
-			ammountIntoBoundry = 100 - (ammountIntoBoundry * 100);
-			boundryModifier = ammountIntoBoundry;
-			
+			ammountIntoBoundry = Math.abs(this._contentWidth - containerBottom);	//worl
+			//boundryDivider = 10;
+			boundryModifier = -(ammountIntoBoundry / boundryDivider);
+			/*
+			boundryDivider  =  Math.min(90,ammountIntoBoundry);
+			boundryDivider =  Math.max(0,boundryDivider);
+			boundryDivider = Math.sin(this.degreesToRadians(boundryDivider)); // 90 = 1 0 = 0;
+			boundryDivider = 50 - (50 * boundryDivider);
+			boundryDivider = Math.max(2, boundryDivider); //ensure we don't have 0 and 1, so the maxiumum speed is ammountIntoBoundry / 2
+			boundryModifier = -(ammountIntoBoundry / boundryDivider); 					//invert to subtract from positive velocity
+			*/
+			if(this._inertia > 0){
+				this._inertia = (this._inertia + boundryModifier) * this._friction;
+				velocity = this._inertia;
+			}else{
+				this._inertia = 0;
+				velocity = boundryModifier * this._friction
+			}
 		}else if(this._x < (this._frameElement.clientWidth - this._contentWidth)) {
-			ammountIntoBoundry = (this._frameElement.clientWidth - this._contentWidth) - this._x;
 			
-			ammountIntoBoundry =  Math.min(90,ammountIntoBoundry);
-			ammountIntoBoundry =  Math.max(0,ammountIntoBoundry);
-			ammountIntoBoundry = Math.sin(this.degreesToRadians(ammountIntoBoundry));
-			ammountIntoBoundry = 100 - (ammountIntoBoundry * 100);
-			boundryModifier = ammountIntoBoundry;
+			ammountIntoBoundry = Math.abs((this._frameElement.clientWidth - this._contentWidth) - this._x);
+			boundryModifier = (ammountIntoBoundry / boundryDivider);
+			/*
+			boundryDivider =  Math.min(90,ammountIntoBoundry);
+			boundryDivider =  Math.max(0,boundryDivider);
+			boundryDivider = Math.sin(this.degreesToRadians(boundryDivider));
+			boundryDivider = 100 - (boundryDivider * 100);
+			boundryModifier = ammountIntoBoundry / 10;
+			*/
+			if(this._inertia < 0){
+				this._inertia = (this._inertia + boundryModifier) * this._friction;
+				velocity = this._inertia;
+			}else{
+				this._inertia = 0;
+				velocity = boundryModifier * this._friction
+			}
+		}else{
+			this._inertia = this._inertia * this._friction;
+			velocity = this._inertia;
 		}
 
-		acceleration = this._velocity + boundryModifier;
+		//acceleration = this._velocity + boundryModifier;
 		
-		destination = this._x + acceleration;
-		this.setScrollX(this._x + acceleration);
+		destination = this._x + velocity;
+		this.setScrollX(this._x + velocity);
 		
-		//Globals.log("boundryModifier:"+boundryModifier);
+		Globals.log("x:"+this._x+" velocity:"+velocity+" boundryModifier:"+boundryModifier+" boundryDivider:"+boundryDivider+" ammountIntoBoundry:"+ammountIntoBoundry);
 		
-		if((acceleration < 0.5 && acceleration > -0.5) && (boundryModifier < 0.5 && boundryModifier > -0.5)){
+		if((velocity < 0.05 && velocity > -0.05) && (boundryModifier < 0.05 && boundryModifier > -0.05)){
 			this.stopTweenAnimation();
 		}
 	}
@@ -447,10 +476,10 @@ TouchScrollPanel.prototype.checkScrollBoundry = function(){
 		var frameHeight = this._frameElement.clientHeight;
 		var destination;
 		if(y > 0){
-			jTweener.addTween(this,{_y:0,time:0.5,onUpdate:this.updateDomScrollPosition.context(this)});
+			//jTweener.addTween(this,{_y:0,time:0.5,onUpdate:this.updateDomScrollPosition.context(this)});
 			return true;
 		}else if(y < -(contentHeight-frameHeight)){
-			jTweener.addTween(this,{_y:-(contentHeight-frameHeight),time:0.5,onUpdate:this.updateDomScrollPosition.context(this)});
+			//jTweener.addTween(this,{_y:-(contentHeight-frameHeight),time:0.5,onUpdate:this.updateDomScrollPosition.context(this)});
 			return true;
 		}return false;
 	}else{
@@ -459,10 +488,10 @@ TouchScrollPanel.prototype.checkScrollBoundry = function(){
 		var frameWidth = this._frameElement.clientWidth;
 		var destination;
 		if(x > 0){
-			jTweener.addTween(this,{_x:0,time:0.5,onUpdate:this.updateDomScrollPosition.context(this)});
+			//jTweener.addTween(this,{_x:0,time:0.5,onUpdate:this.updateDomScrollPosition.context(this)});
 			return true;
 		}else if(x < -(contentWidth-frameWidth)){
-			jTweener.addTween(this,{_x:-(contentWidth-frameWidth),time:0.5,onUpdate:this.updateDomScrollPosition.context(this)});
+			//jTweener.addTween(this,{_x:-(contentWidth-frameWidth),time:0.5,onUpdate:this.updateDomScrollPosition.context(this)});
 			return true;
 		}return false;
 	}
