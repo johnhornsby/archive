@@ -105,7 +105,8 @@ TouchScrollPanel.prototype.onDownFrameHandler = function(e){
 		pageX = e.pageX;
 		pageY = e.pageY; 
 	}
-	
+	this._topDelta = 0;
+	this._leftDelta = 0;
 	this._lastX = this._originX = pageX;
 	this._lastY = this._originY = pageY;
 	this._isDragging = false;
@@ -421,13 +422,13 @@ TouchScrollPanel.prototype.scrollY = function(delta,noBoundryOffset){
 	var destinationY = y + delta;
 	if(destinationY <= bottom &&  destinationY >= top){				// within normal boundry
 		//destination is cool
-	}else if(destinationY >= lowerLimit){							//beyond lower boundry
-		destinationY = lowerLimit;
-	}else if(destinationY <= upperLimit){							//beyong upper boundry
-		destinationY = upperLimit;	
-	}else if(destinationY > bottom && destinationY < lowerLimit){	//within lower boundry			
+	//}else if(destinationY >= lowerLimit){							//beyond lower boundry
+		//destinationY = lowerLimit;
+	//}else if(destinationY <= upperLimit){							//beyong upper boundry
+		//destinationY = upperLimit;	
+	}else if(destinationY > bottom){	//within lower boundry			
 		destinationY = y + (delta/4);
-	}else if(destinationY < top && destinationY > upperLimit){		//within upper boundry
+	}else if(destinationY < top){		//within upper boundry
 		destinationY = y + (delta/4);
 	}
 	
@@ -454,13 +455,13 @@ TouchScrollPanel.prototype.scrollX = function(delta,noBoundryOffset){
 	var destinationX = x + delta;
 	if(destinationX <= right &&  destinationX >= left){				// within normal boundry
 		//destination is cool
-	}else if(destinationX >= lowerLimit){							//beyond lower boundry
-		destinationX = lowerLimit;
-	}else if(destinationX <= upperLimit){							//beyong upper boundry
-		destinationX = upperLimit;	
-	}else if(destinationX > right && destinationX < lowerLimit){	//within lower boundry			
+	//}else if(destinationX >= lowerLimit){							//beyond lower boundry
+		//destinationX = lowerLimit;
+	//}else if(destinationX <= upperLimit){							//beyong upper boundry
+		//destinationX = upperLimit;	
+	}else if(destinationX > right){	//within lower boundry			
 		destinationX = x + (delta/4);
-	}else if(destinationX < left && destinationX > upperLimit){		//within upper boundry
+	}else if(destinationX < left){		//within upper boundry
 		destinationX = x + (delta/4);
 	}
 	
