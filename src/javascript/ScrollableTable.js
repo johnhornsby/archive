@@ -24,6 +24,7 @@ var ScrollableTable = function(options){
 	this._direction = options.direction || ScrollableTable.DIRECTION_VERTICAL;
 	this._cellDimensionValue = (options.direction === ScrollableTable.DIRECTION_VERTICAL)? this._cellHeight : this._cellWidth;
 	this._frameDimensionValue = 574;//(options.direction === ScrollableTable.DIRECTION_VERTICAL)? this._frameElement.style.height : this._frameElement.style.width;
+	this._containerDimension = 0;
 	this._displayRect = {left:0,top:0,width:0,height:0};
 }
 ScrollableTable.prototype = new EventDispatcher();
@@ -56,9 +57,11 @@ ScrollableTable.prototype.onSetData = function(){
 	this.onClear();
 	this._maxCells = this._dataDelegate.getNumberOfCells() || 0;
 	if(this._direction === ScrollableTable.DIRECTION_VERTICAL){
-		this._container.style.height = this._maxCells * this._cellHeight + "px";
+		this._containerDimension = this._maxCells * this._cellHeight;
+		this._container.style.height = this._containerDimension + "px";
 	}else{
-		this._container.style.width = this._maxCells * this._cellWidth + "px";
+		this._containerDimension = this._maxCells * this._cellWidth;
+		this._container.style.width = this._containerDimension + "px";
 	}
 	this.floodTable();
 };
@@ -240,6 +243,7 @@ ScrollableTable.prototype.clear = function(){
 ScrollableTable.prototype.reloadTable = function(){
 	this.onSetData();
 	this.updateTable();
+	this.dispatchEvent(new ScrollableTableEvent(ScrollableTableEvent.RELOAD_TABLE,{maxCells:this._maxCells, containerDimension:this._containerDimension}));
 };
 
 ScrollableTable.prototype.setScrollPosition = function(x,y){
@@ -261,6 +265,17 @@ ScrollableTable.prototype.getVisibleIndexRange = function(excludeIntersected){
 	var range = {index:frame.top,length:frame.height};
 	return range;
 };
+
+ScrollableTable.prototype.getMaxCells = function(){
+	this._maxCells = this._dataDelegate.getNumberOfCells() || 0;
+	return this._maxCells;
+}
+
+ScrollableTable.prototype.getContainerDimension = function(){
+	return this._containerDimension;
+};
+
+
 /*
 ScrollableTable.prototype.getArtefactInformationAtPoint = function(pt){
 	var cellObject;
@@ -284,3 +299,4 @@ var ScrollableTableEvent = function(eventType,data){
 	this.data = data;
 };
 ScrollableTableEvent.CELL_CLICK = "cellClick";
+ScrollableTableEvent.RELOAD_TABLE = "reloadTable";

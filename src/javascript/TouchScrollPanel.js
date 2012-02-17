@@ -32,7 +32,7 @@ var TouchScrollPanel = function(options){
 	this._inertia = 0;
 	this._velocity = 0;
 	this._acceleration = 0;
-	this._contentWidth = 0;
+	this._contentDimension = 0;
 	this._contentHeight = 0;
 	
 	this.init();
@@ -62,7 +62,7 @@ TouchScrollPanel.prototype.init = function(){
 	$(this._frameElement).bind('touchstart',this.onDownFrameHandler.context(this));
 	//addEvent(this._frameElement,'touchstart',this.onDownFrameHandler.context(this));
 	this.build();
-	window.requestAnimFrame(this.updateAnimation.context(this));
+	//window.requestAnimFrame(this.updateInertiaAnimation.context(this));
 };
 
 TouchScrollPanel.prototype.build = function(){
@@ -85,7 +85,7 @@ TouchScrollPanel.prototype.build = function(){
 TouchScrollPanel.prototype.onDownFrameHandler = function(e){
 	console.log('onDownFrameHandler');
 	this.stopTweenAnimation();
-	jTweener.removeTween(this._contentElement);
+	//jTweener.removeTween(this._contentElement);
 	var pageX;
 	var pageY;
 	var eventType = (e.type.indexOf('touch')!=-1)?'touch':'mouse';
@@ -206,68 +206,33 @@ TouchScrollPanel.prototype.onUpWindowHandler = function(e){
 			}else{
 				delta = this._leftDelta;
 			}
-			
 		}
 		this.initInertiaAnimation(delta);
 	}
 	
 	this._fadeThumbTimeout = setTimeout(this.onFadeOutThumb.context(this),1000);
 	
-	
 	return false;
 };
 
 TouchScrollPanel.prototype.initInertiaAnimation = function(finalTopDelta){
-	var topAnimationProperties = this.getAnimaitonProperties(finalTopDelta);
-	var destination;
-	
-	if(this._scrollDirection === TouchScrollPanel.SCROLL_DIRECTION_VERTICAL){
-		destination = this._y + topAnimationProperties.distance;
-		/*
-		var contentHeight = this._frameElement.clientHeight - (this._maxCells * Globals.TILE_HEIGHT);
-		if(destination > 0){
-			destination = 0;
-		}else if(destination < contentHeight){
-			destination = contentHeight;
-		}
-		*/
-		this.__tempZ = this._y;
-	}else{
-		destination = this._x + topAnimationProperties.distance;
-		/*
-		var contentWidth = this._frameElement.clientWidth - (this._maxCells * Globals.TILE_WIDTH);
-		if(destination > 0){
-			destination = 0;
-		}else if(destination < contentWidth){
-			destination = contentWidth;
-		}
-		*/
-		this.__tempZ = this._x
-	}
-	/*
-	Animator.addTween(this,{
-		__tempZ:destination,
-		time:topAnimationProperties.time,
-		transition:'easeOutQuad',
-		onUpdate:this.onTweenUpdate.context(this),
-		onComplete:this.onTweenComplete.context(this)
-	});
-	*/
 	this._inertia = finalTopDelta;
-	this._contentWidth = $(this._contentElement).width();
-	this._inertiaInterval = setInterval(this.updateAnimation.context(this),33);
-	
+	if(this._scrollDirection === TouchScrollPanel.SCROLL_DIRECTION_VERTICAL){
+		this._contentDimension = $(this._contentElement).height();
+	}else{
+		this._contentDimension = $(this._contentElement).width();
+	}
+	this._inertiaInterval = setInterval(this.updateInertiaAnimation.context(this),33);
 	this._isAnimating = true;
 };
 
-TouchScrollPanel.prototype.updateAnimation = function(){
-	//
-	//Globals.log("updateAnimation");
+TouchScrollPanel.prototype.updateInertiaAnimation = function(){
+	//Globals.log("updateInertiaAnimation");
 	if(this._isAnimating===false)return;
 	
-	//Globals.log(this._velocity);
-	
+	var containerPosition;
 	var containerBottom;
+	var frameDimension;
 	var boundryModifier;
 	var ammountIntoBoundry;
 	var acceleration;
@@ -276,73 +241,49 @@ TouchScrollPanel.prototype.updateAnimation = function(){
 	var velocity;
 	
 	if(this._scrollDirection === TouchScrollPanel.SCROLL_DIRECTION_VERTICAL){
-		this._inertia = this._inertia * this._friction;
-		this.setScrollY(this._y + this._velocity);
+		containerPosition = this._y;
+		frameDimension = this._frameElement.clientHeight;
 	}else{
-		boundryModifier = 0;
-		
-		if(this._x > 0){
-			containerBottom = this._x + this._contentWidth;
-			ammountIntoBoundry = Math.abs(this._contentWidth - containerBottom);	//worl
-			//boundryDivider = 10;
-			boundryModifier = -(ammountIntoBoundry / boundryDivider);
-			/*
-			boundryDivider  =  Math.min(90,ammountIntoBoundry);
-			boundryDivider =  Math.max(0,boundryDivider);
-			boundryDivider = Math.sin(this.degreesToRadians(boundryDivider)); // 90 = 1 0 = 0;
-			boundryDivider = 50 - (50 * boundryDivider);
-			boundryDivider = Math.max(2, boundryDivider); //ensure we don't have 0 and 1, so the maxiumum speed is ammountIntoBoundry / 2
-			boundryModifier = -(ammountIntoBoundry / boundryDivider); 					//invert to subtract from positive velocity
-			*/
-			if(this._inertia > 0){
-				this._inertia = (this._inertia + boundryModifier) * this._friction;
-				velocity = this._inertia;
-			}else{
-				this._inertia = 0;
-				velocity = boundryModifier * this._friction
-			}
-		}else if(this._x < (this._frameElement.clientWidth - this._contentWidth)) {
-			
-			ammountIntoBoundry = Math.abs((this._frameElement.clientWidth - this._contentWidth) - this._x);
-			boundryModifier = (ammountIntoBoundry / boundryDivider);
-			/*
-			boundryDivider =  Math.min(90,ammountIntoBoundry);
-			boundryDivider =  Math.max(0,boundryDivider);
-			boundryDivider = Math.sin(this.degreesToRadians(boundryDivider));
-			boundryDivider = 100 - (boundryDivider * 100);
-			boundryModifier = ammountIntoBoundry / 10;
-			*/
-			if(this._inertia < 0){
-				this._inertia = (this._inertia + boundryModifier) * this._friction;
-				velocity = this._inertia;
-			}else{
-				this._inertia = 0;
-				velocity = boundryModifier * this._friction
-			}
-		}else{
-			this._inertia = this._inertia * this._friction;
-			velocity = this._inertia;
-		}
-
-		//acceleration = this._velocity + boundryModifier;
-		
-		destination = this._x + velocity;
-		this.setScrollX(this._x + velocity);
-		
-		Globals.log("x:"+this._x+" velocity:"+velocity+" boundryModifier:"+boundryModifier+" boundryDivider:"+boundryDivider+" ammountIntoBoundry:"+ammountIntoBoundry);
-		
-		if((velocity < 0.05 && velocity > -0.05) && (boundryModifier < 0.05 && boundryModifier > -0.05)){
-			this.stopTweenAnimation();
-		}
+		containerPosition = this._x;
+		frameDimension = this._frameElement.clientWidth;
 	}
 	
-	
+	boundryModifier = 0;
+	if(containerPosition > 0){
+		containerBottom = containerPosition + this._contentDimension;
+		ammountIntoBoundry = Math.abs(this._contentDimension - containerBottom);
+		boundryModifier = -(ammountIntoBoundry / boundryDivider);
+		if(this._inertia > 0){
+			this._inertia = (this._inertia + boundryModifier) * this._friction;
+			velocity = this._inertia;
+		}else{
+			this._inertia = 0;
+			velocity = boundryModifier * this._friction
+		}
+	}else if(containerPosition < (frameDimension - this._contentDimension)) {
+		ammountIntoBoundry = Math.abs((frameDimension - this._contentDimension) - containerPosition);
+		boundryModifier = (ammountIntoBoundry / boundryDivider);
+		if(this._inertia < 0){
+			this._inertia = (this._inertia + boundryModifier) * this._friction;
+			velocity = this._inertia;
+		}else{
+			this._inertia = 0;
+			velocity = boundryModifier * this._friction
+		}
+	}else{
+		this._inertia = this._inertia * this._friction;
+		velocity = this._inertia;
+	}
+
+	this.setScrollPosition(containerPosition + velocity);
+	if((velocity < 0.05 && velocity > -0.05) && (boundryModifier < 0.05 && boundryModifier > -0.05)){
+		this.stopTweenAnimation();
+	}
 }
 
 TouchScrollPanel.prototype.degreesToRadians = function(d){
 	return (Math.PI/180) * d;
 }
-
 
 TouchScrollPanel.prototype.getAnimaitonProperties = function(delta){
 	var frameCount = 0;
@@ -403,7 +344,7 @@ TouchScrollPanel.prototype.releaseStopChildMouseUpTrap = function(){
 	this._isStopChildMouseUp = false;
 };
 
-TouchScrollPanel.prototype.scrollY = function(delta,noBoundryOffset){
+TouchScrollPanel.prototype.scrollY = function(delta,constrainToFrame){
 //	console.log('delta:'+delta);
 	//var y = this._y;
 	var y = this._y;
@@ -412,11 +353,9 @@ TouchScrollPanel.prototype.scrollY = function(delta,noBoundryOffset){
 	var contentHeight = $(this._contentElement).height();
 	var frameHeight = this._frameElement.clientHeight;
 	var maxScrollDistance = contentHeight - frameHeight;
-	var boundryOffset = (noBoundryOffset === true)?0:40;
+
 	var bottom = 0;
 	var top = maxScrollDistance * -1
-	var lowerLimit = bottom + boundryOffset;
-	var upperLimit = top - boundryOffset;
 	
 	
 	var destinationY = y + delta;
@@ -426,6 +365,8 @@ TouchScrollPanel.prototype.scrollY = function(delta,noBoundryOffset){
 		//destinationY = lowerLimit;
 	//}else if(destinationY <= upperLimit){							//beyong upper boundry
 		//destinationY = upperLimit;	
+	}else if(constrainToFrame){
+		destinationY = y;
 	}else if(destinationY > bottom){	//within lower boundry			
 		destinationY = y + (delta/4);
 	}else if(destinationY < top){		//within upper boundry
@@ -437,7 +378,7 @@ TouchScrollPanel.prototype.scrollY = function(delta,noBoundryOffset){
 	this.updateDomScrollPosition();
 };
 
-TouchScrollPanel.prototype.scrollX = function(delta,noBoundryOffset){
+TouchScrollPanel.prototype.scrollX = function(delta,constrainToFrame){
 //	console.log('delta:'+delta);
 	//var y = this._y;
 	var x = this._x;
@@ -446,11 +387,10 @@ TouchScrollPanel.prototype.scrollX = function(delta,noBoundryOffset){
 	var contentWidth = $(this._contentElement).width();
 	var frameWidth = this._frameElement.clientWidth;
 	var maxScrollDistance = contentWidth - frameWidth;
-	var boundryOffset = (noBoundryOffset === true)?0:40;
+
 	var right = 0;
 	var left = maxScrollDistance * -1
-	var lowerLimit = right + boundryOffset;
-	var upperLimit = left - boundryOffset;
+
 		
 	var destinationX = x + delta;
 	if(destinationX <= right &&  destinationX >= left){				// within normal boundry
@@ -459,6 +399,8 @@ TouchScrollPanel.prototype.scrollX = function(delta,noBoundryOffset){
 		//destinationX = lowerLimit;
 	//}else if(destinationX <= upperLimit){							//beyong upper boundry
 		//destinationX = upperLimit;	
+	}else if(constrainToFrame){
+		destinationX = x;
 	}else if(destinationX > right){	//within lower boundry			
 		destinationX = x + (delta/4);
 	}else if(destinationX < left){		//within upper boundry
@@ -574,6 +516,7 @@ TouchScrollPanel.prototype.onMouseWheelHandler = function(e){
 };
 
 TouchScrollPanel.prototype.setMouseWheenDelta = function(delta){
+	
 	//Globals.log('onMouseWheel:'+delta);
 	if(this._isThumbVisible === false){
 		this.onFadeInThumb();
@@ -597,6 +540,12 @@ TouchScrollPanel.prototype.setMouseWheenDelta = function(delta){
 
 //PUBLIC
 //__________________________________________________________________________________________
+TouchScrollPanel.prototype.clear  = function(){
+	Globals.log("clear");
+	jTweener.removeTween(this._thumbElement);
+	this.stopTweenAnimation();
+};
+
 TouchScrollPanel.prototype.isStopChildMouseUp = function(){
 	return 	this._isStopChildMouseUp;
 };
@@ -619,11 +568,34 @@ TouchScrollPanel.prototype.setScrollX = function(x){
 	this._x = x;
 	this.updateDomScrollPosition();
 };
+TouchScrollPanel.prototype.getScrollPosition = function(){
+	if(this._scrollDirection === TouchScrollPanel.SCROLL_DIRECTION_VERTICAL){
+		return this.getScrollY();
+	}else{
+		return this.getScrollX();
+	}
+}
+TouchScrollPanel.prototype.setScrollPosition = function(d){
+	if(this._scrollDirection === TouchScrollPanel.SCROLL_DIRECTION_VERTICAL){
+		this.setScrollY(d);
+	}else{
+		this.setScrollX(d);
+	}
+}
 /*
 TouchScrollPanel.prototype.scrollToPos = function(){
 	
 };
 */
+TouchScrollPanel.prototype.scrollToPreviousPage = function(){
+
+};
+
+TouchScrollPanel.prototype.scrollToNextPage = function(){
+	
+};
+
+
 TouchScrollPanel.prototype.getScrollMinY = function(){
 	return 0;
 };
@@ -638,6 +610,13 @@ TouchScrollPanel.prototype.getFrameWidth = function(){
 TouchScrollPanel.prototype.getFrameHeight = function(){
 	return this._frameElement.clientHeight;
 };
+
+TouchScrollPanel.prototype.getContentDimension = function(){
+	return this._contentDimension;
+};
+
+
+
 
 TouchScrollPanel.prototype.updateThumb = function(){
 	this.onFadeInThumb();

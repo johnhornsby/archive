@@ -111,56 +111,12 @@ RelatedArtefactsViewController.prototype.removeRelatedArtefacts = function(){
 
 
 RelatedArtefactsViewController.prototype.onLeftCarouselClickHandler = function(e){
-	this.clearUpdateTweenScrollX();
-	var excludeIntersected = true;
-	var range = this._scrollableTable.getVisibleIndexRange(excludeIntersected);
-	var frameWidth = this._scrollablePanel.getFrameWidth();
-	var maxCellsVisibleInFrame = Math.floor(frameWidth / Globals.TILE_WIDTH);
-	var destinationIndex = range.index - maxCellsVisibleInFrame;
-	var maxCells = this._relatedArtefactsDataArray.length;
-	var destinationX;
-	if(destinationIndex <= 0){
-		destinationX = 0;
-	}else{
-		destinationX = Globals.TILE_WIDTH * destinationIndex * -1;
-	}
-	this.slideToIndexXPos(destinationX);
+	this._scrollablePanel.scrollToPreviousPage();
 };
 
 
 RelatedArtefactsViewController.prototype.onRightCarouselClickHandler = function(e){
-	this.clearUpdateTweenScrollX();
-	var excludeIntersected = true;
-	var range = this._scrollableTable.getVisibleIndexRange(excludeIntersected);
-	var frameWidth = this._scrollablePanel.getFrameWidth();
-	var maxCellsVisibleInFrame = Math.floor(frameWidth / Globals.TILE_WIDTH);
-	var destinationIndex = range.index + maxCellsVisibleInFrame;
-	var maxCells = this._relatedArtefactsDataArray.length;
-	var destinationX;
-	if(destinationIndex + maxCellsVisibleInFrame >= maxCells){
-		destinationX = frameWidth - (Globals.TILE_WIDTH * (maxCells-1));
-	}else{
-		destinationX = Globals.TILE_WIDTH * destinationIndex * -1;
-	}
-	this.slideToIndexXPos(destinationX);
-};
-
-
-RelatedArtefactsViewController.prototype.slideToIndexXPos = function(destinationX){
-	this.__tempX = this._scrollablePanel.getScrollX();
-	Animator.addTween(this,{__tempX:destinationX, time:0.5, transition:'easeOutQuad', onUpdate:this.updateTweenedScrollX.context(this), onComplete:this.updateTweenScrollXComplete.context(this)});
-};
-
-RelatedArtefactsViewController.prototype.updateTweenedScrollX = function(){
-	this._scrollablePanel.setScrollX(this.__tempX);
-};
-
-RelatedArtefactsViewController.prototype.updateTweenScrollXComplete = function(){
-	//Globals.log("updateTweenScrollXComplete");
-};
-RelatedArtefactsViewController.prototype.clearUpdateTweenScrollX = function(){
-	//Globals.log("clearUpdateTweenScrollX");
-	Animator.removeTween(this);
+	this._scrollablePanel.scrollToNextPage();
 };
 
 /**
@@ -203,14 +159,15 @@ RelatedArtefactsViewController.prototype.setData = function(jsonDataObject){
 	//this._scrollableTable.setScrollPosition(0,0);
 	
 	this._scrollableTable.reloadTable();
+	this._scrollablePanel.clear();
 	this._scrollablePanel.setScrollX(0);
 	this._scrollablePanel.updateThumb();
 };
 
 RelatedArtefactsViewController.prototype.clear = function(){
-	//Globals.log("clear");
 	//jTweener.removeTween($("#relatedArtefactsContainer > ul").get(0));
-	this.clearUpdateTweenScrollX();
+	//this.clearUpdateTweenScrollX();
+	this._scrollablePanel.clear();
 	this.removeForceUpdates();
 	this.removeRelatedArtefacts();
 	this._relatedArtefactsDataArray = [];
