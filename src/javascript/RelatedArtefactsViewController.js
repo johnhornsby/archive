@@ -60,25 +60,6 @@ RelatedArtefactsViewController.prototype.init = function(){
 
 };
 
-/*
-RelatedArtefactsViewController.prototype.createRelatedArtefact = function(data){
-	var html = "";
-	html += '<li class="relatedArtefact">';
-	html += '<img src="'+Globals.ARTEFACT_IMAGES_FOLDER+data.id+'_11.jpg">';
-	html += '<a><span>'+data.t+'</span></a>';
-	html += '</li>';
-	
-	$("#relatedArtefactsContainer > ul").append(html);
-	
-	var imageJQObject = $("#relatedArtefactsContainer li").last().children().first();
-	imageJQObject.bind('load',this.relatedArtefactImageLoaded.evtContext(this));
-	var anchorJQObject = imageJQObject.next();
-	anchorJQObject.bind('click',function(){
-		Globals.viewController.onRelatedArtefactClick(data);
-	});
-	
-};
-*/
 RelatedArtefactsViewController.prototype.onTableCellClick = function(e){
 	if(this._scrollablePanel.isStopChildMouseUp() === false){
 		Globals.viewController.onRelatedArtefactClick(e.data);
@@ -86,29 +67,6 @@ RelatedArtefactsViewController.prototype.onTableCellClick = function(e){
 		Globals.log("onRelatedArtefactClickHandler canceled");
 	}
 };
-
-
-
-RelatedArtefactsViewController.prototype.relatedArtefactImageLoaded = function(e,imageObject){
-	//console.log("relatedArtefactImageLoaded");
-	$(imageObject).unbind('load');
-	this._relatedArtefactImagesLoadedIncrement++;
-	if(this._relatedArtefactImagesLoadedIncrement === this._relatedArtefactsDataArray.length){
-		//console.log("relatedArtefactImageLoaded All");
-		$(".relatedArtefact").each(function(){
-			$(this).css("opacity","1");
-		});
-	}	
-};
-
-
-RelatedArtefactsViewController.prototype.removeRelatedArtefacts = function(){
-	$("#relatedArtefactsContainer > ul").empty();
-	$("#relatedArtefactsContainer > ul").css("left",0);
-};
-
-
-
 
 RelatedArtefactsViewController.prototype.onLeftCarouselClickHandler = function(e){
 	this._scrollablePanel.scrollToPreviousPage();
@@ -156,8 +114,6 @@ RelatedArtefactsViewController.prototype.getDataForCellIndex = function(index){
 RelatedArtefactsViewController.prototype.setData = function(jsonDataObject){
 	this._data = jsonDataObject;
 	this._relatedArtefactsDataArray = Globals.artefactDataManager.getRelatedArtefacts(this._data);
-	//this._scrollableTable.setScrollPosition(0,0);
-	
 	this._scrollableTable.reloadTable();
 	this._scrollablePanel.clear();
 	this._scrollablePanel.setScrollX(0);
@@ -165,19 +121,10 @@ RelatedArtefactsViewController.prototype.setData = function(jsonDataObject){
 };
 
 RelatedArtefactsViewController.prototype.clear = function(){
-	//jTweener.removeTween($("#relatedArtefactsContainer > ul").get(0));
-	//this.clearUpdateTweenScrollX();
 	this._scrollablePanel.clear();
-	this.removeForceUpdates();
-	this.removeRelatedArtefacts();
 	this._relatedArtefactsDataArray = [];
 	this._relatedArtefactFarLeftIndex = 0;
 	this._relatedArtefactImagesLoadedIncrement = 0;
 	this._relatedArtefactImagesLoadedStatus = false;
 	
 };
-
-RelatedArtefactsViewController.prototype.animateIn = function(){
-	
-};
-
