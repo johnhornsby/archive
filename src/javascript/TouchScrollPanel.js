@@ -32,8 +32,13 @@ var TouchScrollPanel = function(options){
 	this._inertia = 0;
 	this._velocity = 0;
 	this._acceleration = 0;
-	this._contentDimension = 0;
+	this._containerDimension = 0;
+	this._frameDimension = 0;
 	this._contentHeight = 0;
+	this._stylePosition = "";
+	this._styleDimension = "";
+	this._thumbDimension = 0;
+	this._thumbPosition = 0;
 	
 	this.init();
 };
@@ -446,61 +451,54 @@ TouchScrollPanel.prototype.updateDomScrollPosition = function(){
 	}else{
 		this._contentElement.style.left = this._x+"px";
 	}
-	this.updateScrollThumbPosition();
+	this.drawThumb();
 };
 
-TouchScrollPanel.prototype.updateScrollThumbPosition = function(){
+TouchScrollPanel.prototype.drawThumb = function(){
+	var containerPosition;
+	var thumbDimension;
+	var frameWidth = this._frameElement.clientWidth;
 	if(this._scrollDirection === TouchScrollPanel.SCROLL_DIRECTION_VERTICAL){
-		var destinationY = this._y;//position not availbale in zepto
-		//var contentHeight = $(this._contentElement).offset().height;
-		var contentHeight = $(this._contentElement).height();
-		var frameHeight = this._frameElement.clientHeight;
-		var maxScrollDistance = contentHeight - frameHeight;
-		var destinationScrollPercentage = destinationY / maxScrollDistance;
-		var frameToContentDimensionRatio = frameHeight / contentHeight;
-		var scrollThumbMaxTrackLength = (1 - frameToContentDimensionRatio) * frameHeight;
-		var scrollThumbDestinationY = (destinationScrollPercentage * scrollThumbMaxTrackLength) * -1;
-		$(this._thumbElement).css('top',scrollThumbDestinationY+"px");
+		containerPosition = this._y;
 	}else{
-		var destinationX = this._x;//position not availbale in zepto
-		//var contentHeight = $(this._contentElement).offset().height;
-		var contentWidth = $(this._contentElement).width();
-		var frameWidth = this._frameElement.clientWidth;
-		var maxScrollDistance = contentWidth - frameWidth;
-		var destinationScrollPercentage = destinationX / maxScrollDistance;
-		var frameToContentDimensionRatio = frameWidth / contentWidth;
-		var scrollThumbMaxTrackLength = (1 - frameToContentDimensionRatio) * frameWidth;
-		var scrollThumbDestinationX = (destinationScrollPercentage * scrollThumbMaxTrackLength) * -1;
-		$(this._thumbElement).css('left',scrollThumbDestinationX+"px");
+		containerPosition = this._x;
 	}
-};
 
-TouchScrollPanel.prototype.setScrollThumbDimension = function(){
-	var jQObject = $(this._contentElement);
-	//var offsetObject = jQObject.offset();
-	if(this._scrollDirection === TouchScrollPanel.SCROLL_DIRECTION_VERTICAL){
-		var contentHeight = jQObject.height();
-		var frameHeight = this._frameElement.clientHeight;
-		var visiblePercentage = frameHeight / contentHeight;
-		var thumbHeight = frameHeight * visiblePercentage;
-		$(this._thumbElement).css('height',thumbHeight+"px");
-		if(contentHeight <= frameHeight){
-			$(this._thumbElement).css('display','none');
-		}else{
-			$(this._thumbElement).css('display','block');
-		}
+	var visiblePercentage = this._frameDimension / this._containerDimension;
+	thumbDimension = this._frameDimension * visiblePercentage;
+	
+	if(this._containerDimension <= this._frameDimension){
+		this._thumbElement.style.display = 'none';
+		return;
 	}else{
-		var contentWidth = jQObject.width();
-		var frameWidth = this._frameElement.clientWidth;
-		var visiblePercentage = frameWidth / contentWidth;
-		var thumbWidth = frameWidth * visiblePercentage;
-		$(this._thumbElement).css('width',thumbWidth+"px");
-		if(contentWidth <= frameWidth){
-			$(this._thumbElement).css('display','none');
-		}else{
-			$(this._thumbElement).css('display','block');
-		}
+		this._thumbElement.style.display = 'block';
 	}
+
+	var maxScrollDistance = this._containerDimension - this._frameDimension;
+	var destinationScrollPercentage = containerPosition / maxScrollDistance;
+	var frameToContentDimensionRatio = this._frameDimension / this._containerDimension;
+	var scrollThumbMaxTrackLength = (1 - frameToContentDimensionRatio) * this._frameDimension;
+	var scrollThumbDestination = (destinationScrollPercentage * scrollThumbMaxTrackLength) * -1;
+		
+	var distanceOutside;
+	if(containerPosition > 0 ){
+		distanceOutside = containerPosition;
+		thumbDimension = thumbDimension - distanceOutside;
+		thumbDimension = Math.max(thumbDimension,14);
+		scrollThumbDestination = 0;
+	}else if((containerPosition + this._containerDimension) < this._frameDimension){
+		distanceOutside = this._frameDimension - (containerPosition + this._containerDimension);
+		thumbDimension = thumbDimension - distanceOutside;
+		thumbDimension = Math.max(thumbDimension,14);
+		scrollThumbDestination = this._frameDimension - thumbDimension;
+	}
+
+	if(this._thumbDimension !== thumbDimension){
+		this._thumbDimension = thumbDimension;
+		this._thumbElement.style[this._styleDimension] = this._thumbDimension+"px";
+	}
+
+	this._thumbElement.style[this._stylePosition] = scrollThumbDestination+"px";
 };
 
 TouchScrollPanel.prototype.onDOMMouseScrollHandler = function(e){
@@ -619,8 +617,18 @@ TouchScrollPanel.prototype.getContentDimension = function(){
 
 
 TouchScrollPanel.prototype.updateThumb = function(){
+	if(this._scrollDirection === TouchScrollPanel.SCROLL_DIRECTION_VERTICAL){
+		this._containerDimension = $(this._contentElement).height();
+		this._frameDimension = this._frameElement.clientHeight;
+		this._stylePosition = "top";
+		this._styleDimension = "height";
+	}else{
+		this._containerDimension = $(this._contentElement).width();
+		this._frameDimension = this._frameElement.clientWidth;
+		this._stylePosition = "left";
+		this._styleDimension = "width";
+	}
 	this.onFadeInThumb();
 	this._fadeThumbTimeout = setTimeout(this.onFadeOutThumb.context(this),2000);
-	this.setScrollThumbDimension();
-	this.updateScrollThumbPosition();
+	this.drawThumb();
 };

@@ -28,7 +28,8 @@ TouchScrollableTablePanel.prototype.clear = function(){
 
 TouchScrollableTablePanel.prototype.updateDomScrollPosition = function(){
 	this._scrollableTable.setScrollRect({left:this._x, top:this._y, width:this._frameElement.clientWidth, height:this._frameElement.clientHeight});
-	this.updateScrollThumbPosition();
+	//this.updateScrollThumbPosition();
+	this.drawThumb();
 	
 };
 
