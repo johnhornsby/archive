@@ -133,12 +133,12 @@ TILES
 
 .tile > .tileIcon{
 	position:absolute;
-	bottom:1px;
-	right:1px;
+	bottom:9px;
+	right:9px;
 	--top:0px;
 	--left:0px;
-	width:26px;
-	height:20px;
+	width:22px;
+	height:22px;
 }
 
 .tile>.detail{
@@ -152,7 +152,7 @@ TILES
 .tile>.tileBorder{
 	border:solid;
 	border-width:1px;
-	border-color:#000;
+	border-color:#5B5B5B;
 	width:111px;
 	height:83px;
 	position:absolute;

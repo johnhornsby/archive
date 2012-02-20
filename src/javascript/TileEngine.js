@@ -412,7 +412,7 @@ TileEngine.prototype.update = function(){
 						}
 						//$(el).children().last().css("background-image","url(images/mediaType_"+gridObject.data.m+".gif)");
 						
-						el.childNodes[2].style.backgroundImage = "url(images/mediaType_"+gridObject.data.m+".gif)";
+						el.childNodes[2].style.backgroundImage = "url(images/mediaType_"+gridObject.data.m+".png)";
 						
 						/*
 						switch(gridObject.m){
