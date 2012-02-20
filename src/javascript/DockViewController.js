@@ -12,6 +12,8 @@ var DockViewController = function(viewController){
 	
 	this._isFilterMenuOpen = false;
 	
+	this._searchField;
+	
 	this.init();
 };
 DockViewController.prototype = new EventDispatcher();
@@ -24,7 +26,9 @@ DockViewController.prototype = new EventDispatcher();
 DockViewController.prototype.init = function(){
 	this._artefactsSelectionObject = new ArtefactsSelectionConfiguration();
 	this._savedHomeSelectionObject = new ArtefactsSelectionConfiguration();
-	this._autoCompleteViewController = new AutoCompleteViewController(document.getElementById("dockSearchField"),this);
+	this._searchField = document.getElementById("dockSearchField");
+	this._searchField.value = Globals.SEARCH_PROMPT;
+	this._autoCompleteViewController = new AutoCompleteViewController(this._searchField,this);
 	this.build();
 	this._viewController.addEventListener(ViewControllerEvent.BUSY_START,this.deactivate.context(this));
 	this._viewController.addEventListener(ViewControllerEvent.BUSY_COMPLETE,this.activate.context(this));
@@ -35,7 +39,6 @@ DockViewController.prototype.build = function(){
 	//$('#dockSubMenu').css('bottom','75px');
 	//$('#dockSubMenu').css('opacity','0');
 	$('#dockSubMenu').css('display','none');
-	
 };
 
 DockViewController.prototype.closeFilterMenu = function(){
@@ -103,39 +106,7 @@ DockViewController.prototype.onDockButtonMouseUpHandler = function(e){
 };
 
 DockViewController.prototype.dockButtonActivated = function(label,id){
-	var hasSelectionChanged = false;
-	
-	/*
-	block deactivated to develop onNoResultsHideCategories
-	//if we are home and we are relocating view then save filters and keywords
-	//this is a quick patch to remove filters and search from non home views
-	//the filters will be restored when we arrive back to home form another
-	if(this._artefactsSelectionObject.category === ArtefactDataManager.CATEGORY_NONE && (label === "My Archive" || label === "Year" || label === "Production") ){
-		this._savedHomeSelectionObject = this._artefactsSelectionObject.clone();
-		this._artefactsSelectionObject.filters = [];
-		this._artefactsSelectionObject.keywordsArray = [];
-		this._artefactsSelectionObject.isFavourite = false;
-		$("#dockShowFiltersButton").css('opacity','0.3');
-		$("#dockSearchField").css('opacity','0.3');
-		$("#dockSearchResetButton").css('opacity','0.3');
-		$("#dockSearchButton").css('opacity','0.3');
-	}
-	
-	//restore any filters
-	if(this._artefactsSelectionObject.category !== ArtefactDataManager.CATEGORY_NONE && label === "Home" ){
-		this._artefactsSelectionObject.filters = this._savedHomeSelectionObject.filters
-		this._artefactsSelectionObject.keywordsArray = this._savedHomeSelectionObject.keywordsArray;
-		this._artefactsSelectionObject.isFavourite = false;
-		$("#dockShowFiltersButton").css('opacity','1');
-		$("#dockSearchField").css('opacity','1');
-		$("#dockSearchResetButton").css('opacity','1');
-		$("#dockSearchButton").css('opacity','1');
-	}
-	*/
-	
-	
-                    
-	
+	var hasSelectionChanged = false;	
 	switch(id){
 		case "dockResetButton":
 			this._artefactsSelectionObject.category = ArtefactDataManager.CATEGORY_NONE;
@@ -290,7 +261,7 @@ DockViewController.prototype.dockButtonActivated = function(label,id){
 			//if(this._artefactsSelectionObject.category !== ArtefactDataManager.CATEGORY_NONE)return;
 			var searchString = document.getElementById("dockSearchField").value;
 			
-			if(searchString !== ""){
+			if(searchString !== "" || searchString != Globals.SEARCH_PROMPT){
 				this._artefactsSelectionObject.keywordsArray = searchString.split(" ");
 				
 			}else{
@@ -310,8 +281,8 @@ DockViewController.prototype.dockButtonActivated = function(label,id){
 				this._artefactsSelectionObject.keywordsArray = [];
 				hasSelectionChanged = true;
 			}
-			if(searchString !== ""){
-				document.getElementById("dockSearchField").value = "";	
+			if(searchString !== "" || searchString != Globals.SEARCH_PROMPT){
+				document.getElementById("dockSearchField").value = Globals.SEARCH_PROMPT;	
 			}
 			this.closeFilterMenu();
 			break;
@@ -330,7 +301,7 @@ DockViewController.prototype.submitSearch = function(){
 	var searchString = document.getElementById("dockSearchField").value;
 	//searchString = searchString.toLowerCase();
 	document.getElementById("dockSearchField").value = searchString;	
-	if(searchString !== ""){
+	if(searchString !== "" || searchString != Globals.SEARCH_PROMPT){
 		this._artefactsSelectionObject.keywordsArray = searchString.split(" ");
 		
 	}else{
@@ -350,8 +321,8 @@ DockViewController.prototype.resetSearch = function(){
 	if(this._artefactsSelectionObject.keywordsArray.length !== 0){
 		this._artefactsSelectionObject.keywordsArray = [];
 		hasSelectionChanged = true;
-	}else if(searchString !== ""){
-		document.getElementById("dockSearchField").value = "";
+	}else if(searchString !== "" || searchString != Globals.SEARCH_PROMPT){
+		document.getElementById("dockSearchField").value = Globals.SEARCH_PROMPT;
 	}
 	this.dispatchEvent(new DockViewControllerEvent(DockViewControllerEvent.CHANGE_SELECTION,this._artefactsSelectionObject));
 };
@@ -382,52 +353,10 @@ DockViewController.prototype.onSetSelectionObject = function(selectionObject){
 		$("#dockYearButton").css("background-color",this._buttonBackOffCSS);
 		$("#dockProductionButton").css("background-color",this._buttonBackOffCSS);
 		$("#dockMyArchiveButton").css("background-color",this._buttonBackOnCSS);
-	}
-	/*
-	if(selectionObject.isFavourite === true){
-		$("#dockMyArchiveButton").css("background-color",this._buttonBackOnCSS);
-	}else{
-		$("#dockMyArchiveButton").css("background-color",this._buttonBackOffCSS);
-	}
-	*/
-	/*
-	if(selectionObject.filters.indexOf(ArtefactDataManager.FILTER_PHOTO) !== -1){
-		//$("#dockPhotosButton").css("background-color",this._buttonBackOnCSS);
-		$('#filterPhotosButton').attr('class','checkBoxSelected');
-	}else{
-		//$("#dockPhotosButton").css("background-color",this._buttonBackOffCSS);
-		$('#filterPhotosButton').attr('class','checkBoxUnSelected');
-	}
-	
-	if(selectionObject.filters.indexOf(ArtefactDataManager.FILTER_POSTERS) !== -1){
-		//$("#dockPostersButton").css("background-color",this._buttonBackOnCSS);
-		$('#filterPostersButton').attr('class','checkBoxSelected');
-	}else{
-		//$("#dockPostersButton").css("background-color",this._buttonBackOffCSS);
-		$('#filterPostersButton').attr('class','checkBoxUnSelected');
-	}
-	
-	if(selectionObject.filters.indexOf(ArtefactDataManager.FILTER_VIDEO) !== -1){
-		//$("#dockVideoButton").css("background-color",this._buttonBackOnCSS);
-		$('#filterVideoButton').attr('class','checkBoxSelected');
-	}else{
-		//$("#dockVideoButton").css("background-color",this._buttonBackOffCSS);
-		$('#filterVideoButton').attr('class','checkBoxUnSelected');
-	}
-	
-	if(selectionObject.filters.indexOf(ArtefactDataManager.FILTER_AUDIO) !== -1){
-		//$("#dockAudioButton").css("background-color",this._buttonBackOnCSS);
-		$('#filterAudioButton').attr('class','checkBoxSelected');
-	}else{
-		//$("#dockAudioButton").css("background-color",this._buttonBackOffCSS);
-		$('#filterAudioButton').attr('class','checkBoxUnSelected');
-	}
-	*/
-	
-	
+	}	
 	var searchField = document.getElementById("dockSearchField");
 	if(selectionObject.keywordsArray.length === 0){
-		searchField.value = "";
+		searchField.value = Globals.SEARCH_PROMPT;
 	}else{
 		searchField.value = selectionObject.keywordsArray.join(" ");
 	}
@@ -473,12 +402,15 @@ DockViewController.prototype.deactivate = function(){
 	*/
 };
 
+/**
+* prodominently used for resetting the dock back to state before selection from Tapestry because of no results
+**/
 DockViewController.prototype.setSelectionObject = function(selectionObject){
 	this.onSetSelectionObject(selectionObject);
 };
 
 DockViewController.prototype.setKeywordAndSubmit = function(str){
-	$("#dockSearchField")[0].value = str;
+	this._searchField.value = str;
 	this.submitSearch();
 };
 

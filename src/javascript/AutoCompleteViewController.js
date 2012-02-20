@@ -70,6 +70,9 @@ AutoCompleteViewController.prototype.init = function(){
 
 AutoCompleteViewController.prototype.onTextFieldFocus = function(e){
 	Globals.log('onTextFieldFocus');
+	if(this._textField.value === Globals.SEARCH_PROMPT){
+		this._textField.value = "";
+	}
 	this.showVeil();
 	this._checkInterval = setInterval(this.lookAt.context(this), 100);
 };
@@ -81,6 +84,9 @@ AutoCompleteViewController.prototype.onTextFieldBlur = function(e){
 	if(this._isMouseDown === false){
 		this.setVisible("hidden");
 		this.hideVeil();
+		if(this._textField.value === ""){
+			this._textField.value = Globals.SEARCH_PROMPT;
+		}
 	}
 };
 

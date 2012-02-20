@@ -9,6 +9,7 @@ Globals.OS_OTHER = 0;
 Globals.BROWSER_WEBKIT = 0;
 Globals.BROWSER_IE = 1;
 Globals.BROWSER_OTHER = 2;
+Globals.SEARCH_PROMPT = "search for keyword";
 
 
 
