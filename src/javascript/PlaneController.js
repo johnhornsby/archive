@@ -47,7 +47,7 @@ PlaneController.prototype.onMouseDown = function(e){
 	$(document).bind('mousemove',this.onMouseMove.rEvtContext(this));
 	$(document).bind('mouseup',this.onMouseUp.rEvtContext(this));
 	this._mouseDown = true;
-	this._delegate.mouseDown();
+	this._delegate.mouseDown(0,0,this._lastX,this._lastY);
 	return false;
 }
 PlaneController.prototype.onMouseMove = function(e){
