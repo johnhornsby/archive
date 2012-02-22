@@ -24,14 +24,13 @@ DOCK
 	width:768px;
 	left:50%;
 	margin-left:-384px;
-	height:50px;
-	padding:0px;
+	height:40px;
+	padding:18px 18px 18px 18px;
 	color:#FFF;
-	background-color:rgba(204,0,51,1);
+	background-color:#1A1A1A;
 	z-index:3;
-	font-size:12px;
+	font-size:11px;
 	font-family:Arial, Helvetica, sans-serif;
-	font-weight:bold;
 }
 #dockContainer ul {
 	padding:0px 0px 0px 0px;
@@ -49,28 +48,45 @@ DOCK
 
 
 #dockContainer a {
-	width:auto;
-	height:32px;
-	background-color:rgba(204,0,51,1);
-	padding:18px 8px 0px 8px;
+	height:30px;
+	padding:10px 14px 0px 44px;
+	border-left:solid #666 1px;
 	cursor:pointer;
 	color:#FFF;
 	display:block;
 	text-transform:uppercase;
+	background-color:#F0F;
+	background-repeat:no-repeat;
 }
 
 .dockButtonOn {
-	background-color:rgba(255,255,255,1);
-	color:#000;
+	color:#CC0033;
 }
+
+#dockHomeButton {
+	width:50px;
+	background-image:url(../images/graphics.png);
+	background-position:-142px -62px;
+	background-clip:20px 20px;
+}
+#dockYearButton {
+	width:35px;
+}
+#dockProductionButton {
+	width:79px;
+}
+#dockMyArchiveButton {
+	width:54px;
+}
+
 
 
 #dockContainer .dockTitle {
 	
-	height:25px;
-	width:2px;
+	height:30px;
+	width:1px;
 	margin:12px 8px 13px 8px;
-	border-left:#FFF;
+	border-left:#666;
 	border-left:solid;
 	border-left-width:2px;
 }
