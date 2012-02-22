@@ -346,6 +346,7 @@ CategoryTable.prototype.clear = function(){
 CategoryTable.prototype.update = function(){
 	this.updateTable();
 	this.checkOutsideDragBounds();	//need to check boundry as container maybe vertically outside bounds due to prevous scrolling
+	this.updateScrollValue();
 };
 
 CategoryTable.prototype.setData = function(categorisedData){

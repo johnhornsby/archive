@@ -102,11 +102,11 @@ PLANE
 }
 
 #category-scrubber-track {
-	display:none;
+	display:block;
 	position:absolute;
 	height:100%;
 	width:42px;
-	right:0px;
+	right:-42px;
 	top:0px;
 	background-color:rgba(0,0,0,0.5);
 }

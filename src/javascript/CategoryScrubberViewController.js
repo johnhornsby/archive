@@ -105,7 +105,8 @@ CategoryScrubberViewController.prototype.getScrollValue = function(){   //value 
 
 CategoryScrubberViewController.prototype.show = function(){
 	if(!this._isVisible){
-		this._scrubberTrackElement.style.display = "block";
+		Globals.log("show");
+		this._scrubberTrackElement.style.right = "0px";
 		this._planeController.activate();
 		this._isVisible = true;
 		this._scrubberTrackDimension = $(this._scrubberTrackElement).height();
@@ -115,7 +116,8 @@ CategoryScrubberViewController.prototype.show = function(){
 
 CategoryScrubberViewController.prototype.hide = function(){
 	if(this._isVisible){
-		this._scrubberTrackElement.style.display = "none";
+		Globals.log("hide");
+		this._scrubberTrackElement.style.right = "-50px";
 		this._planeController.deactivate();
 		this._isVisible = false;
 		this._scrubberTrackDimension = $(this._scrubberTrackElement).height();
