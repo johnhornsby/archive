@@ -13,6 +13,9 @@ var CategoryTable = function(){
 	this._maxRows;
 	this._y = 0;
 	
+	this._categoryScrubberViewController;
+	
+	this.init();
 }
 
 
@@ -22,12 +25,20 @@ var CategoryTable = function(){
 
 //PRIVATE
 //_________________________________________________________________________________________________
+CategoryTable.prototype.init = function(){
+	this._categoryScrubberViewController = new CategoryScrubberViewController();
+	this._categoryScrubberViewController.addEventListener(CategoryScrubberViewControllerEvent.SET_SCROLL_VALUE,this.onScrubberSetScrollValue.rEvtContext(this));
+	this._categoryScrubberViewController.show();
+}
+
 CategoryTable.prototype.onDestroy = function(){
 	this.onClear();
 	this._displayList = [];
 	this._cellObjectArray = [];
 	this.removeAllCells();
-	
+	this._categoryScrubberViewController.removeEventListener(CategoryScrubberViewControllerEvent.SET_SCROLL_VALUE);
+	this._categoryScrubberViewController.destroy();
+	this._categoryScrubberViewController = undefined;
 };
 
 CategoryTable.prototype.onClear = function(){
@@ -186,6 +197,7 @@ CategoryTable.prototype.onSetScrollDelta = function(dx,dy,x,y){
 		this._y += dy;
 		this._container.style.top = this._y+"px";
 		this.updateTable();
+		this.updateScrollValue();
 	}else{
 		var cellObject = this.getCellObjectWithY(y);
 		if(cellObject.categoryCell !== undefined){
@@ -283,6 +295,7 @@ CategoryTable.prototype.getAnimaitonProperties = function(delta){
 CategoryTable.prototype.onTweenUpdate = function(){
 	this._container.style.top = this._y+"px";
 	this.updateTable();
+	this.updateScrollValue();
 };
 
 CategoryTable.prototype.onTweenComplete = function(){
@@ -296,6 +309,25 @@ CategoryTable.prototype.stopPlaneAnimation = function(){
 		this._isAnimating = false;
 	}
 };
+
+/**
+* Update the CategoryScubberViewController when we are dragging and inertia animating
+*/
+CategoryTable.prototype.updateScrollValue = function(){
+	this._categoryScrubberViewController.setScrollValue(this.getScrollValue());
+}
+
+/**
+* Event handler called from CategoryScrubberViewController when scrollValue has been updated by the user
+*/
+CategoryTable.prototype.onScrubberSetScrollValue = function(e){
+	this.stopPlaneAnimation();
+	var value = e.data;
+	var position = value * ((this.ROW_HEIGHT * this._maxRows) - window.innerHeight);
+	this._y =  -position;
+	this._container.style.top = this._y+"px";
+	this.updateTable();
+}
 
 
 //PUBLIC
@@ -330,7 +362,12 @@ CategoryTable.prototype.dragEnd = function(finalLeftDelta,finalTopDelta,left,top
 
 CategoryTable.prototype.getArtefactInformationAtPoint = function(pt){
 	var cellObject = this.getCellObjectWithY(pt.y);
-	
 	return cellObject.categoryCell.getArtefactInformationAtPoint(pt);
-	
 };
+
+/**
+* Returns value between 0 - 1 which specifies the scroll position, this is used to set the CategoryScrubber
+*/
+CategoryTable.prototype.getScrollValue = function(){
+	return (-this._y) / ((this.ROW_HEIGHT * this._maxRows) - window.innerHeight);
+}

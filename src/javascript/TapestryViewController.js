@@ -3,6 +3,7 @@ var TapestryViewController = function(){
 	
 	this._currentView;
 	this._planeController;
+	//this._categoryScrubberViewController;
 	
 	this._artefactsSelectionObject;
 	
@@ -28,13 +29,11 @@ TapestryViewController.prototype.build = function(){
 	this._planeController.setDelegate(this);
 	
 	
-	this._currentView = new RandomCanvas();
-	//this._currentView = new CategoryTable();
-	//this._currentView.setData(Globals.artefactDataManager.getYearCategorisedData());
-	//this._currentView.update();
-	//
-	//this._planeController.activate();
+	//this._categoryScrubberViewController = new CategoryScrubberViewController();
 	
+	
+	
+	this._currentView = new RandomCanvas();
 	this._artefactsSelectionObject = new ArtefactsSelectionConfiguration();
 	var selectionObject = new ArtefactsSelectionConfiguration();
 	
@@ -85,8 +84,10 @@ TapestryViewController.prototype.onSearchEndHandler = function(e){
 			
 			if(selectionObject.category === ArtefactDataManager.CATEGORY_NONE || selectionObject.category === ArtefactDataManager.CATEGORY_MY_ARCHIVE){
 				this._currentView = new RandomCanvas();
+				//this._categoryScrubberViewController.hide();
 			}else{
 				this._currentView = new CategoryTable();
+				//this._categoryScrubberViewController.show();
 			}
 		}
 		
@@ -116,6 +117,9 @@ TapestryViewController.prototype.onSearchEndHandler = function(e){
 //_______________________________________________________________________________________
 TapestryViewController.prototype.onSetScrollDelta = function(leftDelta,topDelta,left,top){
 	this._currentView.setScrollDelta(leftDelta,topDelta,left,top);
+	//if(this._currentView.constructor === CategoryTable){
+		//this._categoryScrubberViewController.setScrollValue(this._currentView.getScrollValue());
+	//}
 };
 
 TapestryViewController.prototype.onSingleClick = function(left,top){
