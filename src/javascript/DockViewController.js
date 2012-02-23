@@ -7,8 +7,8 @@ var DockViewController = function(viewController){
 	
 	this._savedHomeSelectionObject;
 	
-	this._buttonBackOffCSS = 'rgba(204,0,51,1)';
-	this._buttonBackOnCSS = 'rgba(0,0,0,1)';
+	this._buttonBackOffCSS = '#1A1A1A';
+	this._buttonBackOnCSS = '#1A1A1A';
 	
 	this._isFilterMenuOpen = false;
 	
@@ -118,10 +118,10 @@ DockViewController.prototype.dockButtonActivated = function(label,id){
 			break;
 		case "dockHomeButton":
 			if(this._artefactsSelectionObject.category !== ArtefactDataManager.CATEGORY_NONE){
-				$("#dockHomeButton").css("background-color",this._buttonBackOnCSS)
-				$("#dockYearButton").css("background-color",this._buttonBackOffCSS);
-				$("#dockProductionButton").css("background-color",this._buttonBackOffCSS);
-				$("#dockMyArchiveButton").css("background-color",this._buttonBackOffCSS);
+				//$("#dockHomeButton").css("background-color",this._buttonBackOnCSS)
+				//$("#dockYearButton").css("background-color",this._buttonBackOffCSS);
+				//$("#dockProductionButton").css("background-color",this._buttonBackOffCSS);
+				//$("#dockMyArchiveButton").css("background-color",this._buttonBackOffCSS);
 				this._artefactsSelectionObject.category = ArtefactDataManager.CATEGORY_NONE;
 				this._artefactsSelectionObject.isFavourite = false;
 				hasSelectionChanged = true;
@@ -130,10 +130,10 @@ DockViewController.prototype.dockButtonActivated = function(label,id){
 			break;
 		case "dockYearButton":
 			if(this._artefactsSelectionObject.category !== ArtefactDataManager.CATEGORY_YEAR){
-				$("#dockHomeButton").css("background-color",this._buttonBackOffCSS)
-				$("#dockYearButton").css("background-color",this._buttonBackOnCSS);
-				$("#dockProductionButton").css("background-color",this._buttonBackOffCSS);
-				$("#dockMyArchiveButton").css("background-color",this._buttonBackOffCSS);
+				//$("#dockHomeButton").css("background-color",this._buttonBackOffCSS)
+				//$("#dockYearButton").css("background-color",this._buttonBackOnCSS);
+				//$("#dockProductionButton").css("background-color",this._buttonBackOffCSS);
+				//$("#dockMyArchiveButton").css("background-color",this._buttonBackOffCSS);
 				this._artefactsSelectionObject.category = ArtefactDataManager.CATEGORY_YEAR;
 				this._artefactsSelectionObject.isFavourite = false;
 				hasSelectionChanged = true;
@@ -142,10 +142,10 @@ DockViewController.prototype.dockButtonActivated = function(label,id){
 			break;
 		case "dockProductionButton":
 			if(this._artefactsSelectionObject.category !== ArtefactDataManager.CATEGORY_PRODUCTION){
-				$("#dockHomeButton").css("background-color",this._buttonBackOffCSS)
-				$("#dockYearButton").css("background-color",this._buttonBackOffCSS);
-				$("#dockProductionButton").css("background-color",this._buttonBackOnCSS);
-				$("#dockMyArchiveButton").css("background-color",this._buttonBackOffCSS);
+				//$("#dockHomeButton").css("background-color",this._buttonBackOffCSS)
+				//$("#dockYearButton").css("background-color",this._buttonBackOffCSS);
+				//$("#dockProductionButton").css("background-color",this._buttonBackOnCSS);
+				//$("#dockMyArchiveButton").css("background-color",this._buttonBackOffCSS);
 				this._artefactsSelectionObject.category = ArtefactDataManager.CATEGORY_PRODUCTION;
 				this._artefactsSelectionObject.isFavourite = false;
 				
@@ -155,10 +155,10 @@ DockViewController.prototype.dockButtonActivated = function(label,id){
 			break;
 		case "dockMyArchiveButton":
 			if(this._artefactsSelectionObject.category !== ArtefactDataManager.CATEGORY_MY_ARCHIVE){
-				$("#dockHomeButton").css("background-color",this._buttonBackOffCSS)
-				$("#dockYearButton").css("background-color",this._buttonBackOffCSS);
-				$("#dockProductionButton").css("background-color",this._buttonBackOffCSS);
-				$("#dockMyArchiveButton").css("background-color",this._buttonBackOnCSS);
+				//$("#dockHomeButton").css("background-color",this._buttonBackOffCSS)
+				//$("#dockYearButton").css("background-color",this._buttonBackOffCSS);
+				//$("#dockProductionButton").css("background-color",this._buttonBackOffCSS);
+				//$("#dockMyArchiveButton").css("background-color",this._buttonBackOnCSS);
 				this._artefactsSelectionObject.isFavourite = true;
 				this._artefactsSelectionObject.category = ArtefactDataManager.CATEGORY_MY_ARCHIVE;
 				hasSelectionChanged = true;
@@ -333,26 +333,39 @@ DockViewController.prototype.resetSearch = function(){
 
 
 DockViewController.prototype.onSetSelectionObject = function(selectionObject){
+	$(".dockButton").children().removeClass(".active");
+	
 	if(selectionObject.category === ArtefactDataManager.CATEGORY_NONE){
-		$("#dockHomeButton").css("background-color",this._buttonBackOnCSS)
-		$("#dockYearButton").css("background-color",this._buttonBackOffCSS);
-		$("#dockProductionButton").css("background-color",this._buttonBackOffCSS);
-		$("#dockMyArchiveButton").css("background-color",this._buttonBackOffCSS);
+		//$("#dockHomeButton").css("background-color",this._buttonBackOnCSS)
+		//$("#dockYearButton").css("background-color",this._buttonBackOffCSS);
+		//$("#dockProductionButton").css("background-color",this._buttonBackOffCSS);
+		//$("#dockMyArchiveButton").css("background-color",this._buttonBackOffCSS);
+		$("#dockHomeButton").addClass(".active");
+		
 	}else if(selectionObject.category === ArtefactDataManager.CATEGORY_YEAR){
+		/*
 		$("#dockHomeButton").css("background-color",this._buttonBackOffCSS)
 		$("#dockYearButton").css("background-color",this._buttonBackOnCSS);
 		$("#dockProductionButton").css("background-color",this._buttonBackOffCSS);
 		$("#dockMyArchiveButton").css("background-color",this._buttonBackOffCSS);
+		*/
+		$("#dockYearButton").addClass(".active");
 	}else if(selectionObject.category === ArtefactDataManager.CATEGORY_PRODUCTION){
+		/*
 		$("#dockHomeButton").css("background-color",this._buttonBackOffCSS)
 		$("#dockYearButton").css("background-color",this._buttonBackOffCSS);
 		$("#dockProductionButton").css("background-color",this._buttonBackOnCSS);
 		$("#dockMyArchiveButton").css("background-color",this._buttonBackOffCSS);
+		*/
+		$("#dockProductionButton").addClass(".active");
 	}else{
+		/*
 		$("#dockHomeButton").css("background-color",this._buttonBackOffCSS)
 		$("#dockYearButton").css("background-color",this._buttonBackOffCSS);
 		$("#dockProductionButton").css("background-color",this._buttonBackOffCSS);
 		$("#dockMyArchiveButton").css("background-color",this._buttonBackOnCSS);
+		*/
+		$("#dockMyArchiveButton").addClass(".active");
 	}	
 	var searchField = document.getElementById("dockSearchField");
 	if(selectionObject.keywordsArray.length === 0){

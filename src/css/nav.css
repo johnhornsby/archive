@@ -48,8 +48,8 @@ DOCK
 
 
 #dockContainer a {
-	height:30px;
-	padding:10px 14px 0px 44px;
+	height:auto;
+	padding:5px 14px 5px 40px;
 	border-left:solid #666 1px;
 	cursor:pointer;
 	color:#FFF;
@@ -58,26 +58,63 @@ DOCK
 	background-color:#F0F;
 	background-repeat:no-repeat;
 }
+#dockContainer a .active{
+	color:#CC0033;
+}
 
 .dockButtonOn {
 	color:#CC0033;
 }
 
+.dockViewIcon {
+	width:20px;
+	height:20px;
+	position:absolute;
+	top:7px;
+	left:10px;
+	display:block;
+	background-color:#FF0;
+	background-image:url(../images/graphics.png);
+}
+.dockViewIcon {
+	background-position:inherit;
+}
+
 #dockHomeButton {
 	width:50px;
-	background-image:url(../images/graphics.png);
-	background-position:-142px -62px;
-	background-clip:20px 20px;
+	background-position:-140px -60px;
 }
+#dockHomeButton.active{
+	background-position:-140px -80px;
+}
+
+
+
+
 #dockYearButton {
 	width:35px;
+	background-position:-160px -60px;
 }
+#dockYearButton.active{
+	background-position:-160px -80px;
+}
+
 #dockProductionButton {
 	width:79px;
+	background-position:-180px -60px;
 }
+#dockProductionButton.active{
+	background-position:-180px -80px;
+}
+
 #dockMyArchiveButton {
 	width:54px;
+	background-position:-200px -60px;
 }
+#dockMyArchiveButton.active{
+	background-position:-200px -80px;
+}
+
 
 
 
