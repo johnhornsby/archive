@@ -278,14 +278,14 @@ AutoCompleteViewController.prototype.keyHandler = function(event){
 				}else{
 					this.input = this._textField.value;
 				}
-				this.setColor(++this._listIndex, "#0091f7", "white");
+				this.setColor(++this._listIndex, "#D40044", "white");
 				this._textField.value = this.outp.childNodes[this._listIndex].firstChild.firstChild.nodeValue;
 			}
 		}else if (this.key == 38){ //Key up
 			if (this.words.length > 0){
 				if (this._listIndex >=1){
 					this.setColor(this._listIndex, "#fff", "black");
-					this.setColor(--this._listIndex, "#0091f7", "white");
+					this.setColor(--this._listIndex, "#D40044", "white");
 					this._textField.value = this.outp.childNodes[this._listIndex].firstChild.firstChild.nodeValue;
 				}else if(this._listIndex === 0){
 					this.setColor(this._listIndex, "#fff", "black");
@@ -321,7 +321,7 @@ AutoCompleteViewController.prototype.mouseHandler = function(e,el){
 	//if(this._isDragging === false ){
 		//if(this._isStopChildMouseUp === false){
 			
-			el.style.background = "#0091f7";
+			el.style.background = "#D40044";
 			el.style.color= "white";
 		}
 	}

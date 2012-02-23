@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>currentDocument</key>
-	<string>src/index.html</string>
+	<string>src/css/nav.css</string>
 	<key>documents</key>
 	<array>
 		<dict>
@@ -28,12 +28,12 @@
 				<key>column</key>
 				<integer>13</integer>
 				<key>line</key>
-				<integer>90</integer>
+				<integer>327</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>52</integer>
+			<integer>285</integer>
 		</dict>
 		<key>src/css/style.css</key>
 		<dict>
@@ -42,26 +42,26 @@
 				<key>column</key>
 				<integer>0</integer>
 				<key>line</key>
-				<integer>183</integer>
+				<integer>647</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>141</integer>
+			<integer>631</integer>
 		</dict>
 		<key>src/index.html</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>12</integer>
+				<integer>13</integer>
 				<key>line</key>
-				<integer>130</integer>
+				<integer>138</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>116</integer>
+			<integer>114</integer>
 		</dict>
 		<key>src/javascript/AnimationLayer.js</key>
 		<dict>
@@ -124,14 +124,14 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>28</integer>
+				<integer>34</integer>
 				<key>line</key>
-				<integer>84</integer>
+				<integer>26</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>0</integer>
+			<integer>9</integer>
 		</dict>
 		<key>src/javascript/CategoryCell.js</key>
 		<dict>
@@ -161,19 +161,33 @@
 			<key>firstVisibleLine</key>
 			<integer>56</integer>
 		</dict>
-		<key>src/javascript/DockViewController.js</key>
+		<key>src/javascript/DeepLinkingManager.js</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>1</integer>
+				<integer>0</integer>
 				<key>line</key>
-				<integer>13</integer>
+				<integer>0</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
 			<integer>0</integer>
+		</dict>
+		<key>src/javascript/DockViewController.js</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>54</integer>
+				<key>line</key>
+				<integer>312</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>301</integer>
 		</dict>
 		<key>src/javascript/Geom.js</key>
 		<dict>
@@ -470,14 +484,14 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>50</integer>
+				<integer>37</integer>
 				<key>line</key>
-				<integer>495</integer>
+				<integer>575</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>436</integer>
+			<integer>555</integer>
 		</dict>
 		<key>src/javascript/TouchScrollableTablePanel.js</key>
 		<dict>
@@ -683,6 +697,7 @@
 	<key>openDocuments</key>
 	<array>
 		<string>src/index.html</string>
+		<string>src/javascript/DeepLinkingManager.js</string>
 		<string>src/javascript/lib/BrowserDetect.js</string>
 		<string>src/javascript/lib/zepto.min.js</string>
 		<string>src/javascript/lib/fx.js</string>
@@ -723,8 +738,8 @@
 		<string>src/javascript/ImageLoadManager.js</string>
 	</array>
 	<key>showFileHierarchyDrawer</key>
-	<true/>
+	<false/>
 	<key>windowFrame</key>
-	<string>{{6, 115}, {1330, 1303}}</string>
+	<string>{{2, 10}, {787, 1408}}</string>
 </dict>
 </plist>

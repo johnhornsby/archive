@@ -35,7 +35,7 @@ DockViewController.prototype.init = function(){
 };
 
 DockViewController.prototype.build = function(){
-	$("#dockHomeButton").css("background-color",this._buttonBackOnCSS);
+	//$("#dockHomeButton").css("background-color",this._buttonBackOnCSS);
 	//$('#dockSubMenu').css('bottom','75px');
 	//$('#dockSubMenu').css('opacity','0');
 	$('#dockSubMenu').css('display','none');
@@ -96,12 +96,12 @@ DockViewController.prototype.updateFilterMenu = function(){
 }
 
 DockViewController.prototype.onDockButtonTapHandler = function(e){
-	console.log("onDockButtonTapHandler:");
+	//console.log("onDockButtonTapHandler:");
 };
 
 
 DockViewController.prototype.onDockButtonMouseUpHandler = function(e){
-	console.log('onDockButtonMouseUpHandler:'+e.currentTarget.innerHTML);
+	//console.log('onDockButtonMouseUpHandler:'+e.currentTarget.innerHTML);
 	this.dockButtonActivated(e.currentTarget.innerHTML,e.currentTarget.id);
 };
 
@@ -116,7 +116,7 @@ DockViewController.prototype.dockButtonActivated = function(label,id){
 			hasSelectionChanged = true;
 			this.closeFilterMenu();
 			break;
-		case "dockHomeButton":
+		case "home":
 			if(this._artefactsSelectionObject.category !== ArtefactDataManager.CATEGORY_NONE){
 				//$("#dockHomeButton").css("background-color",this._buttonBackOnCSS)
 				//$("#dockYearButton").css("background-color",this._buttonBackOffCSS);
@@ -128,7 +128,7 @@ DockViewController.prototype.dockButtonActivated = function(label,id){
 			}
 			this.closeFilterMenu();
 			break;
-		case "dockYearButton":
+		case "year":
 			if(this._artefactsSelectionObject.category !== ArtefactDataManager.CATEGORY_YEAR){
 				//$("#dockHomeButton").css("background-color",this._buttonBackOffCSS)
 				//$("#dockYearButton").css("background-color",this._buttonBackOnCSS);
@@ -140,7 +140,7 @@ DockViewController.prototype.dockButtonActivated = function(label,id){
 			}
 			this.closeFilterMenu();
 			break;
-		case "dockProductionButton":
+		case "production":
 			if(this._artefactsSelectionObject.category !== ArtefactDataManager.CATEGORY_PRODUCTION){
 				//$("#dockHomeButton").css("background-color",this._buttonBackOffCSS)
 				//$("#dockYearButton").css("background-color",this._buttonBackOffCSS);
@@ -153,7 +153,7 @@ DockViewController.prototype.dockButtonActivated = function(label,id){
 			}
 			this.closeFilterMenu();
 			break;
-		case "dockMyArchiveButton":
+		case "archive":
 			if(this._artefactsSelectionObject.category !== ArtefactDataManager.CATEGORY_MY_ARCHIVE){
 				//$("#dockHomeButton").css("background-color",this._buttonBackOffCSS)
 				//$("#dockYearButton").css("background-color",this._buttonBackOffCSS);
@@ -165,7 +165,7 @@ DockViewController.prototype.dockButtonActivated = function(label,id){
 			}
 			this.closeFilterMenu();
 			break;
-		case "dockInfoButton":
+		case "info":
 			this.dispatchEvent(new DockViewControllerEvent(DockViewControllerEvent.INFO_OPEN));
 			this.closeFilterMenu();
 			break;
@@ -255,7 +255,7 @@ DockViewController.prototype.dockButtonActivated = function(label,id){
 				hasSelectionChanged = true
 			}
 			break;
-		case "dockSearchButton":
+		case "search":
 			//var searchField = $("#dockSearchField");
 			//var searchString = searchField.val();
 			//if(this._artefactsSelectionObject.category !== ArtefactDataManager.CATEGORY_NONE)return;
@@ -333,7 +333,7 @@ DockViewController.prototype.resetSearch = function(){
 
 
 DockViewController.prototype.onSetSelectionObject = function(selectionObject){
-	$(".dockButton").children().removeClass("active");
+	$(".dockViewButton").removeClass("active");
 	
 	if(selectionObject.category === ArtefactDataManager.CATEGORY_NONE){
 		//$("#dockHomeButton").css("background-color",this._buttonBackOnCSS)
@@ -383,7 +383,7 @@ DockViewController.prototype.onSetSelectionObject = function(selectionObject){
 //PUBLIC
 //_________________________________________________________________________________________
 DockViewController.prototype.activate = function(){
-	$("#dockContainer").css("opacity",1);
+	//$("#dockContainer").css("opacity",1);
 	/*
 	
 	var buttonArray = $("#dockContainer a").get();
@@ -402,7 +402,7 @@ DockViewController.prototype.activate = function(){
 
 DockViewController.prototype.deactivate = function(){
 	console.log('dock deactivate');
-	$("#dockContainer").css("opacity",0.5);
+	//$("#dockContainer").css("opacity",1);
 	$("#dockContainer a").unbind('click');
 	$("#dockForm").unbind("submit");
 	$("#dockSubMenu .closeButton").unbind('click');

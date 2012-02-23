@@ -130,16 +130,13 @@ window.onload = function(){
     <div id="dockContainer">
         <ul>
             <li class="dockTitle">View the archive:</li>
-            <li class="dockButton"><a id="dockHomeButton" class="active"><div class="dockViewIcon"></div>Canvas View</a></li>
-            <li class="dockButton"><a id="dockYearButton"><div class="dockViewIcon"></div>By Year</a></li>
-            <li class="dockButton"><a id="dockProductionButton"><div class="dockViewIcon"></div>By Production</a></li>
-            <li class="dockButton"><a id="dockMyArchiveButton"><div class="dockViewIcon"></div>Your Archive</a></li>
-						<li class="dockButton"><a id="dockInfoButton"><div class="dockInfoIcon"></div></a></li>            
-						<li><input type="text" id="dockSearchField"></li>
-            <li class="dockButton"><a id="dockSearchButton"><img src="images/searchIcon.png"></a></li>
-						
+            <li class="dockViewButton active" id="dockHomeButton"><a id="home"><div class="dockViewIcon"></div>Canvas View</a></li>
+            <li class="dockViewButton" id="dockYearButton"><a id="year"><div class="dockViewIcon"></div>By Year</a></li>
+            <li class="dockViewButton" id="dockProductionButton"><a id="production"><div class="dockViewIcon"></div>By Production</a></li>
+            <li class="dockViewButton" id="dockMyArchiveButton"><a id="archive"><div class="dockViewIcon"></div>Your Archive</a></li>
+			<li class="dockSearch" id="dockSearch"><input type="text" id="dockSearchField"><a id="search"><div class="dockSearchIcon"></div></a></li>
+			<li class="dockInfoButton" id="dockInfoButton"><a id="info"><div class="dockInfoIcon"></div></a></li>
         </ul>
-        
         <div id="autoCompleteShadow">
         	<div id="autoCompleteOutput"></div>
         </div>

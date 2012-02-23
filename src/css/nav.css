@@ -40,84 +40,117 @@ DOCK
 #dockContainer li {
 	display:block;
 	float:left;
-	margin:0px;
-	padding:0px 0px 0px 0px;
 	position:relative;
 }
 
 #dockContainer a {
 	height:auto;
-	padding:5px 14px 5px 40px;
-	border-left:solid #666 1px;
 	cursor:pointer;
-	color:#FFF;
+	display:block;
+	text-transform:uppercase;
+	background-repeat:no-repeat;
+	background-position:inherit;
+}
+#dockContainer li.active{color:#CC0033;}
+#dockContainer a:hover{color:#CC0033;}
+
+.dockViewButton {
+	margin:5px 0 0 0;
+	padding:3px 3px 3px 0px;
+	border-left:solid #666 1px;
+}
+
+#dockHomeButton {width:105px;background-position:-140px -60px;}
+#dockHomeButton.active{
+	background-position:-140px -80px;
+}
+#dockHomeButton a:hover{background-position:-140px -80px;}
+
+#dockYearButton {width:90px;background-position:-160px -60px;}
+#dockYearButton.active{background-position:-160px -80px;}
+#dockYearButton a:hover{background-position:-160px -80px;}
+
+#dockProductionButton {width:134px;background-position:-180px -60px;}
+#dockProductionButton.active{background-position:-180px -80px;}
+#dockProductionButton a:hover{background-position:-180px -80px;}
+
+#dockMyArchiveButton {width:109px;background-position:-200px -60px;}
+#dockMyArchiveButton.active{background-position:-200px -80px;}
+#dockMyArchiveButton a:hover{background-position:-200px -80px;}
+
+.dockViewIcon {
+	margin:0px 10px 0px 15px;
+	width:20px;
+	height:20px;
+	position:relative;
+	display:block;
+	background-image:url(../images/graphics.png);
+	background-position:inherit;
+	float: left;
+}
+
+
+
+#dockContainer .dockTitle {
+	height:auto;
+	width:60px;
+	margin:5px 0 0 0;
+	padding:3px 14px 3px 0px;
 	display:block;
 	text-transform:uppercase;
 	background-color:#1A1A1A;
-	background-repeat:no-repeat;
-}
-#dockContainer a.active{
-	color:#CC0033;
 }
 
+.dockSearch {
+	width:170px;
+	height:40px;
+	padding:0 10px 0 10px;
+	border-left:solid #666 1px;
+	border-right:solid #666 1px;
+}
 
-.dockViewIcon {
+.dockSearchIcon {
 	width:20px;
 	height:20px;
 	position:absolute;
-	top:7px;
-	left:10px;
+	top:11px;
+	right:11px;
 	display:block;
-	background-color:#FF0;
 	background-image:url(../images/graphics.png);
-}
-.dockViewIcon {
 	background-position:inherit;
+	float: left;
+}
+#dockSearch a:hover{background-position:-220px -80px;}
+#dockSearch a{background-position:-220px -60px;}
+
+#dockSearchField {
+	height:25px;
+	width:145px;
+	padding:0px 20px 0px 5px;
+	margin:7px 0px 0px 0px;
+	background:none;
+	border:none;
+	border-bottom:solid #666 1px;
+	color:white;
+	font-family:georgia;
+	font-size:10pt;
+	font-style:italic;
 }
 
-#dockHomeButton {width:50px;background-position:-140px -60px;}
-#dockHomeButton.active{background-position:-140px -80px;}
-
-#dockYearButton {width:35px;background-position:-160px -60px;}
-#dockYearButton.active{background-position:-160px -80px;}
-
-#dockProductionButton {width:79px;background-position:-180px -60px;}
-#dockProductionButton.active{background-position:-180px -80px;}
-
-#dockMyArchiveButton {width:54px;background-position:-200px -60px;}
-#dockMyArchiveButton.active{background-position:-200px -80px;}
-
+.dockInfoButton {
+	margin:10px 0px 0px 15px;
+}
 .dockInfoIcon{
 	height:22px;
 	width:22px;
 	color:#FFF;
 	display:block;
 	background-image:url(../images/graphics.png);
-	background-position:-1px -43px;
+	background-position:inherit;
 }
-
-
-#dockContainer .dockTitle {
-	height:auto;
-	width:60px;
-	padding:5px 14px 5px 0px;
-	display:block;
-	text-transform:uppercase;
-	background-color:#1A1A1A;
-}
-
-#dockSearchField {
-	height:25px;
-	width:120px;
-	padding:0px;
-	margin:10px 0px 0px 0px;
-	background:none;
-	border:none;
-	color:white;
-	font-family:georgia;
-	font-size:12pt;
-	font-style:italic;
-}
+#dockInfoButton.active{background-position:-1px -67px;}
+#dockInfoButton a:hover{background-position:-1px -67px;}
+#dockInfoButton a{background-position:-1px -43px;}
 /*
 #dockContainer li:nth-child(12) a{
 	padding-top:13px;
@@ -269,9 +302,9 @@ DOCK
 
 #autoCompleteOutput
 {
-	font-family:Helvetica, Arial, sans-serif;
-	font-size: 11pt;
-	font-weight:bold;
+	font-family:georgia;
+	font-style:italic;
+	font-size: 10pt;
 	color:black;
 	padding:0px;
 	position:relative;
@@ -309,23 +342,21 @@ DOCK
 	max-height:222px;
 	bottom:51px;
 	overflow:hidden;
-	border: 5px solid #333333;
-	-moz-border-radius: 5px;
-	border-radius: 8px;
+	border: 5px solid #FFF;
+	visibility:hidden;
 }
 
 #autoCompleteOutput > div{
 	position:relative;
-	border-top:1px solid #CCCCCC;
 	-webkit-tap-highlight-color:rgba(0,145,247,0.5);
 	cursor:pointer;
 	overflow:hidden;
-	height:40px;
+	height:25px;
 }
 
 #autoCompleteOutput span{
 	position:absolute;
-	padding:12px;
+	padding:5px;
 	display:block;
 	width:2000px;
 }
