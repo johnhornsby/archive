@@ -333,14 +333,14 @@ DockViewController.prototype.resetSearch = function(){
 
 
 DockViewController.prototype.onSetSelectionObject = function(selectionObject){
-	$(".dockButton").children().removeClass(".active");
+	$(".dockButton").children().removeClass("active");
 	
 	if(selectionObject.category === ArtefactDataManager.CATEGORY_NONE){
 		//$("#dockHomeButton").css("background-color",this._buttonBackOnCSS)
 		//$("#dockYearButton").css("background-color",this._buttonBackOffCSS);
 		//$("#dockProductionButton").css("background-color",this._buttonBackOffCSS);
 		//$("#dockMyArchiveButton").css("background-color",this._buttonBackOffCSS);
-		$("#dockHomeButton").addClass(".active");
+		$("#dockHomeButton").addClass("active");
 		
 	}else if(selectionObject.category === ArtefactDataManager.CATEGORY_YEAR){
 		/*
@@ -349,7 +349,7 @@ DockViewController.prototype.onSetSelectionObject = function(selectionObject){
 		$("#dockProductionButton").css("background-color",this._buttonBackOffCSS);
 		$("#dockMyArchiveButton").css("background-color",this._buttonBackOffCSS);
 		*/
-		$("#dockYearButton").addClass(".active");
+		$("#dockYearButton").addClass("active");
 	}else if(selectionObject.category === ArtefactDataManager.CATEGORY_PRODUCTION){
 		/*
 		$("#dockHomeButton").css("background-color",this._buttonBackOffCSS)
@@ -357,7 +357,7 @@ DockViewController.prototype.onSetSelectionObject = function(selectionObject){
 		$("#dockProductionButton").css("background-color",this._buttonBackOnCSS);
 		$("#dockMyArchiveButton").css("background-color",this._buttonBackOffCSS);
 		*/
-		$("#dockProductionButton").addClass(".active");
+		$("#dockProductionButton").addClass("active");
 	}else{
 		/*
 		$("#dockHomeButton").css("background-color",this._buttonBackOffCSS)
@@ -365,7 +365,7 @@ DockViewController.prototype.onSetSelectionObject = function(selectionObject){
 		$("#dockProductionButton").css("background-color",this._buttonBackOffCSS);
 		$("#dockMyArchiveButton").css("background-color",this._buttonBackOnCSS);
 		*/
-		$("#dockMyArchiveButton").addClass(".active");
+		$("#dockMyArchiveButton").addClass("active");
 	}	
 	var searchField = document.getElementById("dockSearchField");
 	if(selectionObject.keywordsArray.length === 0){

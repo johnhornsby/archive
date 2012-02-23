@@ -45,8 +45,6 @@ DOCK
 	position:relative;
 }
 
-
-
 #dockContainer a {
 	height:auto;
 	padding:5px 14px 5px 40px;
@@ -55,16 +53,13 @@ DOCK
 	color:#FFF;
 	display:block;
 	text-transform:uppercase;
-	background-color:#F0F;
+	background-color:#1A1A1A;
 	background-repeat:no-repeat;
 }
-#dockContainer a .active{
+#dockContainer a.active{
 	color:#CC0033;
 }
 
-.dockButtonOn {
-	color:#CC0033;
-}
 
 .dockViewIcon {
 	width:20px;
@@ -80,52 +75,35 @@ DOCK
 	background-position:inherit;
 }
 
-#dockHomeButton {
-	width:50px;
-	background-position:-140px -60px;
-}
-#dockHomeButton.active{
-	background-position:-140px -80px;
-}
+#dockHomeButton {width:50px;background-position:-140px -60px;}
+#dockHomeButton.active{background-position:-140px -80px;}
 
+#dockYearButton {width:35px;background-position:-160px -60px;}
+#dockYearButton.active{background-position:-160px -80px;}
 
+#dockProductionButton {width:79px;background-position:-180px -60px;}
+#dockProductionButton.active{background-position:-180px -80px;}
 
+#dockMyArchiveButton {width:54px;background-position:-200px -60px;}
+#dockMyArchiveButton.active{background-position:-200px -80px;}
 
-#dockYearButton {
-	width:35px;
-	background-position:-160px -60px;
+.dockInfoIcon{
+	height:22px;
+	width:22px;
+	color:#FFF;
+	display:block;
+	background-image:url(../images/graphics.png);
+	background-position:-1px -43px;
 }
-#dockYearButton.active{
-	background-position:-160px -80px;
-}
-
-#dockProductionButton {
-	width:79px;
-	background-position:-180px -60px;
-}
-#dockProductionButton.active{
-	background-position:-180px -80px;
-}
-
-#dockMyArchiveButton {
-	width:54px;
-	background-position:-200px -60px;
-}
-#dockMyArchiveButton.active{
-	background-position:-200px -80px;
-}
-
-
 
 
 #dockContainer .dockTitle {
-	
-	height:30px;
-	width:1px;
-	margin:12px 8px 13px 8px;
-	border-left:#666;
-	border-left:solid;
-	border-left-width:2px;
+	height:auto;
+	width:60px;
+	padding:5px 14px 5px 0px;
+	display:block;
+	text-transform:uppercase;
+	background-color:#1A1A1A;
 }
 
 #dockSearchField {
@@ -140,7 +118,7 @@ DOCK
 	font-size:12pt;
 	font-style:italic;
 }
-
+/*
 #dockContainer li:nth-child(12) a{
 	padding-top:13px;
 	padding-left:12px;	
@@ -150,7 +128,7 @@ DOCK
 	padding-left:0px;	
 }
 
-
+*/
 
 #dockSubMenu {
 	display:none;
