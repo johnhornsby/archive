@@ -4,6 +4,7 @@ var VimeoView = function(data,container){
 	this._containerElement = container;
 	this._iframeElement;
 	this._isVideoReady = false;
+
 	
 	this.init();
 };
@@ -50,7 +51,7 @@ VimeoView.prototype.update = function(){
 };
 
 VimeoView.prototype.destroy = function(){
-	//console.log("Vimeo destroy");
+	console.log("Vimeo destroy");
 	if(this._isVideoReady === true){
 		//console.log("Vimeo Ready so pause");
 		this._froogaloop.api('pause');
@@ -65,8 +66,18 @@ VimeoView.prototype.destroy = function(){
 	file that references elements in the dom, if those element are not 
 	present then you get a script error in IE 9, hence the delayed call to remove from the DOM
 	*/
-	setTimeout(this.removeFromDOM.context(this),1);
+	//$(this._containerElement).empty();
+	setTimeout(this.removeFromDOM.context(this),0);
+	//setTimeout(this.removeFromDOM.context(this),1);
 };
+
+VimeoView.prototype.unsafeDestroy = function(){
+	if(this._isVideoReady === true){
+		this._froogaloop.api('pause');
+	}
+	$(this._containerElement).empty();
+}
+
 
 VimeoView.prototype.play = function(){
 	if(this._isVideoReady===true)this._froogaloop.api('play');

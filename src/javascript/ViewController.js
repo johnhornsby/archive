@@ -7,6 +7,7 @@ var ViewController = function(){
 	this._busyFeebbackView;
 	this._dockViewController;
 	this._fullscreenWindow;
+	this._fullScreenMediaViewer;
 	this._infoWindow;
 	this._progressFeedbackView;
 	this._siteNavigationView;
@@ -58,6 +59,7 @@ ViewController.prototype.build = function(){
 	
 	this._artefactWindow = new ArtefactWindow();
 	this._artefactWindow.addEventListener(ArtefactWindowEvent.OPEN_FULL_SCREEN_WINDOW,this.onOpenFullScreenWindowHandler.context(this));
+	this._artefactWindow.addEventListener(ArtefactWindowEvent.RELOAD_FULL_SCREEN_WINDOW,this.onReloadFullScreenWindowHandler.context(this));
 	this._artefactWindow.addEventListener(ArtefactWindowEvent.ARTEFACT_REMOVE_FROM_FAVOURITES,this.onRemoveFromFavouritesWithinWindowHandler.context(this));
 	this._artefactWindow.addEventListener(ArtefactWindowEvent.ARTEFACT_ADD_TO_FAVOURITES,this.onAddToFavouritesWithinWindowHandler.context(this));
 	
@@ -65,6 +67,8 @@ ViewController.prototype.build = function(){
 	this._infoWindow.addEventListener(InfoWindowEvent.CLOSE,this.onInfoWindowCloseHandler.context(this));							//Event handler used to determing upon close if ViewController needs to open an ArtefactWidow due to deep link.
 	
 	this._fullscreenWindow = new FullScreenWindow();
+	this._fullScreenMediaViewer = new FullScreenMediaViewer();
+	this._fullScreenMediaViewer.setDelegate(this._artefactWindow);
 	
 	this._animationLayer = new AnimationLayer(document.getElementById('animationLayer'));
 	this._veil = new Veil(document.getElementById('veil'));
@@ -166,7 +170,12 @@ ViewController.prototype.onOpenArefactWindowHandler = function(e){
 };
 
 ViewController.prototype.onOpenFullScreenWindowHandler = function(e){
-	this._fullscreenWindow.open(e.data);
+	//this._fullscreenWindow.open(e.data);
+	this._fullScreenMediaViewer.open();
+};
+
+ViewController.prototype.onReloadFullScreenWindowHandler = function(e){
+	this._fullScreenMediaViewer.reload();
 };
 
 ViewController.prototype.onWindowClose = function(){

@@ -53,11 +53,13 @@ ImageView.prototype.imageLoadAbort = function(e){
 ImageView.prototype.imageLoadComplete = function(e){
 	
 	attr(this._imageElement,"class","imageViewImage");
+	
 	//$("#artefactWindowMediaViewImage").attr( attributeName, value )
 	//$("#artefactWindowMediaView").append('<img id="artefactWindowMediaViewImage" src="'+this._imageElement.src+'">');
 	//$(this._containerElement).append(image);
 	
 	append(this._containerElement,this._imageElement);
+	
 	
 	this.onUpdate();
 	this._status = ImageView.STATUS_LOADED;
@@ -136,12 +138,12 @@ ImageView.prototype.update = function(){
 
 ImageView.prototype.destroy = function(){
 	$(this._imageElement).remove();
-	if(ImageView.STATUS_LOADING){
-		this._imageElement.src = "";
+	if(this._status === ImageView.STATUS_LOADING){
 		this._imageElement.onload = undefined;
 		this._imageElement.onabort = undefined;
 		this._imageElement.onerror = undefined;
 		this._imageElement = undefined;
+		this._imageElement.src = "";
 		delete this._imageElement;
 	}
 	$(this._containerElement).empty();

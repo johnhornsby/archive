@@ -171,19 +171,25 @@ PlaneController.prototype.onTouchEnd = function(e){
 
 PlaneController.prototype.onDOMMouseScrollHandler = function(e){
 	//Globals.log('onDOMMouseScrollHandler');
-    var delta = -e.detail * 3;
-	this.setMouseWheenDelta(delta);
+	var deltaX = 0;
+	var deltaY = -e.detail * 3;
+	this.setMouseWheenDelta(deltaX,deltaY);
 };
 
 
 PlaneController.prototype.onMouseWheelHandler = function(e){
-	var delta = e.wheelDelta;
-	this.setMouseWheenDelta(delta);
+	var deltaX = 0;
+	var deltaY = e.wheelDelta;
+	if(e.wheelDeltaX && e.wheelDeltaY){
+		deltaX = e.wheelDeltaX;
+		deltaY = e.wheelDeltaY;
+	}
+	this.setMouseWheenDelta(deltaX,deltaY);
 	e.preventDefault();				//prevent lion browser from bounce scroll effect
 };
 
-PlaneController.prototype.setMouseWheenDelta = function(delta){
-	this._delegate.setMouseWheelScrollDelta(delta);
+PlaneController.prototype.setMouseWheenDelta = function(deltaX,deltaY){
+	this._delegate.setMouseWheelScrollDelta(deltaX,deltaY);
 }
 
 /*

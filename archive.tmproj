@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>currentDocument</key>
-	<string>src/css/nav.css</string>
+	<string>src/javascript/VimeoView.js</string>
 	<key>documents</key>
 	<array>
 		<dict>
@@ -26,42 +26,42 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>13</integer>
+				<integer>25</integer>
 				<key>line</key>
-				<integer>327</integer>
+				<integer>35</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>285</integer>
+			<integer>0</integer>
 		</dict>
 		<key>src/css/style.css</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>0</integer>
+				<integer>42</integer>
 				<key>line</key>
-				<integer>647</integer>
+				<integer>411</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>631</integer>
+			<integer>395</integer>
 		</dict>
 		<key>src/index.html</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>13</integer>
+				<integer>35</integer>
 				<key>line</key>
-				<integer>138</integer>
+				<integer>206</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>114</integer>
+			<integer>176</integer>
 		</dict>
 		<key>src/javascript/AnimationLayer.js</key>
 		<dict>
@@ -112,12 +112,12 @@
 				<key>column</key>
 				<integer>1</integer>
 				<key>line</key>
-				<integer>34</integer>
+				<integer>138</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>136</integer>
+			<integer>115</integer>
 		</dict>
 		<key>src/javascript/AutoCompleteViewController.js</key>
 		<dict>
@@ -152,14 +152,14 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>35</integer>
+				<integer>8</integer>
 				<key>line</key>
-				<integer>76</integer>
+				<integer>332</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>56</integer>
+			<integer>303</integer>
 		</dict>
 		<key>src/javascript/DeepLinkingManager.js</key>
 		<dict>
@@ -188,6 +188,34 @@
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
 			<integer>301</integer>
+		</dict>
+		<key>src/javascript/FullScreenMediaViewer.js</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>29</integer>
+				<key>line</key>
+				<integer>26</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>1</integer>
+		</dict>
+		<key>src/javascript/FullScreenWindow.js</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>2</integer>
+				<key>line</key>
+				<integer>31</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
 		</dict>
 		<key>src/javascript/Geom.js</key>
 		<dict>
@@ -263,6 +291,20 @@
 			<key>firstVisibleLine</key>
 			<integer>0</integer>
 		</dict>
+		<key>src/javascript/ImageView.js</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>28</integer>
+				<key>line</key>
+				<integer>82</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>64</integer>
+		</dict>
 		<key>src/javascript/LocalStorageManager.js</key>
 		<dict>
 			<key>caret</key>
@@ -296,14 +338,14 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>0</integer>
+				<integer>42</integer>
 				<key>line</key>
-				<integer>0</integer>
+				<integer>172</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>0</integer>
+			<integer>141</integer>
 		</dict>
 		<key>src/javascript/RandomCanvas.js</key>
 		<dict>
@@ -324,14 +366,14 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>62</integer>
+				<integer>61</integer>
 				<key>line</key>
-				<integer>76</integer>
+				<integer>19</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>33</integer>
+			<integer>0</integer>
 		</dict>
 		<key>src/javascript/RelatedArtefactsViewController copy.js</key>
 		<dict>
@@ -368,29 +410,29 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>2</integer>
+				<integer>27</integer>
 				<key>line</key>
-				<integer>64</integer>
+				<integer>123</integer>
 			</dict>
 			<key>columnSelection</key>
 			<false/>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>0</integer>
+			<integer>57</integer>
 			<key>selectFrom</key>
 			<dict>
 				<key>column</key>
-				<integer>56</integer>
+				<integer>13</integer>
 				<key>line</key>
-				<integer>64</integer>
+				<integer>123</integer>
 			</dict>
 			<key>selectTo</key>
 			<dict>
 				<key>column</key>
-				<integer>2</integer>
+				<integer>39</integer>
 				<key>line</key>
-				<integer>64</integer>
+				<integer>123</integer>
 			</dict>
 		</dict>
 		<key>src/javascript/ScrollableCell.js</key>
@@ -442,14 +484,14 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>23</integer>
+				<integer>0</integer>
 				<key>line</key>
-				<integer>4</integer>
+				<integer>152</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>93</integer>
+			<integer>117</integer>
 		</dict>
 		<key>src/javascript/TileEngine.js</key>
 		<dict>
@@ -478,20 +520,6 @@
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
 			<integer>0</integer>
-		</dict>
-		<key>src/javascript/TouchScrollPanel.js</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>37</integer>
-				<key>line</key>
-				<integer>575</integer>
-			</dict>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>555</integer>
 		</dict>
 		<key>src/javascript/TouchScrollableTablePanel.js</key>
 		<dict>
@@ -526,30 +554,28 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>1</integer>
+				<integer>2</integer>
 				<key>line</key>
-				<integer>5</integer>
+				<integer>169</integer>
 			</dict>
-			<key>columnSelection</key>
-			<false/>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>207</integer>
-			<key>selectFrom</key>
-			<dict>
-				<key>column</key>
-				<integer>21</integer>
-				<key>line</key>
-				<integer>5</integer>
-			</dict>
-			<key>selectTo</key>
+			<integer>119</integer>
+		</dict>
+		<key>src/javascript/VimeoView.js</key>
+		<dict>
+			<key>caret</key>
 			<dict>
 				<key>column</key>
 				<integer>1</integer>
 				<key>line</key>
-				<integer>5</integer>
+				<integer>59</integer>
 			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>10</integer>
 		</dict>
 		<key>src/javascript/lib/BrowserDetect.js</key>
 		<dict>
@@ -697,49 +723,23 @@
 	<key>openDocuments</key>
 	<array>
 		<string>src/index.html</string>
-		<string>src/javascript/DeepLinkingManager.js</string>
-		<string>src/javascript/lib/BrowserDetect.js</string>
-		<string>src/javascript/lib/zepto.min.js</string>
-		<string>src/javascript/lib/fx.js</string>
-		<string>src/javascript/lib/zepto.min.0.8.js</string>
-		<string>src/javascript/TileEngine.js</string>
-		<string>src/javascript/TapestryViewController.js</string>
-		<string>src/javascript/ScrollableTable.js</string>
-		<string>src/javascript/Geom.js</string>
-		<string>src/javascript/ScrollableCell.js</string>
-		<string>src/javascript/RelatedArtefactCell.js</string>
 		<string>src/javascript/ViewController.js</string>
 		<string>src/javascript/ArtefactWindow.js</string>
-		<string>src/javascript/RelatedArtefactsViewController copy.js</string>
 		<string>src/javascript/RelatedArtefactsViewController.js</string>
-		<string>src/javascript/TileEngineConfiguration.js</string>
-		<string>src/javascript/AutoCompleteViewController.js</string>
-		<string>src/javascript/TouchScrollPanel.js</string>
-		<string>src/javascript/TouchScrollableTablePanel.js</string>
-		<string>src/javascript/Utilities.js</string>
-		<string>src/javascript/Globals.js</string>
-		<string>src/javascript/RandomCanvas.js</string>
-		<string>src/javascript/PlaneController.js</string>
-		<string>src/javascript/LocalStorageManager.js</string>
-		<string>src/javascript/sequence/utils/utils.coffee</string>
-		<string>src/javascript/sequence/effects/animation.js</string>
-		<string>src/javascript/sequence/effects/animation.coffee</string>
-		<string>src/javascript/sequence/utils/utils.js</string>
-		<string>src/javascript/sequence/utils/browser/browser.coffee</string>
-		<string>src/javascript/Main.js</string>
-		<string>src/css/style.css</string>
-		<string>src/javascript/CategoryCell.js</string>
-		<string>src/javascript/CategoryTable.js</string>
-		<string>src/javascript/ArtefactDataManager.js</string>
-		<string>src/javascript/Animator.js</string>
-		<string>src/javascript/AnimationLayer.js</string>
-		<string>src/javascript/DockViewController.js</string>
+		<string>src/javascript/FullScreenWindow.js</string>
+		<string>src/javascript/FullScreenMediaViewer.js</string>
+		<string>src/javascript/VimeoView.js</string>
+		<string>src/javascript/RelatedArtefactCell.js</string>
 		<string>src/css/nav.css</string>
-		<string>src/javascript/ImageLoadManager.js</string>
+		<string>src/css/style.css</string>
+		<string>src/javascript/ImageView.js</string>
+		<string>src/javascript/PlaneController.js</string>
+		<string>src/javascript/CategoryTable.js</string>
+		<string>src/javascript/TapestryViewController.js</string>
 	</array>
 	<key>showFileHierarchyDrawer</key>
 	<false/>
 	<key>windowFrame</key>
-	<string>{{2, 10}, {787, 1408}}</string>
+	<string>{{2, 4}, {1278, 1414}}</string>
 </dict>
 </plist>

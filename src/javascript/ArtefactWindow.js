@@ -7,6 +7,7 @@ var ArtefactWindow = function(){
 	
 	
 	this._relatedArtefactViewController;
+	this._relatedDataArray = [];
 	this._isOpen = false;
 	
 	this.init();
@@ -160,7 +161,17 @@ ArtefactWindow.prototype.onOpen = function(data,bounds){
 	this.updateFavouritesButtons();
 	
 	this._relatedArtefactViewController.setData(this._data);
+	this._relatedDataArray = [this._data];
 	
+	this.dispatchEvent(new ArtefactWindowEvent(ArtefactWindowEvent.OPEN_FULL_SCREEN_WINDOW,this._data));
+	
+	var self = this;
+	setTimeout(function(){
+		self._relatedDataArray = self._relatedArtefactViewController.getRelatedData();
+		self._relatedDataArray.unshift(self._data);
+		self.dispatchEvent(new ArtefactWindowEvent(ArtefactWindowEvent.RELOAD_FULL_SCREEN_WINDOW));	
+	},2000);
+
 	Globals.deepLinkingManager.setAddress("/item-"+data.id);
 };
 
@@ -179,6 +190,14 @@ ArtefactWindow.prototype.onClose = function(){
 };
 
 
+
+ArtefactWindow.prototype.getNumberOfItems = function(){
+	return this._relatedDataArray.length;
+}
+
+ArtefactWindow.prototype.getDataForIndex = function(index){
+	return this._relatedDataArray[index];
+}
 
 
 
@@ -206,6 +225,7 @@ var ArtefactWindowEvent = function(eventType,data){
 	this.data = data;
 };
 ArtefactWindowEvent.OPEN_FULL_SCREEN_WINDOW = "openFullScreenWindow";
+ArtefactWindowEvent.RELOAD_FULL_SCREEN_WINDOW = "reloadFullScreenWindow";
 ArtefactWindowEvent.ARTEFACT_ADD_TO_FAVOURITES = "artefactAddToFavourites";
 ArtefactWindowEvent.ARTEFACT_REMOVE_FROM_FAVOURITES = "artefactRemoveFromFavourites";
 ArtefactWindowEvent.CLOSE = "close";

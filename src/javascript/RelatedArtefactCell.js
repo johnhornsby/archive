@@ -49,7 +49,7 @@ RelatedArtefactCell.prototype.clear = function(){
 	}
 	if(Globals.browser === "Explorer"){
 		//$(el).css({'display':'none'});
-		this._image.css({'opacity':0});
+		$(this._image).css({'opacity':0});
 	}else{
 		//el.childNodes[0].style.display = 'none';
 		this._image.style.opacity = 0;

@@ -120,6 +120,10 @@ RelatedArtefactsViewController.prototype.setData = function(jsonDataObject){
 	this._scrollablePanel.updateThumb();
 };
 
+RelatedArtefactsViewController.prototype.getRelatedData = function(){
+	return this._relatedArtefactsDataArray;
+};
+
 RelatedArtefactsViewController.prototype.clear = function(){
 	this._scrollablePanel.clear();
 	this._relatedArtefactsDataArray = [];

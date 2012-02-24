@@ -357,10 +357,10 @@ CategoryTable.prototype.setScrollDelta = function(dx,dy,x,y){
 	this.onSetScrollDelta(dx,dy,x,y);
 };
 
-CategoryTable.prototype.setMouseWheelScrollDelta = function(d){
-	if(this._y + d > 0) d =  - this._y;
-	if((this._y + d + (this.ROW_HEIGHT * this._maxRows)) < window.innerHeight) d = window.innerHeight - (this._y + (this.ROW_HEIGHT * this._maxRows));
-	this.onSetScrollDelta(0,d,0,0);
+CategoryTable.prototype.setMouseWheelScrollDelta = function(dx,dy){
+	if(this._y + dy > 0) dy =  - this._y;
+	if((this._y + dy + (this.ROW_HEIGHT * this._maxRows)) < window.innerHeight) dy = window.innerHeight - (this._y + (this.ROW_HEIGHT * this._maxRows));
+	this.onSetScrollDelta(0,dy,0,0);
 };
 
 CategoryTable.prototype.dragEnd = function(finalLeftDelta,finalTopDelta,left,top){

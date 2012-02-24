@@ -434,7 +434,33 @@ ARTEFACT WINDOW
 }
 
 
+.previousButton {
+	position:absolute;
+	left:-44px;
+	top:50%;
+	width:44px;
+	height:44px;
+	background-image:url(../images/graphics.png);
+	-webkit-transition:left 0.5s;
+}
 
+.previousButtonBlack {
+	background-position:-260px -60px;
+}
+
+.nextButton {
+	position:absolute;
+	right:-44px;
+	top:50%;
+	width:44px;
+	height:44px;
+	background-image:url(../images/graphics.png);
+	-webkit-transition:right 0.5s;
+}
+
+.nextButtonBlack {
+	background-position:-310px -60px;
+}
 
 
 #relatedArtefactsView {
@@ -676,6 +702,30 @@ FULLSCREEN VIEW
 	width:100%;
 	height:100%;
 }
+
+#full-screen-media-viewer {
+	position:absolute;
+	display:none;
+	left:0px;
+	top:0px;
+	background-color:#000;
+	overflow:hidden;
+	width:100%;
+	height:100%;
+	z-index:8;
+}
+
+#full-screen-media-viewer-item {
+	position:absolute;
+	display:block;
+	left:0px;
+	top:0px;
+	background-color:#000;
+	overflow:hidden;
+	width:100%;
+	height:100%;
+}
+
 
 
 
