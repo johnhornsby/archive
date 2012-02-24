@@ -171,13 +171,14 @@ PlaneController.prototype.onTouchEnd = function(e){
 
 PlaneController.prototype.onDOMMouseScrollHandler = function(e){
 	//Globals.log('onDOMMouseScrollHandler');
-    var delta = -e.detail;
+    var delta = -e.detail * 3;
 	this.setMouseWheenDelta(delta);
 };
 
 
 PlaneController.prototype.onMouseWheelHandler = function(e){
-	this.setMouseWheenDelta(e.wheelDelta);
+	var delta = e.wheelDelta;
+	this.setMouseWheenDelta(delta);
 	e.preventDefault();				//prevent lion browser from bounce scroll effect
 };
 
