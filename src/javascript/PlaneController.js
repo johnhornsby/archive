@@ -120,7 +120,7 @@ PlaneController.prototype.onTouchStart = function(e){
 	this._lastY = this._originY = e.targetTouches[0].clientY;
 	$(document).bind('touchmove',this.onTouchMove.rEvtContext(this));
 	$(document).bind('touchend',this.onTouchEnd.rEvtContext(this));
-	this._delegate.mouseDown();
+	this._delegate.mouseDown(0,0,this._lastX,this._lastY);
 	return false;
 }
 
@@ -168,6 +168,23 @@ PlaneController.prototype.onTouchEnd = function(e){
 	this._delegate.dragEnd(this._leftDelta,this._topDelta,this._lastX,this._lastY);
 	return false;
 }
+
+PlaneController.prototype.onDOMMouseScrollHandler = function(e){
+	//Globals.log('onDOMMouseScrollHandler');
+    var delta = -e.detail;
+	this.setMouseWheenDelta(delta);
+};
+
+
+PlaneController.prototype.onMouseWheelHandler = function(e){
+	this.setMouseWheenDelta(e.wheelDelta);
+	e.preventDefault();				//prevent lion browser from bounce scroll effect
+};
+
+PlaneController.prototype.setMouseWheenDelta = function(delta){
+	this._delegate.setMouseWheelScrollDelta(delta);
+}
+
 /*
 PlaneController.prototype.appendPosition = function(x,y){
 	this.setPosition(this._x+x,this._y+y);
@@ -216,6 +233,9 @@ PlaneController.prototype.setDelegate = function(delegate){
 PlaneController.prototype.activate = function(){
 	//this._interactiveElement.addEventListener('mousedown', this.onMouseDown.rEvtContext(this), false);
 	//this._interactiveElement.addEventListener('touchstart', this.onTouchStart.rEvtContext(this), false);
+	
+	$(this._interactiveElement).bind('mousewheel',this.onMouseWheelHandler.context(this));
+	$(this._interactiveElement).bind('DOMMouseScroll',this.onDOMMouseScrollHandler.context(this));
 	$(this._interactiveElement).bind('mousedown', this.onMouseDown.rEvtContext(this));
 	$(this._interactiveElement).bind('touchstart', this.onTouchStart.rEvtContext(this));
 };
@@ -223,6 +243,8 @@ PlaneController.prototype.activate = function(){
 PlaneController.prototype.deactivate = function(){
 	//this._interactiveElement.removeEventListener('mousedown', this.onMouseDown.rEvtContext(this), false);
 	//this._interactiveElement.removeEventListener('touchstart', this.onTouchStart.rEvtContext(this), false);
+	$(this._interactiveElement).unbind('mousewheel',this.onMouseWheelHandler.context(this));
+	$(this._interactiveElement).unbind('DOMMouseScroll',this.onDOMMouseScrollHandler.context(this));
 	$(this._interactiveElement).unbind('mousedown', this.onMouseDown.rEvtContext(this));
 	$(this._interactiveElement).unbind('touchstart', this.onTouchStart.rEvtContext(this));
 };

@@ -21,11 +21,11 @@ DOCK
 	display:block;
 	position:fixed;
 	bottom:0;
-	width:768px;
+	width:748px;
 	left:50%;
 	margin-left:-384px;
 	height:40px;
-	padding:18px 18px 18px 18px;
+	padding:18px 10px 18px 10px;
 	color:#FFF;
 	background-color:#1A1A1A;
 	z-index:3;
@@ -102,7 +102,7 @@ DOCK
 }
 
 .dockSearch {
-	width:170px;
+	width:160px;
 	height:40px;
 	padding:0 10px 0 10px;
 	border-left:solid #666 1px;
@@ -125,7 +125,7 @@ DOCK
 
 #dockSearchField {
 	height:25px;
-	width:145px;
+	width:135px;
 	padding:0px 20px 0px 5px;
 	margin:7px 0px 0px 0px;
 	background:none;

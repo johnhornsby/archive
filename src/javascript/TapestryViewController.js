@@ -144,7 +144,11 @@ TapestryViewController.prototype.onDragEnd = function(finalLeftDelta,finalTopDel
 	this._currentView.dragEnd(finalLeftDelta,finalTopDelta,left,top);
 };
 
-
+TapestryViewController.prototype.setMouseWheelScrollDelta = function(delta){
+	if(this._currentView.constructor === CategoryTable){
+		this._currentView.setMouseWheelScrollDelta(delta);
+	}
+};
 //PUBLIC
 //___________________________________________________________________________________
 /**
