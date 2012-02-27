@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>currentDocument</key>
-	<string>src/javascript/PlaneController.js</string>
+	<string>src/javascript/AnimationLayer.js</string>
 	<key>documents</key>
 	<array>
 		<dict>
@@ -40,29 +40,29 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>1</integer>
+				<integer>28</integer>
 				<key>line</key>
-				<integer>352</integer>
+				<integer>752</integer>
 			</dict>
 			<key>columnSelection</key>
 			<false/>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>313</integer>
+			<integer>690</integer>
 			<key>selectFrom</key>
 			<dict>
 				<key>column</key>
-				<integer>47</integer>
+				<integer>17</integer>
 				<key>line</key>
-				<integer>352</integer>
+				<integer>752</integer>
 			</dict>
 			<key>selectTo</key>
 			<dict>
 				<key>column</key>
-				<integer>1</integer>
+				<integer>28</integer>
 				<key>line</key>
-				<integer>352</integer>
+				<integer>752</integer>
 			</dict>
 		</dict>
 		<key>src/index.html</key>
@@ -84,14 +84,14 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>0</integer>
+				<integer>11</integer>
 				<key>line</key>
-				<integer>0</integer>
+				<integer>63</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>0</integer>
+			<integer>35</integer>
 		</dict>
 		<key>src/javascript/Animator.js</key>
 		<dict>
@@ -120,6 +120,20 @@
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
 			<integer>531</integer>
+		</dict>
+		<key>src/javascript/ArtefactPopup.js</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>0</integer>
+				<key>line</key>
+				<integer>0</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
 		</dict>
 		<key>src/javascript/ArtefactWindow.js</key>
 		<dict>
@@ -312,14 +326,14 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>1</integer>
+				<integer>26</integer>
 				<key>line</key>
-				<integer>67</integer>
+				<integer>98</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>23</integer>
+			<integer>67</integer>
 		</dict>
 		<key>src/javascript/RandomCanvas.js</key>
 		<dict>
@@ -560,28 +574,12 @@
 				<key>column</key>
 				<integer>1</integer>
 				<key>line</key>
-				<integer>5</integer>
+				<integer>169</integer>
 			</dict>
-			<key>columnSelection</key>
-			<false/>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>207</integer>
-			<key>selectFrom</key>
-			<dict>
-				<key>column</key>
-				<integer>21</integer>
-				<key>line</key>
-				<integer>5</integer>
-			</dict>
-			<key>selectTo</key>
-			<dict>
-				<key>column</key>
-				<integer>1</integer>
-				<key>line</key>
-				<integer>5</integer>
-			</dict>
+			<integer>133</integer>
 		</dict>
 		<key>src/javascript/lib/BrowserDetect.js</key>
 		<dict>
@@ -740,6 +738,7 @@
 		<string>src/javascript/ScrollableCell.js</string>
 		<string>src/javascript/RelatedArtefactCell.js</string>
 		<string>src/javascript/ViewController.js</string>
+		<string>src/javascript/ArtefactPopup.js</string>
 		<string>src/javascript/ArtefactWindow.js</string>
 		<string>src/javascript/RelatedArtefactsViewController copy.js</string>
 		<string>src/javascript/RelatedArtefactsViewController.js</string>

@@ -167,7 +167,9 @@ ViewController.prototype.onOpenArtefactPopUpHandler = function(e){
 };
 
 ViewController.prototype.onOpenArefactWindowHandler = function(e){
-	this._artefactWindow.open(e.data);
+	
+	this._animationLayer.openArtefactFromGridAnimation(e.data,e.bounds);
+	//this._artefactWindow.open(e.data);
 };
 
 ViewController.prototype.onOpenFullScreenWindowHandler = function(e){
