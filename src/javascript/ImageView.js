@@ -25,7 +25,7 @@ ImageView.STATUS_LOADED = 2;
 //__________________________________________________________________
 ImageView.prototype.init = function(){
 	this._containerElement = $(this._containerElement).get(0);
-	$(window).bind("resize",this.onUpdate.rEvtContext(this));
+	$(window).bind("resize",this.onResize.rEvtContext(this));
 	this.loadImage();
 };
 
@@ -61,13 +61,16 @@ ImageView.prototype.imageLoadComplete = function(e){
 	append(this._containerElement,this._imageElement);
 	
 	
-	this.onUpdate();
+	this.updatePosition();
 	this._status = ImageView.STATUS_LOADED;
 };
 
 
 
-ImageView.prototype.onUpdate = function(e){
+ImageView.prototype.onResize = function(e){
+	this.onUpdate();
+}
+ImageView.prototype.updatePosition = function(){
 	var image = this._imageElement;
 	var imageWidth;
 	var imageHeight;
@@ -132,7 +135,7 @@ ImageView.prototype.onUpdate = function(e){
 //PUBLIC
 //_________________________________________________________________________________
 ImageView.prototype.update = function(){
-	this.onUpdate();
+	this.updatePosition();
 };
 
 
@@ -148,7 +151,7 @@ ImageView.prototype.destroy = function(){
 	}
 	$(this._containerElement).empty();
 	//cancel loading
-	$(window).unbind("resize",this.onUpdate.rEvtContext(this));
+	$(window).unbind("resize",this.onResize.rEvtContext(this));
 	//remove image from dom
 	
 };
