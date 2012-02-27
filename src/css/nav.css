@@ -5,7 +5,7 @@ DOCK
 #dockVeil {
 	width:100%;
 	height:100%;
-	background-color:rgba(0,0,0,0.5);	
+	background-image:url(../images/000000.50.png);	
 	display:none;
 	opacity:0;
 	position:absolute;
@@ -70,7 +70,7 @@ DOCK
 #dockYearButton.active{background-position:-160px -80px;}
 #dockYearButton a:hover{background-position:-160px -80px;}
 
-#dockProductionButton {width:134px;background-position:-180px -60px;}
+#dockProductionButton {width:125px;background-position:-180px -60px;}
 #dockProductionButton.active{background-position:-180px -80px;}
 #dockProductionButton a:hover{background-position:-180px -80px;}
 

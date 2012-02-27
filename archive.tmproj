@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>currentDocument</key>
-	<string>src/css/style.css</string>
+	<string>src/javascript/PlaneController.js</string>
 	<key>documents</key>
 	<array>
 		<dict>
@@ -21,19 +21,49 @@
 	<integer>292</integer>
 	<key>metaData</key>
 	<dict>
+		<key>src/css/nav.css</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>32</integer>
+				<key>line</key>
+				<integer>72</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>29</integer>
+		</dict>
 		<key>src/css/style.css</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>5</integer>
+				<integer>1</integer>
 				<key>line</key>
-				<integer>125</integer>
+				<integer>352</integer>
 			</dict>
+			<key>columnSelection</key>
+			<false/>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>94</integer>
+			<integer>313</integer>
+			<key>selectFrom</key>
+			<dict>
+				<key>column</key>
+				<integer>47</integer>
+				<key>line</key>
+				<integer>352</integer>
+			</dict>
+			<key>selectTo</key>
+			<dict>
+				<key>column</key>
+				<integer>1</integer>
+				<key>line</key>
+				<integer>352</integer>
+			</dict>
 		</dict>
 		<key>src/index.html</key>
 		<dict>
@@ -138,14 +168,14 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>0</integer>
+				<integer>31</integer>
 				<key>line</key>
-				<integer>0</integer>
+				<integer>13</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>72</integer>
+			<integer>0</integer>
 		</dict>
 		<key>src/javascript/CategoryTable.js</key>
 		<dict>
@@ -282,14 +312,14 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>14</integer>
+				<integer>1</integer>
 				<key>line</key>
-				<integer>50</integer>
+				<integer>67</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>177</integer>
+			<integer>23</integer>
 		</dict>
 		<key>src/javascript/RandomCanvas.js</key>
 		<dict>
@@ -470,14 +500,14 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>50</integer>
+				<integer>0</integer>
 				<key>line</key>
-				<integer>495</integer>
+				<integer>315</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>436</integer>
+			<integer>302</integer>
 		</dict>
 		<key>src/javascript/TouchScrollableTablePanel.js</key>
 		<dict>
@@ -729,6 +759,7 @@
 		<string>src/javascript/sequence/utils/browser/browser.coffee</string>
 		<string>src/javascript/Main.js</string>
 		<string>src/css/style.css</string>
+		<string>src/css/nav.css</string>
 		<string>src/javascript/CategoryCell.js</string>
 		<string>src/javascript/CategoryTable.js</string>
 		<string>src/javascript/CategoryScrubberViewController.js</string>
@@ -741,6 +772,6 @@
 	<key>showFileHierarchyDrawer</key>
 	<true/>
 	<key>windowFrame</key>
-	<string>{{0, 177}, {1041, 1241}}</string>
+	<string>{{0, 158}, {1399, 1260}}</string>
 </dict>
 </plist>

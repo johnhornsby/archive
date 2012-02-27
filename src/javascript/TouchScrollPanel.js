@@ -105,8 +105,10 @@ TouchScrollPanel.prototype.onDownFrameHandler = function(e){
 		pageX = e.targetTouches[0].pageX;
 		pageY = e.targetTouches[0].pageY; 
 	}else{
-		$(window).bind('mousemove',this.onMoveWindowHandler.rEvtContext(this));
-		$(window).bind('mouseup',this.onUpWindowHandler.rEvtContext(this));
+		
+		
+		$(document).bind('mousemove',this.onMoveWindowHandler.rEvtContext(this));
+		$(document).bind('mouseup',this.onUpWindowHandler.rEvtContext(this));
 		pageX = e.pageX;
 		pageY = e.pageY; 
 	}
@@ -130,7 +132,7 @@ TouchScrollPanel.prototype.onDownFrameHandler = function(e){
 };
 
 TouchScrollPanel.prototype.onMoveWindowHandler = function(e){
-	//console.log('onMouseMoveContainer');
+	console.log('onMouseMoveContainer');
 	var pageX;
 	var pageY;
 	var eventType = (e.type.indexOf('touch')!=-1)?'touch':'mouse';
@@ -181,8 +183,8 @@ TouchScrollPanel.prototype.onUpWindowHandler = function(e){
 		pageX =  this._lastX; //use lastX and lasyY as e.targetTouches.length should === 0
 		pageY =  this._lastY; 
 	}else{
-		$(window).unbind('mousemove',this.onMoveWindowHandler.rEvtContext(this));
-		$(window).unbind('mouseup',this.onUpWindowHandler.rEvtContext(this));
+		$(document).unbind('mousemove',this.onMoveWindowHandler.rEvtContext(this));
+		$(document).unbind('mouseup',this.onUpWindowHandler.rEvtContext(this));
 		pageX = e.pageX;
 		pageY = e.pageY; 
 	}
@@ -332,16 +334,16 @@ TouchScrollPanel.prototype.stopTweenAnimation = function(){
 
 
 TouchScrollPanel.prototype.onFadeOutThumb = function(){
-	this._isThumbVisible = false;
-	jTweener.removeTween(this._thumbElement);
-	jTweener.addTween(this._thumbElement,{opacity:0,time:3});
+//	this._isThumbVisible = false;
+	//jTweener.removeTween(this._thumbElement);
+	//jTweener.addTween(this._thumbElement,{opacity:0,time:3});
 };
 
 TouchScrollPanel.prototype.onFadeInThumb = function(){
 	this._isThumbVisible = true;
-	clearTimeout(this._fadeThumbTimeout);
-	jTweener.removeTween(this._thumbElement);
-	jTweener.addTween(this._thumbElement,{opacity:1,time:1});
+	//clearTimeout(this._fadeThumbTimeout);
+	//jTweener.removeTween(this._thumbElement);
+	//jTweener.addTween(this._thumbElement,{opacity:1,time:1});
 };
 
 TouchScrollPanel.prototype.releaseStopChildMouseUpTrap = function(){

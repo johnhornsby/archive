@@ -64,7 +64,7 @@ PlaneController.prototype.onMouseMove = function(e){
 	return false;
 }
 PlaneController.prototype.onMouseUp = function(e){
-	//console.log("onMouseUp()");
+	Globals.log("onMouseUp()");
 	
 	this._mouseDown=false;	
 	//this._interactiveElement.removeEventListener('mousemove', this.onMouseMove.rEvtContext(this), false);
@@ -79,14 +79,17 @@ PlaneController.prototype.onMouseUp = function(e){
 	var timeElapsedSinceLastClick;
 	this._lastX = e.pageX;																						//record the x and y so we can use the coords in single click, and dragEnd
 	this._lastY = e.pageY;
-									
+	Globals.log("this._click:"+this._click+"distanceMoved:"+distanceMoved+" downTimeDuration:"+downTimeDuration+" timeElapsedSinceLastClick:"+timeElapsedSinceLastClick);								
 	if(this._click === true && distanceMoved < PlaneController.CLICK_THRESHOLD_DISTANCE && downTimeDuration < PlaneController.CLICK_THRESHOLD_DURATION){
+		
 		this._clickStartArray.push(this._downStartTime);																//add time of start click to array
 		timeElapsedSinceLastClick = this._downStartTime - this._clickStartArray[this._clickStartArray.length-2];		//duration between this click and last, from mousedown of first click to mousedown of second click
+		
 		if(timeElapsedSinceLastClick < PlaneController.DOUBLE_CLICK_THRESHOLD_DURATION){								//if double click duration is below doubleClickThreshold then create double click
+			Globals.log("Double Click");
 			this.onDoubleClick(e.pageX,e.pageY);
 		}else{
-	
+			
 			this._singleClickTimeout = setTimeout(this.onSingleClick.context(this,e.pageX,e.pageY),PlaneController.DOUBLE_CLICK_THRESHOLD_DURATION);//use timeout on single click to allow for user to double click and overide single click action
 		}
 		return false;

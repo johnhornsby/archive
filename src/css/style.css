@@ -234,7 +234,7 @@ OUTPUT
 	left:0px;	
 }
 .touchScrollPanelThumbGraphics {
-	background-color:rgba(0,0,0,0.75);
+	background-color:black;
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
 	border-radius: 5px;
@@ -243,8 +243,9 @@ OUTPUT
 	top:2px;
 	right:2px;
 	position:absolute;
-	border:1px solid rgba(255,255,255,0.5);
-	
+	border:1px solid #CCC;
+	opacity:0.5;
+	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=75)";
 }
 -->
 
