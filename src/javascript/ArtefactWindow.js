@@ -132,10 +132,12 @@ ArtefactWindow.prototype.onOpen = function(data,bounds){
 	
 	this._data = data;
 	
+	//$("#veil").css("display","block");
+	//$("#veil").css("opacity","1");
+	//$("#veil").show();
 	Globals.viewController.openVeil();
 	
 	$("#artefactWindow").css("display","block");
-
 	if(data.m === ArtefactDataManager.FILTER_PHOTO || data.m === ArtefactDataManager.FILTER_POSTERS){ //imageView
 		var mediaViewerContainer = $("#artefactWindowMediaView").get(0);
 		this._mediaViewer = new ImageView(data,mediaViewerContainer,0,"_448x336");
@@ -146,7 +148,7 @@ ArtefactWindow.prototype.onOpen = function(data,bounds){
 		this._mediaViewer = new VimeoView(data,mediaViewerContainer);
 		$("#artefactWindow .fullscreenButton").css("display","none");
 	}
-
+	
 	var html = "";
 	html += '<h2>'+this._data.t+'</h2>';
 	html += '<p><strong>Production:</strong> '+this._data.p+'</p>';
@@ -159,9 +161,8 @@ ArtefactWindow.prototype.onOpen = function(data,bounds){
 	this.updateFavouritesButtons();
 	
 	this._relatedArtefactViewController.setData(this._data);
-	
-	/* DEACTIVATE TEST FULLSCREEN CODE
 	this._relatedDataArray = [this._data];
+	
 	this.dispatchEvent(new ArtefactWindowEvent(ArtefactWindowEvent.OPEN_FULL_SCREEN_WINDOW,this._data));
 	
 	var self = this;
@@ -171,21 +172,20 @@ ArtefactWindow.prototype.onOpen = function(data,bounds){
 		self.dispatchEvent(new ArtefactWindowEvent(ArtefactWindowEvent.RELOAD_FULL_SCREEN_WINDOW));	
 	},2000);
 
-	*/
-	
 	Globals.deepLinkingManager.setAddress("/item-"+data.id);
 };
 
 ArtefactWindow.prototype.onClose = function(){
 	$("#artefactWindow").css("display","none");
-
 	this._mediaViewer.destroy();
 	this._mediaViewer = undefined;
-
 	$("#artefactWindowMediaView").unbind("click",this.onFullscreenButtonClickHandler.context(this));
 	
 	this._relatedArtefactViewController.clear();
 	this._isOpen = false;
+	//$("#veil").css("opacity","0");
+	//$("#veil").css("display","none");
+	//$("#veil").hide();
 	Globals.viewController.closeVeil();
 };
 

@@ -32,11 +32,11 @@ ViewController.prototype.onInit = function(){
 	this.build();
 	Globals.deepLinkingManager.addEventListener(DeepLinkingManagerEvent.UPDATE_ADDRESS,this.onUpdateDeepLinkAddress.context(this));	//listen to deepLinkingManager to determin whether ArtefactWindow should open or close
 	Globals.deepLinkingManager.checkAddress();																						//check address on init, if an initial hash has been set then it will be picked up here, and the event will be fired as above
-	//$(window).bind("resize",this.onResize.context(this));
+	
 };
 
 ViewController.prototype.build = function(){
-	this.updateWindowSize();
+	
 	
 	this._tapestryViewController = new TapestryViewController();
 	this._tapestryViewController.addEventListener(TapestryViewControllerEvent.BUSY_START,this.onTapestryBusyStartHandler.context(this));
@@ -232,14 +232,9 @@ ViewController.prototype.onInfoWindowCloseHandler = function(){
 	this.onImplementDeepLinkAddress(path);
 };
 
-ViewController.prototype.onResize = function(){
-	this.updateWindowSize();
-};
 
-ViewController.prototype.updateWindowSize = function(){
-	Globals.windowWidth = $(window).width();
-	Globals.windowHeight = $(window).height();
-};
+
+
 
 
 
