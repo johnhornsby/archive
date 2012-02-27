@@ -201,7 +201,7 @@
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>25</integer>
+			<integer>1</integer>
 		</dict>
 		<key>src/javascript/FullScreenWindow.js</key>
 		<dict>
@@ -252,14 +252,30 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>21</integer>
+				<integer>0</integer>
 				<key>line</key>
-				<integer>25</integer>
+				<integer>11</integer>
 			</dict>
+			<key>columnSelection</key>
+			<false/>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
 			<integer>0</integer>
+			<key>selectFrom</key>
+			<dict>
+				<key>column</key>
+				<integer>21</integer>
+				<key>line</key>
+				<integer>11</integer>
+			</dict>
+			<key>selectTo</key>
+			<dict>
+				<key>column</key>
+				<integer>0</integer>
+				<key>line</key>
+				<integer>11</integer>
+			</dict>
 		</dict>
 		<key>src/javascript/ImageLoadManager.js</key>
 		<dict>
@@ -280,14 +296,14 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>2</integer>
+				<integer>28</integer>
 				<key>line</key>
-				<integer>29</integer>
+				<integer>82</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>4</integer>
+			<integer>64</integer>
 		</dict>
 		<key>src/javascript/LocalStorageManager.js</key>
 		<dict>
@@ -336,14 +352,14 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>0</integer>
+				<integer>22</integer>
 				<key>line</key>
-				<integer>143</integer>
+				<integer>62</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>102</integer>
+			<integer>19</integer>
 		</dict>
 		<key>src/javascript/RelatedArtefactCell.js</key>
 		<dict>
@@ -482,30 +498,14 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>41</integer>
+				<integer>94</integer>
 				<key>line</key>
-				<integer>1006</integer>
+				<integer>414</integer>
 			</dict>
-			<key>columnSelection</key>
-			<false/>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>959</integer>
-			<key>selectFrom</key>
-			<dict>
-				<key>column</key>
-				<integer>37</integer>
-				<key>line</key>
-				<integer>1006</integer>
-			</dict>
-			<key>selectTo</key>
-			<dict>
-				<key>column</key>
-				<integer>49</integer>
-				<key>line</key>
-				<integer>1006</integer>
-			</dict>
+			<integer>373</integer>
 		</dict>
 		<key>src/javascript/TileEngineConfiguration.js</key>
 		<dict>
@@ -556,26 +556,26 @@
 				<key>column</key>
 				<integer>2</integer>
 				<key>line</key>
-				<integer>233</integer>
+				<integer>169</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>217</integer>
+			<integer>119</integer>
 		</dict>
 		<key>src/javascript/VimeoView.js</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>39</integer>
+				<integer>1</integer>
 				<key>line</key>
-				<integer>34</integer>
+				<integer>59</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>14</integer>
+			<integer>10</integer>
 		</dict>
 		<key>src/javascript/lib/BrowserDetect.js</key>
 		<dict>
@@ -724,9 +724,6 @@
 	<array>
 		<string>src/index.html</string>
 		<string>src/javascript/ViewController.js</string>
-		<string>src/javascript/TileEngine.js</string>
-		<string>src/javascript/RandomCanvas.js</string>
-		<string>src/javascript/Globals.js</string>
 		<string>src/javascript/ArtefactWindow.js</string>
 		<string>src/javascript/RelatedArtefactsViewController.js</string>
 		<string>src/javascript/FullScreenWindow.js</string>

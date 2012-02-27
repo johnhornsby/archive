@@ -68,8 +68,8 @@ RandomCanvas.prototype.onDragEnd = function(finalLeftDelta,finalTopDelta,left,to
 
 RandomCanvas.prototype.checkOutsideDragBounds = function(){
 	var tileEngineRadius = this._tileEngine.getRadius();			//what is the constraint
-	var centreX = Math.round(Globals.windowWidth/2);
-	var centreY = Math.round(Globals.windowHeight/2);
+	var centreX = Math.round(window.innerWidth/2);
+	var centreY = Math.round(window.innerHeight/2);
 	var containerOffsetX = this._tileContainerX - centreX;			//what is distance from the orgin of the container to the center of the screeen
 	var containerOffsetY = this._tileContainerY - centreY;
 	var normalisedOffsetX = containerOffsetX / Globals.TILE_WIDTH;	//normalised to the tile proportions of the grid
@@ -155,8 +155,8 @@ RandomCanvas.prototype.stopPlaneAnimation = function(){
 };
 
 RandomCanvas.prototype.resetTileContainer = function(){
-	this._tileContainerX = Math.round(Globals.windowWidth/2);
-	this._tileContainerY = Math.round(Globals.windowHeight/2);
+	this._tileContainerX = Math.round(window.innerWidth/2);
+	this._tileContainerY = Math.round(window.innerHeight/2);
 	//IE8
 	//this._tileContainerX = Math.round($(window).width()/2);
 	//this._tileContainerY = Math.round($(window).height()/2);

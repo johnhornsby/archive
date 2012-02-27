@@ -32,8 +32,7 @@ ViewController.prototype.onInit = function(){
 	this.build();
 	Globals.deepLinkingManager.addEventListener(DeepLinkingManagerEvent.UPDATE_ADDRESS,this.onUpdateDeepLinkAddress.context(this));	//listen to deepLinkingManager to determin whether ArtefactWindow should open or close
 	Globals.deepLinkingManager.checkAddress();																						//check address on init, if an initial hash has been set then it will be picked up here, and the event will be fired as above
-	$(window).bind("resize",this.onResize.context(this));
-	this.updateGlobalWindowSize();
+	
 };
 
 ViewController.prototype.build = function(){
@@ -234,20 +233,9 @@ ViewController.prototype.onInfoWindowCloseHandler = function(){
 };
 
 
-ViewController.prototype.onResize = function(e){
-	this.updateGlobalWindowSize();
-};
 
-ViewController.prototype.updateGlobalWindowSize = function(){
-	if(window.JQuery !== undefined){
-		Globals.windowWidth = $(window).width();
-		Globals.windowHeight = $(window).height();
-	}else{
-		Globals.windowWidth = window.innerWidth;
-		Globals.windowHeight = window.innerHeight;
-	}
 
-};
+
 
 
 
