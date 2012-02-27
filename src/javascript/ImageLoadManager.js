@@ -43,7 +43,7 @@ ImageLoadManager.prototype._init = function(){
 ImageLoadManager.prototype._onLoadComplete = function(e){
 	
 	var identifier = e.currentTarget.identifier;
-	//console.log("loaded "+identifier);
+	//Globals.log("loaded "+identifier);
 	var src = e.currentTarget.src;
 	
 	//get image object from hashtable, maybe undefined, if cancelled
@@ -51,7 +51,7 @@ ImageLoadManager.prototype._onLoadComplete = function(e){
 	var result = " success";
 	
 	if(imageLoadObject === undefined){
-		//console.log("_onLoadComplete: call back already deleted");
+		//Globals.log("_onLoadComplete: call back already deleted");
 		result = " cancelled while loading";
 	}else{
 		//perform callback, with displayObject
@@ -69,12 +69,12 @@ ImageLoadManager.prototype._onLoadComplete = function(e){
 
 ImageLoadManager.prototype._onLoadError = function(e){
 	var identifier = e.currentTarget.identifier;
-	//console.log("error "+identifier);
+	//Globals.log("error "+identifier);
 };
 
 ImageLoadManager.prototype._onAbortError = function(e){
 	var identifier = e.currentTarget.identifier;
-	//console.log("abort "+identifier);
+	//Globals.log("abort "+identifier);
 };
 
 ImageLoadManager.prototype._checkIdReadyToLoad = function(){
@@ -86,9 +86,9 @@ ImageLoadManager.prototype._checkIdReadyToLoad = function(){
 			this._activeLoaders.push(loader);
 			identifier = this._srcQueue.splice(0,1)[0];
 			src = this._srcToCallBackHashTable[identifier].src;
-			loader.src = src;
 			loader.identifier = identifier;
 			this._srcLoading.push(identifier);
+			loader.src = src;									//set source only after everything is ready, problems occured in IE8 due to the load event being immediately called as soon as the src was set, before the identifier was overwritten
 		}
 	}
 };
@@ -113,7 +113,7 @@ ImageLoadManager.prototype._checkForTimeouts = function(){
 			
 			if(time !== undefined){
 				if(nowTime - time > ImageLoadManager.TIME_OUT){
-					//console.log("Timeout identifier:"+identifier);
+					//Globals.log("Timeout identifier:"+identifier);
 					this._deleteIdentifierFromHashTable(identifier);
 					this._moveLoadingIdentifierToLoaded(identifier, " timeout");
 					loader.src = "";
@@ -160,12 +160,12 @@ ImageLoadManager.prototype.requestImageLoad = function(identifier,src,callback,p
 */
 ImageLoadManager.prototype.cancelRequestedImageLoad = function(identifier){	
 	//remove form queue
-	//console.log("cancelRequestedImageLoad "+identifier);
+	//Globals.log("cancelRequestedImageLoad "+identifier);
 	var index = this._srcQueue.indexOf(identifier);
 	if(index > -1){
 		this._srcQueue.splice(index,1);	
 	}else if(this._srcLoading.indexOf(identifier) > -1){
-		//console.log("Cancel but already loading");
+		//Globals.log("Cancel but already loading");
 	}
 	//remove callback, if alreadying loading then it needs to check for the pressence of identifier in hask table.
 	this._srcToCallBackHashTable[identifier] = undefined;

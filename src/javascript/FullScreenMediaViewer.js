@@ -9,9 +9,18 @@ var FullScreenMediaViewer = function(){
 	this._isOpen = false;
 	this._maxItems = 0;
 	this._delegate;
+	this._status = FullScreenMediaViewer.INITIALISED;
+	this._indexHistory = [];
+	this._prospectiveIndex;
 	this.init();
 };
 FullScreenMediaViewer.prototype = new EventDispatcher();
+
+FullScreenMediaViewer.INITIALISED = 0
+FullScreenMediaViewer.ANIMATING_OUT = 1;
+FullScreenMediaViewer.ANIMATING_IN = 2;
+FullScreenMediaViewer.LOADING = 3;
+FullScreenMediaViewer.IN = 4;
 
 
 
@@ -19,28 +28,59 @@ FullScreenMediaViewer.prototype = new EventDispatcher();
 
 //PRIVATE
 //_________________________________________________________________________________
-
-FullScreenMediaViewer.prototype.clear = function(){
-	if(this._mediaViewer != undefined){
-		
-		if(this._mediaViewer.constructor === VimeoView){
-			this._mediaViewer.pause();
-			this._mediaViewer.unsafeDestroy();
-		}else{
-			this._mediaViewer.destroy();
-		}
-		
-		this._mediaViewer = undefined;
-	}
-	this._dataItem = undefined;
-};
-
 FullScreenMediaViewer.prototype.init = function(){
 	this._containerElement = $("#full-screen-media-viewer").get(0);
 	$("#full-screen-media-viewer > .closeButton").bind("click",this.onCloseButtonClickHandler.context(this));
 	$("#full-screen-media-viewer > .previousButton").bind("click",this.onPreviousButtonClickHandler.context(this));
 	$("#full-screen-media-viewer > .nextButton").bind("click",this.onNextButtonClickHandler.context(this));
 };
+
+FullScreenMediaViewer.prototype.setDataItem = function(dataItem){
+	this._dataItem = dataItem;
+	this.clearItem();	//clears dataItem as well as _mediaViewer
+}
+
+FullScreenMediaViewer.prototype.clearItem = function(){
+	//this._dataItem = undefined;
+	if(this._mediaViewer != undefined){
+		if(this._mediaViewer.constructor === VimeoView){
+			//this._mediaViewer.pause();
+			//this._mediaViewer.unsafeDestroy();
+			var self = this;
+			this._mediaViewer.destroyWithCallback(function(){
+				self._mediaViewer = undefined;
+				self.onClearItemComplete();
+			});
+		}else{
+			this._mediaViewer.destroy();
+			this._mediaViewer = undefined;
+			this.onClearItemComplete();
+		}
+	}else{
+		this.onClearItemComplete();
+	}
+};
+
+FullScreenMediaViewer.prototype.onClearItemComplete = function(){
+	if(this._dataItem !== undefined){
+		this.displayItem();
+	}
+};
+
+FullScreenMediaViewer.prototype.displayItem = function(){
+	if(this._dataItem.m === ArtefactDataManager.FILTER_PHOTO || this._dataItem.m === ArtefactDataManager.FILTER_POSTER){ //imageView
+		var mediaViewerContainer = $("#full-screen-media-viewer-item").get(0);
+		this._mediaViewer = new ImageView(this._dataItem,mediaViewerContainer);
+	}else{	//vimeo
+	var mediaViewerContainer = $("#full-screen-media-viewer-item").get(0);
+		this._mediaViewer = new VimeoView(this._dataItem,mediaViewerContainer);
+	}
+};
+
+
+
+
+
 
 FullScreenMediaViewer.prototype.onCloseButtonClickHandler = function(e){
 	this.close();
@@ -54,21 +94,11 @@ FullScreenMediaViewer.prototype.onNextButtonClickHandler = function(e){
 	this.next();
 };
 
-FullScreenMediaViewer.prototype.setDataItem = function(dataItem){
-	this.clear();	//clears dataItem as well as _mediaViewer
-	this._dataItem = dataItem;
-	if(this._dataItem.m === ArtefactDataManager.FILTER_PHOTO || this._dataItem.m === ArtefactDataManager.FILTER_POSTER){ //imageView
-		var mediaViewerContainer = $("#full-screen-media-viewer-item").get(0);
-		this._mediaViewer = new ImageView(this._dataItem,mediaViewerContainer);
-	}else{	//vimeo
-	var mediaViewerContainer = $("#full-screen-media-viewer-item").get(0);
-		this._mediaViewer = new VimeoView(this._dataItem,mediaViewerContainer);
-	}
-}
 
 FullScreenMediaViewer.prototype.close = function(){
 	$("#full-screen-media-viewer").css("display","none");
-	this.clear();
+	this._dataItem = undefined;
+	this.clearItem();
 	this._isOpen = false;
 };
 
@@ -137,4 +167,12 @@ FullScreenMediaViewer.prototype.reload = function(){
 	}
 	this.showNavigation(this._maxItems > 1);
 	this.setDataItemIndex(this._dataItemIndex);
+};
+
+FullScreenMediaViewer.prototype.setSelectedIndex = function(index){
+	if(index > -1 && index < this._maxItems){
+		this.setDataItemIndex(index);
+	}else{
+		throw {message:"Index "+index+" out of range 0 - "+(this._maxItems-1)}
+	}
 };

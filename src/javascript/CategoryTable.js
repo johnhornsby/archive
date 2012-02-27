@@ -186,7 +186,7 @@ CategoryTable.prototype.getWindowIndexRange = function(){
 	}else{
 		frame.top = Math.floor(Math.abs(offsetTop / this.ROW_HEIGHT)) ;
 	}
-	frame.height = Math.ceil(( (window.innerHeight - offsetTop) - (frame.top * this.ROW_HEIGHT) ) / this.ROW_HEIGHT);
+	frame.height = Math.ceil(( (Globals.windowHeight - offsetTop) - (frame.top * this.ROW_HEIGHT) ) / this.ROW_HEIGHT);
 	return frame;
 };
 
@@ -236,10 +236,10 @@ CategoryTable.prototype.checkOutsideDragBounds = function(){
 	var correctedOffsetTop = 0;
 	if(offsetTop > 0){ //off top
 		isOutside = true;
-	}else if(offsetBottom < window.innerHeight && totalHeight > window.innerHeight){
+	}else if(offsetBottom < Globals.windowHeight && totalHeight > Globals.windowHeight){
 		isOutside = true;
-		correctedOffsetTop = window.innerHeight - totalHeight;
-	}else if(offsetTop < 0 && totalHeight < window.innerHeight){
+		correctedOffsetTop = Globals.windowHeight - totalHeight;
+	}else if(offsetTop < 0 && totalHeight < Globals.windowHeight){
 		isOutside = true;
 		correctedOffsetTop = 0;
 	}
@@ -261,7 +261,7 @@ CategoryTable.prototype.checkOutsideDragBounds = function(){
 CategoryTable.prototype.initInertiaAnimation = function(finalTopDelta){
 	var topAnimationProperties = this.getAnimaitonProperties(finalTopDelta);
 	var destination = this._y + topAnimationProperties.distance;
-	var contentHeight = window.innerHeight - (this._maxRows * this.ROW_HEIGHT);
+	var contentHeight = Globals.windowHeight - (this._maxRows * this.ROW_HEIGHT);
 	if(destination > 0){
 		destination = 0;
 	}else if(destination < contentHeight){
@@ -323,7 +323,7 @@ CategoryTable.prototype.updateScrollValue = function(){
 CategoryTable.prototype.onScrubberSetScrollValue = function(e){
 	this.stopPlaneAnimation();
 	var value = e.data;
-	var position = value * ((this.ROW_HEIGHT * this._maxRows) - window.innerHeight);
+	var position = value * ((this.ROW_HEIGHT * this._maxRows) - Globals.windowHeight);
 	this._y =  -position;
 	this._container.style.top = this._y+"px";
 	this.updateTable();
@@ -359,7 +359,7 @@ CategoryTable.prototype.setScrollDelta = function(dx,dy,x,y){
 
 CategoryTable.prototype.setMouseWheelScrollDelta = function(dx,dy){
 	if(this._y + dy > 0) dy =  - this._y;
-	if((this._y + dy + (this.ROW_HEIGHT * this._maxRows)) < window.innerHeight) dy = window.innerHeight - (this._y + (this.ROW_HEIGHT * this._maxRows));
+	if((this._y + dy + (this.ROW_HEIGHT * this._maxRows)) < Globals.windowHeight) dy = Globals.windowHeight - (this._y + (this.ROW_HEIGHT * this._maxRows));
 	this.onSetScrollDelta(0,dy,0,0);
 };
 
@@ -376,5 +376,5 @@ CategoryTable.prototype.getArtefactInformationAtPoint = function(pt){
 * Returns value between 0 - 1 which specifies the scroll position, this is used to set the CategoryScrubber
 */
 CategoryTable.prototype.getScrollValue = function(){
-	return (-this._y) / ((this.ROW_HEIGHT * this._maxRows) - window.innerHeight);
+	return (-this._y) / ((this.ROW_HEIGHT * this._maxRows) - Globals.windowHeight);
 }

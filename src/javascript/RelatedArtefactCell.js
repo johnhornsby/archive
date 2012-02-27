@@ -5,6 +5,8 @@ var RelatedArtefactCell = function(options){
 	this._image;
 	this._icon;
 	this._border;
+	this._loaded = false;
+	this._imageRequestIndentifier;
 	
 };
 RelatedArtefactCell.prototype = new ScrollableCell();
@@ -17,7 +19,6 @@ RelatedArtefactCell.prototype.supr = ScrollableCell.prototype;
 RelatedArtefactCell.prototype.build = function(){
 	this.supr.build.call(this);
 	this._image = new Image();
-	//$(this._image).bind("load",this.onLoadComplete.context(this));
 	$(this._image).css("opacity",0);
 	this._icon = document.createElement("div");
 	$(this._icon).addClass("tileIcon");
@@ -37,23 +38,22 @@ RelatedArtefactCell.prototype.build = function(){
 //destroy
 RelatedArtefactCell.prototype.destroy = function(){
 	$(this._anchor).unbind('click');
-	//$(this._image).unbind("load");
 	this.supr.destroy.call(this);
 };
 
 RelatedArtefactCell.prototype.clear = function(){
+	if(this._loaded === false){
+		Globals.imageLoadManager.cancelRequestedImageLoad(this._imageRequestIndentifier);	
+	}
+	this._imageRequestIndentifier = undefined;
 	this._image.src = '';
-	
 	if(Globals.isDesktop){
 		this._image.style.webkitTransition = "opacity 0s";
 	}
 	if(Globals.browser === "Explorer"){
-		//$(el).css({'display':'none'});
 		$(this._image).css({'opacity':0});
 	}else{
-		//el.childNodes[0].style.display = 'none';
 		this._image.style.opacity = 0;
-		//el.style.display = 'none';
 	}
 };
 
@@ -61,8 +61,8 @@ RelatedArtefactCell.prototype.clear = function(){
 RelatedArtefactCell.prototype.setData = function(data,restoreStateObject){
 	this.supr.setData.call(this,data,restoreStateObject);
 	this._image.src = '';
-	this._icon.style.backgroundImage = "url(images/mediaType_"+this._data.m+".gif)";
 	
+	this._icon.style.backgroundImage = "url(images/mediaType_"+this._data.m+".gif)";
 	if(Globals.isDesktop){
 		if(Globals.browser === "Explorer"){
 			$(this._image).css('opacity',0);
@@ -73,9 +73,10 @@ RelatedArtefactCell.prototype.setData = function(data,restoreStateObject){
 	}else{
 		this._image.style.opacity = 0;
 	}
+	this._loaded = false;
 	var src = Globals.ARTEFACT_IMAGES_FOLDER+this._data.id+"_11.jpg";
-	var id = Globals.imageLoadManager.requestImageIdentifier()+"_"+this._data.id;
-	Globals.imageLoadManager.requestImageLoad(id,src, this.loadImageTileComplete.context(this), undefined);
+	this._imageRequestIndentifier = Globals.imageLoadManager.requestImageIdentifier()+"_"+this._data.id;
+	Globals.imageLoadManager.requestImageLoad(this._imageRequestIndentifier,src, this.loadImageTileComplete.context(this), undefined);
 }
 
 
@@ -83,12 +84,12 @@ RelatedArtefactCell.prototype.setData = function(data,restoreStateObject){
 //PRIVATE
 //_________________________________________________________________________________
 RelatedArtefactCell.prototype.onClick = function(){
-	//Globals.viewController.onRelatedArtefactClick(this._data);
 	this.dispatchEvent(new ScrollableCellEvent(ScrollableCellEvent.CLICK,this._data));
 };
 
 RelatedArtefactCell.prototype.loadImageTileComplete = function(e){
 	var self = this;
+	this._loaded = true;
 	this._image.src = Globals.ARTEFACT_IMAGES_FOLDER+this._data.id+"_11.jpg";
 	if(Globals.isDesktop){
 		if(Globals.browser === "Explorer"){
@@ -103,6 +104,7 @@ RelatedArtefactCell.prototype.loadImageTileComplete = function(e){
 	}else{
 		this._image.style.opacity = 1;
 	}
+	
 };
 
 

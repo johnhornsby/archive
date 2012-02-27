@@ -239,7 +239,7 @@ ViewController.prototype.onResize = function(e){
 };
 
 ViewController.prototype.updateGlobalWindowSize = function(){
-	if(window.JQuery !== undefined){
+	if(window.Zepto === undefined){
 		Globals.windowWidth = $(window).width();
 		Globals.windowHeight = $(window).height();
 	}else{

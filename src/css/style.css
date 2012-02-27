@@ -349,7 +349,7 @@ ARTEFACT WINDOW
 #artefactWindow {
 	width:668px;
 	height:536px;
-	background-color:rgba(32,32,32,0.95);
+	background-image:url(../images/323232.95.png);
 	display:none;
 	position:absolute;
 	left:50%;
@@ -513,7 +513,6 @@ ARTEFACT WINDOW
 	height:85px;
 	display:block;
 	opacity:1;
-	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=1)";
 	-webkit-transition: opacity 0.5s ease;
 }
 
@@ -572,7 +571,7 @@ INFO WINDOW
 #infoWindow {
 	width:668px;
 	height:536px;
-	background-color:rgba(32,32,32,0.95);
+	background-image:url(../images/323232.95.png);
 	display:none;
 	position:absolute;
 	left:50%;
