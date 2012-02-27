@@ -323,7 +323,6 @@ CategoryTable.prototype.updateScrollValue = function(){
 CategoryTable.prototype.onScrubberSetScrollValue = function(e){
 	this.stopPlaneAnimation();
 	var value = e.data;
-	var position = value * ((this.ROW_HEIGHT * this._maxRows) - window.innerHeight);
 	var position = value * ((this.ROW_HEIGHT * this._maxRows) - Globals.windowHeight);
 	this._y =  -position;
 	this._container.style.top = this._y+"px";
@@ -377,6 +376,5 @@ CategoryTable.prototype.getArtefactInformationAtPoint = function(pt){
 * Returns value between 0 - 1 which specifies the scroll position, this is used to set the CategoryScrubber
 */
 CategoryTable.prototype.getScrollValue = function(){
-	return (-this._y) / ((this.ROW_HEIGHT * this._maxRows) - window.innerHeight);
 	return (-this._y) / ((this.ROW_HEIGHT * this._maxRows) - Globals.windowHeight);
 }
