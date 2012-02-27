@@ -77,7 +77,11 @@ CategoryScrubberViewController.prototype.mouseDown = function(leftDelta,topDelta
 		//clicked on track
 		Globals.log("clicked on track");
 		this._isThumbDragging = false;
+<<<<<<< HEAD
 		this.setScrollDelta(leftDelta,topDelta,left,top);
+=======
+		this.setScrollDelta(leftDelta,top-(this._thumbPosition - this._scrubberThumbDimension),left,top);
+>>>>>>> GraphicProduction
 	}
 };
 
@@ -87,6 +91,15 @@ CategoryScrubberViewController.prototype.dragEnd = function(finalLeftDelta,final
 	}
 };
 
+<<<<<<< HEAD
+=======
+CategoryScrubberViewController.prototype.setMouseWheelScrollDelta = function(delta){
+	var value;
+	value = this.convertPositionToValue(this._thumbPosition + delta);
+	this.onSetScrollValue(value);
+	this.dispatchEvent(new CategoryScrubberViewControllerEvent(CategoryScrubberViewControllerEvent.SET_SCROLL_VALUE,this._value));
+};
+>>>>>>> GraphicProduction
 
 
 

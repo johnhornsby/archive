@@ -25,7 +25,7 @@ ImageView.STATUS_LOADED = 2;
 //__________________________________________________________________
 ImageView.prototype.init = function(){
 	this._containerElement = $(this._containerElement).get(0);
-	$(window).bind("resize",this.onUpdate.rEvtContext(this));
+	$(window).bind("resize",this.onResize.rEvtContext(this));
 	this.loadImage();
 };
 
@@ -53,19 +53,24 @@ ImageView.prototype.imageLoadAbort = function(e){
 ImageView.prototype.imageLoadComplete = function(e){
 	
 	attr(this._imageElement,"class","imageViewImage");
+	
 	//$("#artefactWindowMediaViewImage").attr( attributeName, value )
 	//$("#artefactWindowMediaView").append('<img id="artefactWindowMediaViewImage" src="'+this._imageElement.src+'">');
 	//$(this._containerElement).append(image);
 	
 	append(this._containerElement,this._imageElement);
 	
-	this.onUpdate();
+	
+	this.updatePosition();
 	this._status = ImageView.STATUS_LOADED;
 };
 
 
 
-ImageView.prototype.onUpdate = function(e){
+ImageView.prototype.onResize = function(e){
+	this.updatePosition();
+}
+ImageView.prototype.updatePosition = function(){
 	var image = this._imageElement;
 	var imageWidth;
 	var imageHeight;
@@ -130,23 +135,23 @@ ImageView.prototype.onUpdate = function(e){
 //PUBLIC
 //_________________________________________________________________________________
 ImageView.prototype.update = function(){
-	this.onUpdate();
+	this.updatePosition();
 };
 
 
 ImageView.prototype.destroy = function(){
 	$(this._imageElement).remove();
-	if(ImageView.STATUS_LOADING){
-		this._imageElement.src = "";
+	if(this._status === ImageView.STATUS_LOADING){
 		this._imageElement.onload = undefined;
 		this._imageElement.onabort = undefined;
 		this._imageElement.onerror = undefined;
 		this._imageElement = undefined;
+		this._imageElement.src = "";
 		delete this._imageElement;
 	}
 	$(this._containerElement).empty();
 	//cancel loading
-	$(window).unbind("resize",this.onUpdate.rEvtContext(this));
+	$(window).unbind("resize",this.onResize.rEvtContext(this));
 	//remove image from dom
 	
 };

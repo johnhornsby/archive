@@ -9,6 +9,7 @@ Globals.OS_OTHER = 0;
 Globals.BROWSER_WEBKIT = 0;
 Globals.BROWSER_IE = 1;
 Globals.BROWSER_OTHER = 2;
+Globals.SEARCH_PROMPT = "search for keyword";
 
 
 
@@ -21,6 +22,8 @@ Globals.planeController;
 Globals.dockViewController;
 Globals.deepLinkingManager;
 Globals.imageLoadManager;
+Globals.windowWidth;
+Globals.windowHeight;
 
 Globals.debug = true;
 //Globals.os = (navigator.userAgent.indexOf("iPad") != -1 ||  navigator.userAgent.indexOf("iPhone") != -1 ||  navigator.userAgent.indexOf("iPod") != -1) ? Globals.OS_IOS : Globals.OS_OTHER;

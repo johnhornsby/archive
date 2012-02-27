@@ -7,10 +7,12 @@ var DockViewController = function(viewController){
 	
 	this._savedHomeSelectionObject;
 	
-	this._buttonBackOffCSS = 'rgba(204,0,51,1)';
-	this._buttonBackOnCSS = 'rgba(0,0,0,1)';
+	this._buttonBackOffCSS = '#1A1A1A';
+	this._buttonBackOnCSS = '#1A1A1A';
 	
 	this._isFilterMenuOpen = false;
+	
+	this._searchField;
 	
 	this.init();
 };
@@ -24,18 +26,19 @@ DockViewController.prototype = new EventDispatcher();
 DockViewController.prototype.init = function(){
 	this._artefactsSelectionObject = new ArtefactsSelectionConfiguration();
 	this._savedHomeSelectionObject = new ArtefactsSelectionConfiguration();
-	this._autoCompleteViewController = new AutoCompleteViewController(document.getElementById("dockSearchField"),this);
+	this._searchField = document.getElementById("dockSearchField");
+	this._searchField.value = Globals.SEARCH_PROMPT;
+	this._autoCompleteViewController = new AutoCompleteViewController(this._searchField,this);
 	this.build();
 	this._viewController.addEventListener(ViewControllerEvent.BUSY_START,this.deactivate.context(this));
 	this._viewController.addEventListener(ViewControllerEvent.BUSY_COMPLETE,this.activate.context(this));
 };
 
 DockViewController.prototype.build = function(){
-	$("#dockHomeButton").css("background-color",this._buttonBackOnCSS);
+	//$("#dockHomeButton").css("background-color",this._buttonBackOnCSS);
 	//$('#dockSubMenu').css('bottom','75px');
 	//$('#dockSubMenu').css('opacity','0');
 	$('#dockSubMenu').css('display','none');
-	
 };
 
 DockViewController.prototype.closeFilterMenu = function(){
@@ -93,49 +96,17 @@ DockViewController.prototype.updateFilterMenu = function(){
 }
 
 DockViewController.prototype.onDockButtonTapHandler = function(e){
-	console.log("onDockButtonTapHandler:");
+	//console.log("onDockButtonTapHandler:");
 };
 
 
 DockViewController.prototype.onDockButtonMouseUpHandler = function(e){
-	console.log('onDockButtonMouseUpHandler:'+e.currentTarget.innerHTML);
+	//console.log('onDockButtonMouseUpHandler:'+e.currentTarget.innerHTML);
 	this.dockButtonActivated(e.currentTarget.innerHTML,e.currentTarget.id);
 };
 
 DockViewController.prototype.dockButtonActivated = function(label,id){
-	var hasSelectionChanged = false;
-	
-	/*
-	block deactivated to develop onNoResultsHideCategories
-	//if we are home and we are relocating view then save filters and keywords
-	//this is a quick patch to remove filters and search from non home views
-	//the filters will be restored when we arrive back to home form another
-	if(this._artefactsSelectionObject.category === ArtefactDataManager.CATEGORY_NONE && (label === "My Archive" || label === "Year" || label === "Production") ){
-		this._savedHomeSelectionObject = this._artefactsSelectionObject.clone();
-		this._artefactsSelectionObject.filters = [];
-		this._artefactsSelectionObject.keywordsArray = [];
-		this._artefactsSelectionObject.isFavourite = false;
-		$("#dockShowFiltersButton").css('opacity','0.3');
-		$("#dockSearchField").css('opacity','0.3');
-		$("#dockSearchResetButton").css('opacity','0.3');
-		$("#dockSearchButton").css('opacity','0.3');
-	}
-	
-	//restore any filters
-	if(this._artefactsSelectionObject.category !== ArtefactDataManager.CATEGORY_NONE && label === "Home" ){
-		this._artefactsSelectionObject.filters = this._savedHomeSelectionObject.filters
-		this._artefactsSelectionObject.keywordsArray = this._savedHomeSelectionObject.keywordsArray;
-		this._artefactsSelectionObject.isFavourite = false;
-		$("#dockShowFiltersButton").css('opacity','1');
-		$("#dockSearchField").css('opacity','1');
-		$("#dockSearchResetButton").css('opacity','1');
-		$("#dockSearchButton").css('opacity','1');
-	}
-	*/
-	
-	
-                    
-	
+	var hasSelectionChanged = false;	
 	switch(id){
 		case "dockResetButton":
 			this._artefactsSelectionObject.category = ArtefactDataManager.CATEGORY_NONE;
@@ -145,36 +116,36 @@ DockViewController.prototype.dockButtonActivated = function(label,id){
 			hasSelectionChanged = true;
 			this.closeFilterMenu();
 			break;
-		case "dockHomeButton":
+		case "home":
 			if(this._artefactsSelectionObject.category !== ArtefactDataManager.CATEGORY_NONE){
-				$("#dockHomeButton").css("background-color",this._buttonBackOnCSS)
-				$("#dockYearButton").css("background-color",this._buttonBackOffCSS);
-				$("#dockProductionButton").css("background-color",this._buttonBackOffCSS);
-				$("#dockMyArchiveButton").css("background-color",this._buttonBackOffCSS);
+				//$("#dockHomeButton").css("background-color",this._buttonBackOnCSS)
+				//$("#dockYearButton").css("background-color",this._buttonBackOffCSS);
+				//$("#dockProductionButton").css("background-color",this._buttonBackOffCSS);
+				//$("#dockMyArchiveButton").css("background-color",this._buttonBackOffCSS);
 				this._artefactsSelectionObject.category = ArtefactDataManager.CATEGORY_NONE;
 				this._artefactsSelectionObject.isFavourite = false;
 				hasSelectionChanged = true;
 			}
 			this.closeFilterMenu();
 			break;
-		case "dockYearButton":
+		case "year":
 			if(this._artefactsSelectionObject.category !== ArtefactDataManager.CATEGORY_YEAR){
-				$("#dockHomeButton").css("background-color",this._buttonBackOffCSS)
-				$("#dockYearButton").css("background-color",this._buttonBackOnCSS);
-				$("#dockProductionButton").css("background-color",this._buttonBackOffCSS);
-				$("#dockMyArchiveButton").css("background-color",this._buttonBackOffCSS);
+				//$("#dockHomeButton").css("background-color",this._buttonBackOffCSS)
+				//$("#dockYearButton").css("background-color",this._buttonBackOnCSS);
+				//$("#dockProductionButton").css("background-color",this._buttonBackOffCSS);
+				//$("#dockMyArchiveButton").css("background-color",this._buttonBackOffCSS);
 				this._artefactsSelectionObject.category = ArtefactDataManager.CATEGORY_YEAR;
 				this._artefactsSelectionObject.isFavourite = false;
 				hasSelectionChanged = true;
 			}
 			this.closeFilterMenu();
 			break;
-		case "dockProductionButton":
+		case "production":
 			if(this._artefactsSelectionObject.category !== ArtefactDataManager.CATEGORY_PRODUCTION){
-				$("#dockHomeButton").css("background-color",this._buttonBackOffCSS)
-				$("#dockYearButton").css("background-color",this._buttonBackOffCSS);
-				$("#dockProductionButton").css("background-color",this._buttonBackOnCSS);
-				$("#dockMyArchiveButton").css("background-color",this._buttonBackOffCSS);
+				//$("#dockHomeButton").css("background-color",this._buttonBackOffCSS)
+				//$("#dockYearButton").css("background-color",this._buttonBackOffCSS);
+				//$("#dockProductionButton").css("background-color",this._buttonBackOnCSS);
+				//$("#dockMyArchiveButton").css("background-color",this._buttonBackOffCSS);
 				this._artefactsSelectionObject.category = ArtefactDataManager.CATEGORY_PRODUCTION;
 				this._artefactsSelectionObject.isFavourite = false;
 				
@@ -182,19 +153,19 @@ DockViewController.prototype.dockButtonActivated = function(label,id){
 			}
 			this.closeFilterMenu();
 			break;
-		case "dockMyArchiveButton":
+		case "archive":
 			if(this._artefactsSelectionObject.category !== ArtefactDataManager.CATEGORY_MY_ARCHIVE){
-				$("#dockHomeButton").css("background-color",this._buttonBackOffCSS)
-				$("#dockYearButton").css("background-color",this._buttonBackOffCSS);
-				$("#dockProductionButton").css("background-color",this._buttonBackOffCSS);
-				$("#dockMyArchiveButton").css("background-color",this._buttonBackOnCSS);
+				//$("#dockHomeButton").css("background-color",this._buttonBackOffCSS)
+				//$("#dockYearButton").css("background-color",this._buttonBackOffCSS);
+				//$("#dockProductionButton").css("background-color",this._buttonBackOffCSS);
+				//$("#dockMyArchiveButton").css("background-color",this._buttonBackOnCSS);
 				this._artefactsSelectionObject.isFavourite = true;
 				this._artefactsSelectionObject.category = ArtefactDataManager.CATEGORY_MY_ARCHIVE;
 				hasSelectionChanged = true;
 			}
 			this.closeFilterMenu();
 			break;
-		case "dockInfoButton":
+		case "info":
 			this.dispatchEvent(new DockViewControllerEvent(DockViewControllerEvent.INFO_OPEN));
 			this.closeFilterMenu();
 			break;
@@ -284,13 +255,13 @@ DockViewController.prototype.dockButtonActivated = function(label,id){
 				hasSelectionChanged = true
 			}
 			break;
-		case "dockSearchButton":
+		case "search":
 			//var searchField = $("#dockSearchField");
 			//var searchString = searchField.val();
 			//if(this._artefactsSelectionObject.category !== ArtefactDataManager.CATEGORY_NONE)return;
 			var searchString = document.getElementById("dockSearchField").value;
 			
-			if(searchString !== ""){
+			if(searchString !== "" || searchString != Globals.SEARCH_PROMPT){
 				this._artefactsSelectionObject.keywordsArray = searchString.split(" ");
 				
 			}else{
@@ -310,8 +281,8 @@ DockViewController.prototype.dockButtonActivated = function(label,id){
 				this._artefactsSelectionObject.keywordsArray = [];
 				hasSelectionChanged = true;
 			}
-			if(searchString !== ""){
-				document.getElementById("dockSearchField").value = "";	
+			if(searchString !== "" || searchString != Globals.SEARCH_PROMPT){
+				document.getElementById("dockSearchField").value = Globals.SEARCH_PROMPT;	
 			}
 			this.closeFilterMenu();
 			break;
@@ -330,7 +301,7 @@ DockViewController.prototype.submitSearch = function(){
 	var searchString = document.getElementById("dockSearchField").value;
 	//searchString = searchString.toLowerCase();
 	document.getElementById("dockSearchField").value = searchString;	
-	if(searchString !== ""){
+	if(searchString !== "" || searchString != Globals.SEARCH_PROMPT){
 		this._artefactsSelectionObject.keywordsArray = searchString.split(" ");
 		
 	}else{
@@ -350,8 +321,8 @@ DockViewController.prototype.resetSearch = function(){
 	if(this._artefactsSelectionObject.keywordsArray.length !== 0){
 		this._artefactsSelectionObject.keywordsArray = [];
 		hasSelectionChanged = true;
-	}else if(searchString !== ""){
-		document.getElementById("dockSearchField").value = "";
+	}else if(searchString !== "" || searchString != Globals.SEARCH_PROMPT){
+		document.getElementById("dockSearchField").value = Globals.SEARCH_PROMPT;
 	}
 	this.dispatchEvent(new DockViewControllerEvent(DockViewControllerEvent.CHANGE_SELECTION,this._artefactsSelectionObject));
 };
@@ -362,72 +333,43 @@ DockViewController.prototype.resetSearch = function(){
 
 
 DockViewController.prototype.onSetSelectionObject = function(selectionObject){
+	$(".dockViewButton").removeClass("active");
+	
 	if(selectionObject.category === ArtefactDataManager.CATEGORY_NONE){
-		$("#dockHomeButton").css("background-color",this._buttonBackOnCSS)
-		$("#dockYearButton").css("background-color",this._buttonBackOffCSS);
-		$("#dockProductionButton").css("background-color",this._buttonBackOffCSS);
-		$("#dockMyArchiveButton").css("background-color",this._buttonBackOffCSS);
+		//$("#dockHomeButton").css("background-color",this._buttonBackOnCSS)
+		//$("#dockYearButton").css("background-color",this._buttonBackOffCSS);
+		//$("#dockProductionButton").css("background-color",this._buttonBackOffCSS);
+		//$("#dockMyArchiveButton").css("background-color",this._buttonBackOffCSS);
+		$("#dockHomeButton").addClass("active");
+		
 	}else if(selectionObject.category === ArtefactDataManager.CATEGORY_YEAR){
+		/*
 		$("#dockHomeButton").css("background-color",this._buttonBackOffCSS)
 		$("#dockYearButton").css("background-color",this._buttonBackOnCSS);
 		$("#dockProductionButton").css("background-color",this._buttonBackOffCSS);
 		$("#dockMyArchiveButton").css("background-color",this._buttonBackOffCSS);
+		*/
+		$("#dockYearButton").addClass("active");
 	}else if(selectionObject.category === ArtefactDataManager.CATEGORY_PRODUCTION){
+		/*
 		$("#dockHomeButton").css("background-color",this._buttonBackOffCSS)
 		$("#dockYearButton").css("background-color",this._buttonBackOffCSS);
 		$("#dockProductionButton").css("background-color",this._buttonBackOnCSS);
 		$("#dockMyArchiveButton").css("background-color",this._buttonBackOffCSS);
+		*/
+		$("#dockProductionButton").addClass("active");
 	}else{
+		/*
 		$("#dockHomeButton").css("background-color",this._buttonBackOffCSS)
 		$("#dockYearButton").css("background-color",this._buttonBackOffCSS);
 		$("#dockProductionButton").css("background-color",this._buttonBackOffCSS);
 		$("#dockMyArchiveButton").css("background-color",this._buttonBackOnCSS);
-	}
-	/*
-	if(selectionObject.isFavourite === true){
-		$("#dockMyArchiveButton").css("background-color",this._buttonBackOnCSS);
-	}else{
-		$("#dockMyArchiveButton").css("background-color",this._buttonBackOffCSS);
-	}
-	*/
-	/*
-	if(selectionObject.filters.indexOf(ArtefactDataManager.FILTER_PHOTO) !== -1){
-		//$("#dockPhotosButton").css("background-color",this._buttonBackOnCSS);
-		$('#filterPhotosButton').attr('class','checkBoxSelected');
-	}else{
-		//$("#dockPhotosButton").css("background-color",this._buttonBackOffCSS);
-		$('#filterPhotosButton').attr('class','checkBoxUnSelected');
-	}
-	
-	if(selectionObject.filters.indexOf(ArtefactDataManager.FILTER_POSTERS) !== -1){
-		//$("#dockPostersButton").css("background-color",this._buttonBackOnCSS);
-		$('#filterPostersButton').attr('class','checkBoxSelected');
-	}else{
-		//$("#dockPostersButton").css("background-color",this._buttonBackOffCSS);
-		$('#filterPostersButton').attr('class','checkBoxUnSelected');
-	}
-	
-	if(selectionObject.filters.indexOf(ArtefactDataManager.FILTER_VIDEO) !== -1){
-		//$("#dockVideoButton").css("background-color",this._buttonBackOnCSS);
-		$('#filterVideoButton').attr('class','checkBoxSelected');
-	}else{
-		//$("#dockVideoButton").css("background-color",this._buttonBackOffCSS);
-		$('#filterVideoButton').attr('class','checkBoxUnSelected');
-	}
-	
-	if(selectionObject.filters.indexOf(ArtefactDataManager.FILTER_AUDIO) !== -1){
-		//$("#dockAudioButton").css("background-color",this._buttonBackOnCSS);
-		$('#filterAudioButton').attr('class','checkBoxSelected');
-	}else{
-		//$("#dockAudioButton").css("background-color",this._buttonBackOffCSS);
-		$('#filterAudioButton').attr('class','checkBoxUnSelected');
-	}
-	*/
-	
-	
+		*/
+		$("#dockMyArchiveButton").addClass("active");
+	}	
 	var searchField = document.getElementById("dockSearchField");
 	if(selectionObject.keywordsArray.length === 0){
-		searchField.value = "";
+		searchField.value = Globals.SEARCH_PROMPT;
 	}else{
 		searchField.value = selectionObject.keywordsArray.join(" ");
 	}
@@ -441,7 +383,7 @@ DockViewController.prototype.onSetSelectionObject = function(selectionObject){
 //PUBLIC
 //_________________________________________________________________________________________
 DockViewController.prototype.activate = function(){
-	$("#dockContainer").css("opacity",1);
+	//$("#dockContainer").css("opacity",1);
 	/*
 	
 	var buttonArray = $("#dockContainer a").get();
@@ -460,7 +402,7 @@ DockViewController.prototype.activate = function(){
 
 DockViewController.prototype.deactivate = function(){
 	console.log('dock deactivate');
-	$("#dockContainer").css("opacity",0.5);
+	//$("#dockContainer").css("opacity",1);
 	$("#dockContainer a").unbind('click');
 	$("#dockForm").unbind("submit");
 	$("#dockSubMenu .closeButton").unbind('click');
@@ -473,12 +415,15 @@ DockViewController.prototype.deactivate = function(){
 	*/
 };
 
+/**
+* prodominently used for resetting the dock back to state before selection from Tapestry because of no results
+**/
 DockViewController.prototype.setSelectionObject = function(selectionObject){
 	this.onSetSelectionObject(selectionObject);
 };
 
 DockViewController.prototype.setKeywordAndSubmit = function(str){
-	$("#dockSearchField")[0].value = str;
+	this._searchField.value = str;
 	this.submitSearch();
 };
 

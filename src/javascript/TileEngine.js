@@ -412,7 +412,7 @@ TileEngine.prototype.update = function(){
 						}
 						//$(el).children().last().css("background-image","url(images/mediaType_"+gridObject.data.m+".gif)");
 						
-						el.childNodes[2].style.backgroundImage = "url(images/mediaType_"+gridObject.data.m+".gif)";
+						el.childNodes[2].style.backgroundImage = "url(images/mediaType_"+gridObject.data.m+".png)";
 						
 						/*
 						switch(gridObject.m){
@@ -976,8 +976,8 @@ TileEngine.prototype.getWindowRect = function(){
 	}else{
 		frame.top = Math.floor(Math.abs(offsetTop / this._TILE_HEIGHT)) ;
 	}
-	frame.width = Math.ceil(( (window.innerWidth - offsetLeft) - (frame.left * this._TILE_WIDTH) ) / this._TILE_WIDTH);
-	frame.height = Math.ceil(( (window.innerHeight - offsetTop) - (frame.top * this._TILE_HEIGHT) ) / this._TILE_HEIGHT);
+	frame.width = Math.ceil(( (Globals.windowWidth - offsetLeft) - (frame.left * this._TILE_WIDTH) ) / this._TILE_WIDTH);
+	frame.height = Math.ceil(( (Globals.windowHeight - offsetTop) - (frame.top * this._TILE_HEIGHT) ) / this._TILE_HEIGHT);
 	//frame.width = Math.ceil(( (400 - offsetLeft) - (frame.left * this._TILE_WIDTH) ) / this._TILE_WIDTH);
 	//frame.height = Math.ceil(( (300 - offsetTop) - (frame.top * this._TILE_HEIGHT) ) / this._TILE_HEIGHT);
 	return frame;
@@ -1003,8 +1003,8 @@ TileEngine.prototype.getWindowRect = function(){
 	//frame.width = Math.ceil(( ($(window).width() - this._containerElement.offsetLeft) - (frame.left * this._TILE_WIDTH) ) / this._TILE_WIDTH);
 	//frame.height = Math.ceil(( ($(window).height() - this._containerElement.offsetTop) - (frame.top * this._TILE_HEIGHT) ) / this._TILE_HEIGHT);
 	
-	frame.width = Math.ceil(( (window.innerWidth - this._containerElement.offsetLeft) - (frame.left * this._TILE_WIDTH) ) / this._TILE_WIDTH);
-	frame.height = Math.ceil(( (window.innerHeight - this._containerElement.offsetTop) - (frame.top * this._TILE_HEIGHT) ) / this._TILE_HEIGHT);
+	frame.width = Math.ceil(( (Globals.windowWidth - this._containerElement.offsetLeft) - (frame.left * this._TILE_WIDTH) ) / this._TILE_WIDTH);
+	frame.height = Math.ceil(( (Globals.windowHeight - this._containerElement.offsetTop) - (frame.top * this._TILE_HEIGHT) ) / this._TILE_HEIGHT);
 	
 	return frame;
 }

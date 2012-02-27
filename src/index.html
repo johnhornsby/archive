@@ -90,12 +90,14 @@
 <script src="javascript/VimeoView.js"></script>
 <script src="javascript/InfoWindow.js"></script>
 <script src="javascript/FullScreenWindow.js"></script>
+<script src="javascript/FullScreenMediaViewer.js"></script>
 <script src="javascript/AnimationLayer.js"></script>
 <script src="javascript/Veil.js"></script>
 <script src="javascript/ViewController.js"></script>
 
 <script src="javascript/Main.js"></script>
 <link href="css/style.css" rel="stylesheet" type="text/css">
+<link href="css/nav.css" rel="stylesheet" type="text/css">
 
 
 <script>
@@ -125,38 +127,33 @@ window.onload = function(){
 			</div>
     </div>
     <div id="dockVeil"></div>
+		<form id="dockForm">
     <div id="dockContainer">
-    	
-    	<form id="dockForm">
-            <ul>
-                <li class="dockButton"><a id="dockResetButton">Reset</a></li>
-                <li class="dockButton"><a id="dockInfoButton">Info</a></li>
-                <li class="dockTitle"></li>
-                <li class="dockButton"><a id="dockHomeButton">Home</a></li>
-                <li class="dockButton"><a id="dockYearButton">Year</a></li>
-                <li class="dockButton"><a id="dockProductionButton">Production</a></li>
-                <li class="dockButton"><a id="dockMyArchiveButton">My Archive</a></li>
-                <li class="dockTitle"></li>
-                <li class="dockButton"><a id="dockShowFiltersButton">Show Filters</a>
-                    <ul id="dockSubMenu">
-                    	<li class="filterTitle"><h2>Filter Media</h2><a class="menuItem" id="filterClearButton">RESET</a><div class="closeButton closeButtonWhite"></div></li>
-                    	<li class="filterDescription">Click on the options below to filter media types</li>
-                        <li class="filterButton"><a id="filterPhotosButton" class="checkBoxDefault">Photos</a></li>
-                        <li class="filterButton"><a id="filterPostersButton" class="checkBoxDefault">Posters</a></li>
-                        <li class="filterButton"><a id="filterVideoButton" class="checkBoxDefault">Video</a></li>
-                        <li class="filterButton"><a id="filterAudioButton" class="checkBoxDefault">Audio</a></li>
-                    </ul>
-                </li>
-                <li class="dockTitle"></li>
-                <li><input type="text" id="dockSearchField"></li>
-                <li class="dockButton"><a id="dockSearchResetButton"><img src="images/resetSearch.png"></a></li>
-                <li class="dockButton"><a id="dockSearchButton"><img src="images/searchIcon.png"></a></li>
-            </ul>
-        </form>
+        <ul>
+            <li class="dockTitle">View the archive:</li>
+            <li class="dockViewButton active" id="dockHomeButton"><a id="home"><div class="dockViewIcon"></div>Canvas View</a></li>
+            <li class="dockViewButton" id="dockYearButton"><a id="year"><div class="dockViewIcon"></div>By Year</a></li>
+            <li class="dockViewButton" id="dockProductionButton"><a id="production"><div class="dockViewIcon"></div>By Production</a></li>
+            <li class="dockViewButton" id="dockMyArchiveButton"><a id="archive"><div class="dockViewIcon"></div>Your Archive</a></li>
+			<li class="dockSearch" id="dockSearch"><input type="text" id="dockSearchField"><a id="search"><div class="dockSearchIcon"></div></a></li>
+			<li class="dockInfoButton" id="dockInfoButton"><a id="info"><div class="dockInfoIcon"></div></a></li>
+        </ul>
         <div id="autoCompleteShadow">
         	<div id="autoCompleteOutput"></div>
         </div>
     </div>
+		<div id="filterDrawer">
+			<ul id="dockSubMenu">
+      	<li class="filterTitle"><h2>Filter Media</h2><a class="menuItem" id="filterClearButton">RESET</a><div class="closeButton closeButtonWhite"></div></li>
+      	<li class="filterDescription">Click on the options below to filter media types</li>
+          <li class="filterButton"><a id="filterPhotosButton" class="checkBoxDefault">Photos</a></li>
+          <li class="filterButton"><a id="filterPostersButton" class="checkBoxDefault">Posters</a></li>
+          <li class="filterButton"><a id="filterVideoButton" class="checkBoxDefault">Video</a></li>
+          <li class="filterButton"><a id="filterAudioButton" class="checkBoxDefault">Audio</a></li>
+      </ul>
+		</div>
+		</form>
+
     <div id="veil"></div>
     <div id="topNav">
     	<img src="images/donmarLogo.png"/>
@@ -225,6 +222,12 @@ window.onload = function(){
     <div id="imageFullScreenView">
     	<div id="imageFullScreenMediaView"></div>
     	<div class="closeButton closeButtonBlack"></div>
+    </div>
+		<div id="full-screen-media-viewer">
+    	<div id="full-screen-media-viewer-item"></div>
+    	<div class="closeButton closeButtonBlack"></div>
+			<div class="previousButton previousButtonBlack"></div>
+			<div class="nextButton nextButtonBlack"></div>
     </div>
     <div id="animationLayer">
     
