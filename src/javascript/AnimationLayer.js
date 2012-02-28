@@ -30,7 +30,7 @@ AnimationLayer.prototype.openArtefactFromGridAnimation = function(data,imageBoun
 	animationObject.origin = new Point(imageBounds.left, imageBounds.top);
 	animationObject.destination = new Point(imageBounds.left, imageBounds.top);
 	animationObject.originScale = 1;
-	animationObject.destinationScale = 3;
+	animationObject.destinationScale = 4;
 	animationObject.scaleChange = animationObject.destinationScale - animationObject.originScale;
 	animationObject.backScaleX = Globals.windowWidth / imageBounds.width;
 	animationObject.backScaleY = Globals.windowHeight / imageBounds.height;
@@ -52,7 +52,7 @@ AnimationLayer.prototype.openArtefactFromGridAnimation = function(data,imageBoun
 	
 	
 	var location = 1;
-	var totalFrames = 30;
+	var totalFrames = 15;
 	var frameDecrement = totalFrames;
 	var frameIncrement = 0;
 	var point;
@@ -79,7 +79,7 @@ AnimationLayer.prototype.openArtefactFromGridAnimation = function(data,imageBoun
 		if(frameIncrement<totalFrames+1){
 
 			percentage = AnimationLayer.easingFunctions.easeInQuad(frameIncrement,0,1,totalFrames);
-			opacityPercentage = AnimationLayer.easingFunctions.easeInExpo(frameIncrement,0,1,totalFrames);
+			opacityPercentage = AnimationLayer.easingFunctions.easeInQuad(frameIncrement,0,1,totalFrames);
 			scale = animationObject.originScale + (percentage * animationObject.scaleChange)
 			opacity = 1 - opacityPercentage;
 			inversePercentage = 1 - percentage;
@@ -95,7 +95,6 @@ AnimationLayer.prototype.openArtefactFromGridAnimation = function(data,imageBoun
 			scaleX = animationObject.originScale + (percentage * animationObject.backScaleChangeX);
 			scaleY = animationObject.originScale + (percentage * animationObject.backScaleChangeY);
 			
-			
 			self.setTransform(animationObject.element, elementX, elementY, scale, scale);
 			self.setTransform(animationObject.elementBack, backX, backY, scaleX, scaleY);
 			
@@ -106,7 +105,7 @@ AnimationLayer.prototype.openArtefactFromGridAnimation = function(data,imageBoun
 			$(animationObject.elementBack).remove();
 			$(animationObject.element).remove();
 			animationObject = undefined;
-			self.dispatchEvent(new AnimationLayerEvent(AnimationLayerEvent.OPEN_ARTEFACT_FROM_GRID_COMPLETE));
+			self.dispatchEvent(new AnimationLayerEvent(AnimationLayerEvent.OPEN_ARTEFACT_FROM_GRID_COMPLETE,data));
 		}
 		//Globals.log("scaleLocation"+scaleLocation+" frameIncrement:"+frameIncrement)
 	};
@@ -422,8 +421,9 @@ AnimationLayer.easingFunctions.linear = AnimationLayer.easingFunctions.easeNone;
 
 //Event Classes
 //_________________________________________________________________________________________	
-var AnimationLayerEvent = function(eventType){
+var AnimationLayerEvent = function(eventType,data){
 	this.eventType = eventType;
+	this.data = data;
 };
 AnimationLayerEvent.ADD_ARTEFACT_TO_DOCK_COMPLETE = "addArtefactToDockComplete";
 AnimationLayerEvent.OPEN_ARTEFACT_FROM_GRID_COMPLETE = "openArtefactFromGridComplete";

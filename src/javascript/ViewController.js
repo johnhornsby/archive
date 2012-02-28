@@ -167,10 +167,15 @@ ViewController.prototype.onOpenArtefactPopUpHandler = function(e){
 };
 
 ViewController.prototype.onOpenArefactWindowHandler = function(e){
-	
+	this._animationLayer.addEventListener(AnimationLayerEvent.OPEN_ARTEFACT_FROM_GRID_COMPLETE,this.onOpenArefactAnimationComplete.rEvtContext(this));
 	this._animationLayer.openArtefactFromGridAnimation(e.data,e.bounds);
-	//this._artefactWindow.open(e.data);
+	
 };
+
+ViewController.prototype.onOpenArefactAnimationComplete = function(e){
+	this._animationLayer.removeEventListener(AnimationLayerEvent.OPEN_ARTEFACT_FROM_GRID_COMPLETE,this.onOpenArefactAnimationComplete.rEvtContext(this));
+	this._artefactWindow.open(e.data);
+}
 
 ViewController.prototype.onOpenFullScreenWindowHandler = function(e){
 	//this._fullscreenWindow.open(e.data);
