@@ -22,6 +22,14 @@ AnimationLayer.prototype.openArtefactFromGridAnimation = function(data,imageBoun
 	attr(animationObject.element,"class","animationTile");
 	append(this._animationLayer,animationObject.element);
 	
+	var isLandscape = data.o===0;
+	var fullscreenBounds = calculateFullscreenBounds(isLandscape);	
+	if(isLandscape){
+		animationObject.destinationScale = fullscreenBounds.height / imageBounds.height;
+	}else{
+		animationObject.destinationScale = fullscreenBounds.width / imageBounds.width;
+	}
+	
 	//determin image size
 	var imageSize = String(imageBounds.width / Globals.TILE_WIDTH) + String(imageBounds.height / Globals.TILE_HEIGHT);
 	animationObject.element.style.backgroundImage = 'url(' + Globals.ARTEFACT_IMAGES_FOLDER + data.id + '_' + imageSize + '.jpg)';
@@ -30,7 +38,7 @@ AnimationLayer.prototype.openArtefactFromGridAnimation = function(data,imageBoun
 	animationObject.origin = new Point(imageBounds.left, imageBounds.top);
 	animationObject.destination = new Point(imageBounds.left, imageBounds.top);
 	animationObject.originScale = 1;
-	animationObject.destinationScale = 4;
+	//animationObject.destinationScale = 4;
 	animationObject.scaleChange = animationObject.destinationScale - animationObject.originScale;
 	animationObject.backScaleX = Globals.windowWidth / imageBounds.width;
 	animationObject.backScaleY = Globals.windowHeight / imageBounds.height;
@@ -42,19 +50,19 @@ AnimationLayer.prototype.openArtefactFromGridAnimation = function(data,imageBoun
 	animationObject.elementY = (Globals.windowHeight / 2) - ((imageBounds.height * animationObject.destinationScale)/2);
 	animationObject.elementChangeX = animationObject.elementX - animationObject.origin.x;
 	animationObject.elementChangeY = animationObject.elementY - animationObject.origin.y;
+	animationObject.imageBounds = imageBounds;
 	
+	animationObject.location = 0;
 	
-	
-	this.setTransformOrigin(animationObject.elementBack, 0, 0);
+	//this.setTransformOrigin(animationObject.elementBack, 0, 0);
 	this.setTransformOrigin(animationObject.element, 0, 0);
 	this.setTransform(animationObject.element, animationObject.origin.x, animationObject.origin.y, animationObject.originScale, animationObject.originScale);
-	this.setTransform(animationObject.elementBack, animationObject.origin.x, animationObject.origin.y, animationObject.originScale, animationObject.originScale);
+	//this.setTransform(animationObject.elementBack, animationObject.origin.x, animationObject.origin.y, animationObject.originScale, animationObject.originScale);
 	
+	animationObject.elementBack.style.left = imageBounds.left + "px";
+	animationObject.elementBack.style.top = imageBounds.top + "px";
 	
 	var location = 1;
-	var totalFrames = 15;
-	var frameDecrement = totalFrames;
-	var frameIncrement = 0;
 	var point;
 	var scale;
 	var opacity;
@@ -62,54 +70,110 @@ AnimationLayer.prototype.openArtefactFromGridAnimation = function(data,imageBoun
 	var scaleY;
 	var backX;
 	var backY;
+	var backWidth;
+	var backHeight;
 	var elementX;
 	var elementY;
 	var inversePercentage;
 	var percentage;
 	var opacityPercentage;
 	var self = this;
+	var renderCompleteStatus = false;
+	var imageLoadedStatus = false;
 
-	
-	function initRendering(){
-		window.requestAnimFrame(render,animationObject.element);
-	}
-	
-	function render(){
-		frameIncrement++;
-		if(frameIncrement<totalFrames+1){
-
-			percentage = AnimationLayer.easingFunctions.easeInQuad(frameIncrement,0,1,totalFrames);
-			opacityPercentage = AnimationLayer.easingFunctions.easeInQuad(frameIncrement,0,1,totalFrames);
-			scale = animationObject.originScale + (percentage * animationObject.scaleChange)
-			opacity = 1 - opacityPercentage;
-			inversePercentage = 1 - percentage;
-			
-			//scale = jsBezier.pointOnCurve(animationObject.scaleCurve,scaleLocation);
-			//Globals.log("percentage"+percentage);
-			
-			elementX = animationObject.origin.x + (percentage * animationObject.elementChangeX);
-			elementY = animationObject.origin.y + (percentage * animationObject.elementChangeY);
-			
-			backX = animationObject.origin.x * inversePercentage;
-			backY = animationObject.origin.y * inversePercentage;
-			scaleX = animationObject.originScale + (percentage * animationObject.backScaleChangeX);
-			scaleY = animationObject.originScale + (percentage * animationObject.backScaleChangeY);
-			
-			self.setTransform(animationObject.element, elementX, elementY, scale, scale);
-			self.setTransform(animationObject.elementBack, backX, backY, scaleX, scaleY);
-			
-			animationObject.element.style.opacity = opacity;
-			window.requestAnimFrame(render,animationObject.element);
+	function calculateFullscreenBounds(isLandscape){
+		var imageWidth;
+		var imageHeight;
+		var frameWidth;
+		var frameHeight;
+		var frameRatio;
+		var imageRatio;
+		var imageScaledWidth;
+		var imageScaledHeight;
+		var bounds = new Rectangle();
+		if(isLandscape){
+			imageWidth = 1024;
+			imageHeight = 682;
 		}else{
-			self._animationLayer.style.display = 'none';
-			$(animationObject.elementBack).remove();
-			$(animationObject.element).remove();
-			animationObject = undefined;
-			self.dispatchEvent(new AnimationLayerEvent(AnimationLayerEvent.OPEN_ARTEFACT_FROM_GRID_COMPLETE,data));
+			imageWidth = 682;
+			imageHeight = 1024;
 		}
-		//Globals.log("scaleLocation"+scaleLocation+" frameIncrement:"+frameIncrement)
-	};
-	initRendering();
+		imageRatio = imageWidth / imageHeight; 	// 2/1 = 0.5
+		frameWidth = Globals.windowWidth;		
+		frameHeight = Globals.windowHeight;
+		frameRatio = frameWidth / frameHeight;	// 2/0.75 = 1
+
+		if(imageRatio > frameRatio){	//calculate using width
+			imageScaledWidth = frameWidth;
+			imageScaledHeight = Math.round(imageHeight * (frameWidth / imageWidth))
+			bounds.width = imageScaledWidth;
+			bounds.height = imageScaledHeight;
+			bounds.left = 0;
+			bounds.top = Math.round((frameHeight - imageScaledHeight)/2); 
+		}else{							//calculate using height
+			imageScaledWidth = Math.round(imageWidth * (frameHeight / imageHeight));
+			imageScaledHeight = frameHeight;
+			bounds.height = imageScaledHeight;
+			bounds.width = imageScaledWidth;
+			bounds.left = Math.round((frameWidth - imageScaledWidth)/2); 
+			bounds.top = 0;
+		}
+		return bounds;
+	}
+
+	function render(){
+		percentage = AnimationLayer.easingFunctions.easeInQuad(animationObject.location,0,1,1);
+		//opacityPercentage = AnimationLayer.easingFunctions.easeInQuad(animationObject.location,0,1,1);
+		scale = animationObject.originScale + (percentage * animationObject.scaleChange)
+		//opacity = 1 - opacityPercentage;
+		inversePercentage = 1 - percentage;
+				
+		elementX = animationObject.origin.x + (percentage * animationObject.elementChangeX);
+		elementY = animationObject.origin.y + (percentage * animationObject.elementChangeY);
+		
+		backX = animationObject.origin.x * inversePercentage;
+		backY = animationObject.origin.y * inversePercentage;
+		backWidth = animationObject.imageBounds.width + ((Globals.windowWidth - animationObject.imageBounds.width) * percentage);
+		backHeight = animationObject.imageBounds.height + ((Globals.windowHeight - animationObject.imageBounds.height) * percentage);
+		//scaleX = animationObject.originScale + (percentage * animationObject.backScaleChangeX);
+		//scaleY = animationObject.originScale + (percentage * animationObject.backScaleChangeY);
+		
+		self.setTransform(animationObject.element, elementX, elementY, scale, scale);
+		//self.setTransform(animationObject.elementBack, backX, backY, scaleX, scaleY);
+		
+		animationObject.elementBack.style.left = backX + "px";
+		animationObject.elementBack.style.top = backY + "px";
+		animationObject.elementBack.style.width = backWidth + "px";
+		animationObject.elementBack.style.height = backHeight + "px";
+	
+		//animationObject.element.style.opacity = opacity;
+	}
+	function renderComplete(){
+		renderCompleteStatus = true;
+		fullComplete.call(this);
+	}
+	function imageLoadedComplete(){
+		imageLoadedStatus = true;
+		fullComplete.call(this);
+	}
+	function fullComplete(){
+		if(imageLoadedStatus && renderCompleteStatus){
+			this.dispatchEvent(new AnimationLayerEvent(AnimationLayerEvent.OPEN_ARTEFACT_FROM_GRID_COMPLETE,data));
+			var self = this;
+			setTimeout(function(){
+				self._animationLayer.style.display = 'none';
+				$(animationObject.elementBack).remove();
+				$(animationObject.element).remove();
+				animationObject = undefined;
+			},0);
+		}
+	}
+	//Preload image
+	var src = Globals.ARTEFACT_IMAGES_FOLDER+data.id+'.jpg';
+	var id = Globals.imageLoadManager.requestImageIdentifier()+"_"+data.id;
+	Globals.imageLoadManager.requestImageLoad(id,src,imageLoadedComplete.context(this), undefined);
+	//--
+	Animator.addTween(animationObject,{location:1,time:0.3,transition:"linear",onUpdate:render.context(this),onComplete:renderComplete.context(this)});
 };
 
 AnimationLayer.prototype.addToArchiveFromGridAnimation = function(data,imageBounds,archiveButtonBounds){
