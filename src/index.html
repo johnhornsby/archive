@@ -9,7 +9,8 @@
 
 <script>
 	/* check browser if webkit then use zepto, needs refactoring*/
-	
+	window.seq = window.seq || {};
+	window.seq.startTime = new Date().getTime();
 	
 	if(navigator.userAgent.indexOf('WebKit') > -1){
 		loadjscssfile('javascript/lib/zepto.min.js','js');
@@ -93,6 +94,7 @@
 <script src="javascript/FullScreenMediaViewer.js"></script>
 <script src="javascript/AnimationLayer.js"></script>
 <script src="javascript/Veil.js"></script>
+<script src="javascript/VeilLoader.js"></script>
 <script src="javascript/ViewController.js"></script>
 
 <script src="javascript/Main.js"></script>
@@ -101,19 +103,15 @@
 
 
 <script>
-/*
 $(document).ready(function(){
-	
+	window.seq = window.seq || {};
+	window.seq.app = new Main();
+	console.log("ready:"+ (new Date().getTime() - window.seq.startTime )/1000 + " secs");
 });
-*/
-
 window.onload = function(){
-	var main = new Main();
-	window.layout = main;
+	window.seq = window.seq || {};
+	console.log("window.onload:"+ (new Date().getTime() - window.seq.startTime )/1000 + " secs");
 }
-
-
-
 </script>
 
 </head>
@@ -218,32 +216,33 @@ window.onload = function(){
         	<form><h5>Uncheck to hide upon entering Archive</h5><input type="checkbox" id="infoWindowViewOnStartUp" value="openInforWindowOnStartUp"></form>
         </div>
         <div class="closeButton closeButtonBlack"></div>
-    </div>
-    <div id="imageFullScreenView">
-    	<div id="imageFullScreenMediaView"></div>
-    	<div class="closeButton closeButtonBlack"></div>
-    </div>
-		<div id="full-screen-media-viewer">
-    	<div id="full-screen-media-viewer-item"></div>
-    	<div class="closeButton closeButtonBlack"></div>
-			<div class="previousButton previousButtonBlack"></div>
-			<div class="nextButton nextButtonBlack"></div>
-    </div>
-    <div id="animationLayer">
-    
-    </div>
-    <!--
-    <div class="output">
-    	<ul>
-            <li>Total Tiles <span id="output_totalTiles">0</span></li>
-            <li>Total Area <span id="output_totalArea">0</span></li>
-            <li>DisplayList Length <span id="output_displayListLength">0</span></li>
-            <li>Queue List Length <span id="output_queueListLength">0</span></li>
-             <li>Plane Children <span id="output_planeChildren">0</span></li>
-             
-        </ul>
-    </div>
-    -->
-   
+	</div>
+	<div id="imageFullScreenView">
+		<div id="imageFullScreenMediaView"></div>
+		<div class="closeButton closeButtonBlack"></div>
+		<div class="veil-loader"><div class="veil-loader-background"></div><div class="veil-loader-animated"></div></div>
+	</div>
+	<div id="full-screen-media-viewer">
+		<div id="full-screen-media-viewer-item"></div>
+		<div class="closeButton closeButtonBlack"></div>
+		<div class="previousButton previousButtonBlack"></div>
+		<div class="nextButton nextButtonBlack"></div>
+	</div>
+	<div id="animationLayer"></div>
+	<div class="veil-loader"><div class="veil-loader-background"></div><div class="veil-loader-animated"></div></div>
+	
+	
+	
+	<!--
+	<div class="output">
+		<ul>
+			<li>Total Tiles <span id="output_totalTiles">0</span></li>
+			<li>Total Area <span id="output_totalArea">0</span></li>
+			<li>DisplayList Length <span id="output_displayListLength">0</span></li>
+			<li>Queue List Length <span id="output_queueListLength">0</span></li>
+			<li>Plane Children <span id="output_planeChildren">0</span></li>
+		</ul>
+	</div>
+	-->
 </body>
 </html>

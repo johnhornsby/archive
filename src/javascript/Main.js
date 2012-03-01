@@ -20,10 +20,14 @@ Main.prototype.init = function(){
 	Globals.init();
 	this._localStorageManager = new LocalStorageManager();
 	Globals.localStorageManager = this._localStorageManager;
+	this._viewController = new ViewController();
+	Globals.viewController = this._viewController;
+	this._viewController.init();
 	this.load();
 };
 
 Main.prototype.load = function(){
+	this._viewController.showAppVeilLoader();
 	this._dataManager = new DataManager();
 	Globals.dataManager = this._dataManager;
 	this._artefactDataManager = new ArtefactDataManager();
@@ -36,6 +40,7 @@ Main.prototype.checkLoadedAndReadyToBuild = function(){
 	if(this._loadedDecrement>0) return;
 	this.activateDeepLinking();							//must be called before build as viewcontroller adds listener to deeplinkingmanager
 	this.build();
+	this._viewController.hideAppVeilLoader();
 };
 
 Main.prototype.onArtefactsLoadDataComplete = function(e){
@@ -54,9 +59,7 @@ Main.prototype.activateDeepLinking = function(){
 Main.prototype.build = function(){
 	this._imageLoadManager = new ImageLoadManager();
 	Globals.imageLoadManager = this._imageLoadManager;	
-	this._viewController = new ViewController();
-	Globals.viewController = this._viewController;
-	this._viewController.init(); // init only after viewController has been set into Globals, as it creates objects that end up calling Globals.viewController
+	this._viewController.initTapestry(); // init only after viewController has been set into Globals, as it creates objects that end up calling Globals.viewController
 };
 
 

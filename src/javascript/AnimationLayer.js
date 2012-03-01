@@ -150,7 +150,19 @@ AnimationLayer.prototype.openArtefactFromGridAnimation = function(data,imageBoun
 	}
 	function renderComplete(){
 		renderCompleteStatus = true;
-		fullComplete.call(this);
+		var result = fullComplete.call(this);
+		if(!result){
+			var self = this;
+			setTimeout(function(){
+				Globals.viewController.showAppVeilLoader();
+				//Preload image
+				var src = Globals.ARTEFACT_IMAGES_FOLDER+data.id+'.jpg';
+				var id = Globals.imageLoadManager.requestImageIdentifier()+"_"+data.id;
+				Globals.imageLoadManager.requestImageLoad(id,src,imageLoadedComplete.context(self), undefined);
+				//--
+			},0);
+		}
+		
 	}
 	function imageLoadedComplete(){
 		imageLoadedStatus = true;
@@ -158,6 +170,7 @@ AnimationLayer.prototype.openArtefactFromGridAnimation = function(data,imageBoun
 	}
 	function fullComplete(){
 		if(imageLoadedStatus && renderCompleteStatus){
+			Globals.viewController.hideAppVeilLoader();
 			this.dispatchEvent(new AnimationLayerEvent(AnimationLayerEvent.OPEN_ARTEFACT_FROM_GRID_COMPLETE,data));
 			var self = this;
 			setTimeout(function(){
@@ -166,13 +179,11 @@ AnimationLayer.prototype.openArtefactFromGridAnimation = function(data,imageBoun
 				$(animationObject.element).remove();
 				animationObject = undefined;
 			},0);
+			return true;
 		}
+		return false;
 	}
-	//Preload image
-	var src = Globals.ARTEFACT_IMAGES_FOLDER+data.id+'.jpg';
-	var id = Globals.imageLoadManager.requestImageIdentifier()+"_"+data.id;
-	Globals.imageLoadManager.requestImageLoad(id,src,imageLoadedComplete.context(this), undefined);
-	//--
+	
 	Animator.addTween(animationObject,{location:1,time:0.3,transition:"linear",onUpdate:render.context(this),onComplete:renderComplete.context(this)});
 };
 

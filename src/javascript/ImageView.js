@@ -1,5 +1,6 @@
 var ImageView = function(data,container,scaleMode,imagePostFix){
-	
+	//Inheritance
+	EventDispatcher.call(this);
 	
 	this._data = data;
 	this._containerElement = container;
@@ -10,6 +11,9 @@ var ImageView = function(data,container,scaleMode,imagePostFix){
 	
 	this.init();
 };
+//Inheritance
+ImageView.prototype = new EventDispatcher();
+
 ImageView.SCALE_MODE_SCALE_TO_FIT = 0;
 ImageView.SCALE_MODE_SCALE_TO_FILL = 1;
 
@@ -63,6 +67,11 @@ ImageView.prototype.imageLoadComplete = function(e){
 	
 	this.updatePosition();
 	this._status = ImageView.STATUS_LOADED;
+	
+	var self = this;
+	setTimeout(function(){
+		self.dispatchEvent(new ImageViewEvent(ImageViewEvent.IMAGE_LOADED));
+	},0);
 };
 
 
@@ -155,3 +164,15 @@ ImageView.prototype.destroy = function(){
 	//remove image from dom
 	
 };
+
+
+
+
+
+//EVENT CLASS
+//_________________________________________________________________________________________	
+var ImageViewEvent = function(eventType,data){
+	this.eventType = eventType;
+	this.data = data;
+};
+ImageViewEvent.IMAGE_LOADED = "imageLoaded";

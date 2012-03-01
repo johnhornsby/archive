@@ -266,13 +266,56 @@ VEIL
 	left:0px;
 	overflow:hidden;
 	z-index:3;
-
 }
 
 body {
 	overflow:hidden;	
 }
 
+.veil-loader {
+	top:0px;
+	left:0px;
+	width:100%;
+	height:100%;
+	margin:0;
+	padding:0;
+	border:none;
+	z-index: 10;
+	position: absolute;
+	display:none;
+	opacity:0;
+	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+}
+
+.veil-loader-background {
+	top:0px;
+	left:0px;
+	width:100%;
+	height:100%;
+	margin:0;
+	padding:0;
+	border:none;
+	background-color:#000;
+	position: absolute;
+	display:block;
+	opacity:0.5;
+	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+}
+
+.veil-loader-animated {
+	width:32px;
+	height:32px;
+	margin:0;
+	padding:0;
+	border:none;
+	background-image:url(../images/ajax-loader.gif);
+	margin-left:-16px;
+	margin-top:-16px;
+	left:50%;
+	top:50%;
+	position:absolute;
+	display:block;
+}
 
 
 

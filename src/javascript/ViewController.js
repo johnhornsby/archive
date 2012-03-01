@@ -14,6 +14,7 @@ var ViewController = function(){
 	this._tapestryViewController;
 	this._animationLayer;
 	this._veil;
+	this._veilLoader;
 	
 	this._isPopupOpen = false;
 	this._popupBlockerTimer;
@@ -29,16 +30,17 @@ ViewController.prototype = new EventDispatcher();
 //PRIVATE
 //_________________________________________________________________________________
 ViewController.prototype.onInit = function(){
-	this.build();
-	Globals.deepLinkingManager.addEventListener(DeepLinkingManagerEvent.UPDATE_ADDRESS,this.onUpdateDeepLinkAddress.context(this));	//listen to deepLinkingManager to determin whether ArtefactWindow should open or close
-	Globals.deepLinkingManager.checkAddress();																						//check address on init, if an initial hash has been set then it will be picked up here, and the event will be fired as above
 	$(window).bind("resize",this.onResize.context(this));
 	this.updateGlobalWindowSize();
 };
 
+ViewController.prototype.onInitTapestry = function(){
+	this.build();
+	Globals.deepLinkingManager.addEventListener(DeepLinkingManagerEvent.UPDATE_ADDRESS,this.onUpdateDeepLinkAddress.context(this));	//listen to deepLinkingManager to determin whether ArtefactWindow should open or close
+	Globals.deepLinkingManager.checkAddress();																						//check address on init, if an initial hash has been set then it will be picked up here, and the event will be fired as above
+};
+
 ViewController.prototype.build = function(){
-	
-	
 	this._tapestryViewController = new TapestryViewController();
 	this._tapestryViewController.addEventListener(TapestryViewControllerEvent.BUSY_START,this.onTapestryBusyStartHandler.context(this));
 	this._tapestryViewController.addEventListener(TapestryViewControllerEvent.BUSY_COMPLETE,this.onTapestryBusyCompleteHandler.context(this));
@@ -82,8 +84,6 @@ ViewController.prototype.build = function(){
 		setTimeout(openInfoWindow,1000);
 	}
 };
-
-
 
 ViewController.prototype.onTapestryBusyStartHandler = function(e){
 	this.dispatchEvent(new ViewControllerEvent(ViewControllerEvent.BUSY_START));
@@ -300,7 +300,20 @@ ViewController.prototype.init = function(){
 	this.onInit();
 };
 
+ViewController.prototype.initTapestry = function(){
+	this.onInitTapestry();
+};
 
+ViewController.prototype.showAppVeilLoader = function(){
+	if(this._veilLoader === undefined){
+		this._veilLoader = new VeilLoader($("body").get(0),"#000",0.67);
+	}
+	this._veilLoader.open();
+};
+
+ViewController.prototype.hideAppVeilLoader = function(){
+	this._veilLoader.close();
+};
 
 
 

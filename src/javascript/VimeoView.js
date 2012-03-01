@@ -1,4 +1,6 @@
 var VimeoView = function(data,container){
+	//Inheritance
+	EventDispatcher.call(this);
 	
 	this._data = data;
 	this._containerElement = container;
@@ -11,7 +13,8 @@ var VimeoView = function(data,container){
 	
 	this.init();
 };
-
+//Inheritance
+VimeoView.prototype = new EventDispatcher();
 
 
 
@@ -47,6 +50,11 @@ VimeoView.prototype.ready = function(){
 	this._isVideoReady = true;
 	this._froogaloop.api('setColor', 'cc0033');
 	$(this._iframeHidderElement).hide();
+	
+	var self = this;
+	setTimeout(function(){
+		self.dispatchEvent(new VimeoViewEvent(VimeoViewEvent.VIMEO_READY));
+	},0);
 };
 
 VimeoView.prototype.removeFromDOM = function(){
@@ -88,10 +96,12 @@ VimeoView.prototype.destroy = function(){
 	I beleive the froogaloop.api instigates a call from a remote js 
 	file that references elements in the dom, if those element are not 
 	present then you get a script error in IE 9, hence the delayed call to remove from the DOM
-	*/
-	//$(this._containerElement).empty();
-	setTimeout(this.removeFromDOM.context(this),0);
-	//setTimeout(this.removeFromDOM.context(this),1);
+	*/	
+	var self = this;
+	setTimeout(function(){
+		self.removeFromDOM.call(self);
+		self.dispatchEvent(new VimeoViewEvent(VimeoViewEvent.VIMEO_DESTROYED));
+	},0);
 };
 
 VimeoView.prototype.unsafeDestroy = function(){
@@ -119,6 +129,7 @@ VimeoView.prototype.destroyWithCallback = function(callback){
 	var self = this;
 	setTimeout(function(){
 		self.removeFromDOM.call(self);
+		self.dispatchEvent(new VimeoViewEvent(VimeoViewEvent.VIMEO_DESTROYED));
 		self._destroyCallback();
 	},0);
 };
@@ -134,3 +145,16 @@ VimeoView.prototype.pause = function(){
 VimeoView.prototype.unload = function(){
 	if(this._isVideoReady===true)this._froogaloop.api('unload');
 };
+
+
+
+
+
+//EVENT CLASS
+//_________________________________________________________________________________________	
+var VimeoViewEvent = function(eventType,data){
+	this.eventType = eventType;
+	this.data = data;
+};
+VimeoViewEvent.VIMEO_READY = "vimeoReady";
+VimeoViewEvent.VIMEO_DESTROYED = "vimeoDestroyed";

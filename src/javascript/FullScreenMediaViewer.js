@@ -12,6 +12,7 @@ var FullScreenMediaViewer = function(){
 	this._status = FullScreenMediaViewer.INITIALISED;
 	this._indexHistory = [];
 	this._prospectiveIndex;
+	this._veilLoader;
 	this.init();
 };
 FullScreenMediaViewer.prototype = new EventDispatcher();
@@ -33,6 +34,7 @@ FullScreenMediaViewer.prototype.init = function(){
 	$("#full-screen-media-viewer > .closeButton").bind("click",this.onCloseButtonClickHandler.context(this));
 	$("#full-screen-media-viewer > .previousButton").bind("click",this.onPreviousButtonClickHandler.context(this));
 	$("#full-screen-media-viewer > .nextButton").bind("click",this.onNextButtonClickHandler.context(this));
+	this._veilLoader = new VeilLoader($("#full-screen-media-viewer-item").get(0),"#000",1);
 };
 
 FullScreenMediaViewer.prototype.setDataItem = function(dataItem){
@@ -46,12 +48,14 @@ FullScreenMediaViewer.prototype.clearItem = function(){
 		if(this._mediaViewer.constructor === VimeoView){
 			//this._mediaViewer.pause();
 			//this._mediaViewer.unsafeDestroy();
+			this._mediaViewer.removeEventListener(VimeoViewEvent.VIMEO_READY, this.onMediaViewerCompleteReady.rEvtContext(this));
 			var self = this;
 			this._mediaViewer.destroyWithCallback(function(){
 				self._mediaViewer = undefined;
 				self.onClearItemComplete();
 			});
 		}else{
+			this._mediaViewer.removeEventListener(ImageViewEvent.IMAGE_LOADED, this.onMediaViewerCompleteReady.rEvtContext(this));
 			this._mediaViewer.destroy();
 			this._mediaViewer = undefined;
 			this.onClearItemComplete();
@@ -71,13 +75,17 @@ FullScreenMediaViewer.prototype.displayItem = function(){
 	if(this._dataItem.m === ArtefactDataManager.FILTER_PHOTO || this._dataItem.m === ArtefactDataManager.FILTER_POSTER){ //imageView
 		var mediaViewerContainer = $("#full-screen-media-viewer-item").get(0);
 		this._mediaViewer = new ImageView(this._dataItem,mediaViewerContainer);
+		this._mediaViewer.addEventListener(ImageViewEvent.IMAGE_LOADED, this.onMediaViewerCompleteReady.context(this));
 	}else{	//vimeo
-	var mediaViewerContainer = $("#full-screen-media-viewer-item").get(0);
+		var mediaViewerContainer = $("#full-screen-media-viewer-item").get(0);
 		this._mediaViewer = new VimeoView(this._dataItem,mediaViewerContainer);
+		this._mediaViewer.addEventListener(VimeoViewEvent.VIMEO_READY, this.onMediaViewerCompleteReady.rEvtContext(this));
 	}
 };
 
-
+FullScreenMediaViewer.prototype.onMediaViewerCompleteReady = function(){
+	
+};
 
 
 

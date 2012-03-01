@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>currentDocument</key>
-	<string>src/javascript/AnimationLayer.js</string>
+	<string>src/javascript/VeilLoader.js</string>
 	<key>documents</key>
 	<array>
 		<dict>
@@ -40,58 +40,42 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>28</integer>
+				<integer>0</integer>
 				<key>line</key>
-				<integer>752</integer>
+				<integer>288</integer>
 			</dict>
-			<key>columnSelection</key>
-			<false/>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>690</integer>
-			<key>selectFrom</key>
-			<dict>
-				<key>column</key>
-				<integer>17</integer>
-				<key>line</key>
-				<integer>752</integer>
-			</dict>
-			<key>selectTo</key>
-			<dict>
-				<key>column</key>
-				<integer>28</integer>
-				<key>line</key>
-				<integer>752</integer>
-			</dict>
+			<integer>256</integer>
 		</dict>
 		<key>src/index.html</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>36</integer>
+				<integer>241</integer>
 				<key>line</key>
-				<integer>123</integer>
+				<integer>199</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>103</integer>
+			<integer>181</integer>
 		</dict>
 		<key>src/javascript/AnimationLayer.js</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>4</integer>
+				<integer>74</integer>
 				<key>line</key>
 				<integer>125</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>3</integer>
+			<integer>111</integer>
 		</dict>
 		<key>src/javascript/Animator.js</key>
 		<dict>
@@ -128,14 +112,14 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>29</integer>
+				<integer>17</integer>
 				<key>line</key>
-				<integer>557</integer>
+				<integer>10</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>531</integer>
+			<integer>0</integer>
 		</dict>
 		<key>src/javascript/ArtefactPopup.js</key>
 		<dict>
@@ -173,6 +157,20 @@
 				<integer>2</integer>
 				<key>line</key>
 				<integer>84</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
+		<key>src/javascript/CSSSpriteEngine.js</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>44</integer>
+				<key>line</key>
+				<integer>8</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
@@ -240,14 +238,14 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>0</integer>
+				<integer>2</integer>
 				<key>line</key>
-				<integer>119</integer>
+				<integer>64</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>88</integer>
+			<integer>25</integer>
 		</dict>
 		<key>src/javascript/Geom.js</key>
 		<dict>
@@ -314,28 +312,58 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>9</integer>
+				<integer>111</integer>
 				<key>line</key>
-				<integer>27</integer>
+				<integer>169</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>0</integer>
+			<integer>123</integer>
 		</dict>
 		<key>src/javascript/ImageView.js</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>32</integer>
+				<integer>1</integer>
+				<key>line</key>
+				<integer>70</integer>
+			</dict>
+			<key>columnSelection</key>
+			<false/>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>34</integer>
+			<key>selectFrom</key>
+			<dict>
+				<key>column</key>
+				<integer>6</integer>
 				<key>line</key>
 				<integer>73</integer>
+			</dict>
+			<key>selectTo</key>
+			<dict>
+				<key>column</key>
+				<integer>1</integer>
+				<key>line</key>
+				<integer>70</integer>
+			</dict>
+		</dict>
+		<key>src/javascript/InfoWindow.js</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>0</integer>
+				<key>line</key>
+				<integer>0</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>63</integer>
+			<integer>0</integer>
 		</dict>
 		<key>src/javascript/LocalStorageManager.js</key>
 		<dict>
@@ -356,14 +384,14 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>32</integer>
+				<integer>0</integer>
 				<key>line</key>
-				<integer>21</integer>
+				<integer>52</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>0</integer>
+			<integer>13</integer>
 		</dict>
 		<key>src/javascript/PlaneController.js</key>
 		<dict>
@@ -486,30 +514,14 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>0</integer>
+				<integer>66</integer>
 				<key>line</key>
-				<integer>301</integer>
+				<integer>161</integer>
 			</dict>
-			<key>columnSelection</key>
-			<false/>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
 			<integer>125</integer>
-			<key>selectFrom</key>
-			<dict>
-				<key>column</key>
-				<integer>33</integer>
-				<key>line</key>
-				<integer>301</integer>
-			</dict>
-			<key>selectTo</key>
-			<dict>
-				<key>column</key>
-				<integer>0</integer>
-				<key>line</key>
-				<integer>301</integer>
-			</dict>
 		</dict>
 		<key>src/javascript/TapestryViewController.js</key>
 		<dict>
@@ -611,6 +623,34 @@
 			<key>firstVisibleLine</key>
 			<integer>488</integer>
 		</dict>
+		<key>src/javascript/Veil.js</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>0</integer>
+				<key>line</key>
+				<integer>19</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
+		<key>src/javascript/VeilLoader.js</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>2</integer>
+				<key>line</key>
+				<integer>57</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>26</integer>
+		</dict>
 		<key>src/javascript/ViewController.js</key>
 		<dict>
 			<key>caret</key>
@@ -618,12 +658,42 @@
 				<key>column</key>
 				<integer>2</integer>
 				<key>line</key>
-				<integer>164</integer>
+				<integer>285</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>153</integer>
+			<integer>251</integer>
+		</dict>
+		<key>src/javascript/VimeoView.js</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>0</integer>
+				<key>line</key>
+				<integer>152</integer>
+			</dict>
+			<key>columnSelection</key>
+			<false/>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>91</integer>
+			<key>selectFrom</key>
+			<dict>
+				<key>column</key>
+				<integer>50</integer>
+				<key>line</key>
+				<integer>159</integer>
+			</dict>
+			<key>selectTo</key>
+			<dict>
+				<key>column</key>
+				<integer>0</integer>
+				<key>line</key>
+				<integer>152</integer>
+			</dict>
 		</dict>
 		<key>src/javascript/lib/BrowserDetect.js</key>
 		<dict>
@@ -782,6 +852,10 @@
 		<string>src/javascript/ScrollableCell.js</string>
 		<string>src/javascript/RelatedArtefactCell.js</string>
 		<string>src/javascript/ViewController.js</string>
+		<string>src/javascript/Veil.js</string>
+		<string>src/javascript/VeilLoader.js</string>
+		<string>src/javascript/InfoWindow.js</string>
+		<string>src/javascript/CSSSpriteEngine.js</string>
 		<string>src/javascript/ArtefactPopup.js</string>
 		<string>src/javascript/ArtefactWindow.js</string>
 		<string>src/javascript/RelatedArtefactsViewController copy.js</string>
@@ -810,6 +884,7 @@
 		<string>src/javascript/Animator.js</string>
 		<string>src/javascript/AnimationLayer.js</string>
 		<string>src/javascript/ImageView.js</string>
+		<string>src/javascript/VimeoView.js</string>
 		<string>src/javascript/FullScreenMediaViewer.js</string>
 		<string>src/javascript/DockViewController.js</string>
 		<string>src/javascript/ImageLoadManager.js</string>
@@ -817,6 +892,6 @@
 	<key>showFileHierarchyDrawer</key>
 	<true/>
 	<key>windowFrame</key>
-	<string>{{37, 143}, {1399, 1260}}</string>
+	<string>{{52, 80}, {1399, 1260}}</string>
 </dict>
 </plist>
