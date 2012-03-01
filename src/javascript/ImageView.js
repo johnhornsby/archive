@@ -9,7 +9,7 @@ var ImageView = function(data,container,scaleMode,imagePostFix){
 	this._status = 0;
 	this._imagePostFix = imagePostFix || "";
 	
-	this.init();
+	//this.init();	//now called via public load();
 };
 //Inheritance
 ImageView.prototype = new EventDispatcher();
@@ -34,15 +34,12 @@ ImageView.prototype.init = function(){
 };
 
 ImageView.prototype.loadImage = function(){
-	
-	//$("#artefactWindowMediaView").append('<img id="artefactWindowMediaViewImage" src="'++'">');
 	this._imageElement = new Image();
 	this._imageElement.onload = this.imageLoadComplete.context(this);
 	this._imageElement.onabort = this.imageLoadAbort.context(this);
 	this._imageElement.onerror = this.imageLoadError.context(this);
 	this._imageElement.src = Globals.ARTEFACT_IMAGES_FOLDER+this._data.id + this._imagePostFix + '.jpg';
 	this._status = ImageView.STATUS_LOADING;
-	
 };
 
 ImageView.prototype.imageLoadError = function(e){
@@ -55,26 +52,15 @@ ImageView.prototype.imageLoadAbort = function(e){
 };
 
 ImageView.prototype.imageLoadComplete = function(e){
-	
 	attr(this._imageElement,"class","imageViewImage");
-	
-	//$("#artefactWindowMediaViewImage").attr( attributeName, value )
-	//$("#artefactWindowMediaView").append('<img id="artefactWindowMediaViewImage" src="'+this._imageElement.src+'">');
-	//$(this._containerElement).append(image);
-	
-	append(this._containerElement,this._imageElement);
-	
-	
+	$(this._containerElement).prepend(this._imageElement);	//container can container a veilLoader so prepend to add behind any loader	
 	this.updatePosition();
 	this._status = ImageView.STATUS_LOADED;
-	
 	var self = this;
 	setTimeout(function(){
 		self.dispatchEvent(new ImageViewEvent(ImageViewEvent.IMAGE_LOADED));
 	},0);
 };
-
-
 
 ImageView.prototype.onResize = function(e){
 	this.updatePosition();
@@ -133,7 +119,6 @@ ImageView.prototype.updatePosition = function(){
 			
 		}
 	}
-	
 	image.style.position = "absolute";
 };
 
@@ -143,10 +128,12 @@ ImageView.prototype.updatePosition = function(){
 
 //PUBLIC
 //_________________________________________________________________________________
+/**
+* Called by superview to update position in responce to resize
+*/
 ImageView.prototype.update = function(){
 	this.updatePosition();
 };
-
 
 ImageView.prototype.destroy = function(){
 	$(this._imageElement).remove();
@@ -158,11 +145,14 @@ ImageView.prototype.destroy = function(){
 		this._imageElement.src = "";
 		delete this._imageElement;
 	}
-	$(this._containerElement).empty();
-	//cancel loading
 	$(window).unbind("resize",this.onResize.rEvtContext(this));
-	//remove image from dom
-	
+};
+
+/**
+* load method now calls init, this allows for listeners to be added after constuctor
+*/
+ImageView.prototype.load = function(){
+	this.init();
 };
 
 

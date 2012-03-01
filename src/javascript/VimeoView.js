@@ -11,7 +11,7 @@ var VimeoView = function(data,container){
 	this._height = 432;
 	this._destroyCallback;
 	
-	this.init();
+	//this.init();
 };
 //Inheritance
 VimeoView.prototype = new EventDispatcher();
@@ -35,13 +35,9 @@ VimeoView.prototype.build = function(){
 	var html = '';
 	html += '<iframe id="player_1" class="VimeoViewImage" src="http://player.vimeo.com/video/22301021?title=0&amp;byline=0&amp;portrait=0&api=1&amp;player_id=player_1" width="'+this._width+'" height="'+this._height+'" frameborder="0"></iframe>';
 	html += '<div class="vimeo-view-player-hidder" style="width:100%; height:100%; display:block; position:absolute; background-color:#000; left:0px; top:0px;"></div>';
-
-	
-	$(this._containerElement).html(html);
-
+	$(this._containerElement).prepend(html);
 	this._iframeElement = document.getElementById("player_1");
 	this._iframeHidderElement = $(this._containerElement).find(".vimeo-view-player-hidder").get(0);
-	
 	this._froogaloop = $f(this._iframeElement);
 	this._froogaloop.addEvent('ready', this.ready.context(this));
 };
@@ -58,7 +54,9 @@ VimeoView.prototype.ready = function(){
 };
 
 VimeoView.prototype.removeFromDOM = function(){
-	$(this._containerElement).empty();
+	$(this._iframeElement).remove();
+	$(this._iframeHidderElement).remove();
+	//$(this._containerElement).empty();
 };
 
 VimeoView.prototype.updatePosition = function(e){
@@ -108,7 +106,7 @@ VimeoView.prototype.unsafeDestroy = function(){
 	if(this._isVideoReady === true){
 		this._froogaloop.api('pause');
 	}
-	$(this._containerElement).empty();
+	this.removeFromDOM();
 }
 
 /**
@@ -146,6 +144,9 @@ VimeoView.prototype.unload = function(){
 	if(this._isVideoReady===true)this._froogaloop.api('unload');
 };
 
+VimeoView.prototype.load = function(){
+	this.init();
+};
 
 
 

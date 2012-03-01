@@ -280,7 +280,6 @@ body {
 	margin:0;
 	padding:0;
 	border:none;
-	z-index: 10;
 	position: absolute;
 	display:none;
 	opacity:0;

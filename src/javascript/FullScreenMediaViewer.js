@@ -35,19 +35,13 @@ FullScreenMediaViewer.prototype.init = function(){
 	$("#full-screen-media-viewer > .previousButton").bind("click",this.onPreviousButtonClickHandler.context(this));
 	$("#full-screen-media-viewer > .nextButton").bind("click",this.onNextButtonClickHandler.context(this));
 	this._veilLoader = new VeilLoader($("#full-screen-media-viewer-item").get(0),"#000",1);
+	this._veilLoader.addEventListener(VeilLoaderEvent.OPENED,this.onVeilLoaderOpened.context(this));
+	this._veilLoader.addEventListener(VeilLoaderEvent.CLOSED,this.onVeilLoaderClosed.context(this));
 };
 
-FullScreenMediaViewer.prototype.setDataItem = function(dataItem){
-	this._dataItem = dataItem;
-	this.clearItem();	//clears dataItem as well as _mediaViewer
-}
-
 FullScreenMediaViewer.prototype.clearItem = function(){
-	//this._dataItem = undefined;
 	if(this._mediaViewer != undefined){
 		if(this._mediaViewer.constructor === VimeoView){
-			//this._mediaViewer.pause();
-			//this._mediaViewer.unsafeDestroy();
 			this._mediaViewer.removeEventListener(VimeoViewEvent.VIMEO_READY, this.onMediaViewerCompleteReady.rEvtContext(this));
 			var self = this;
 			this._mediaViewer.destroyWithCallback(function(){
@@ -72,23 +66,47 @@ FullScreenMediaViewer.prototype.onClearItemComplete = function(){
 };
 
 FullScreenMediaViewer.prototype.displayItem = function(){
-	if(this._dataItem.m === ArtefactDataManager.FILTER_PHOTO || this._dataItem.m === ArtefactDataManager.FILTER_POSTER){ //imageView
+	this._status = FullScreenMediaViewer.LOADING;
+	if(this._dataItem.m === ArtefactDataManager.FILTER_PHOTO || this._dataItem.m === ArtefactDataManager.FILTER_POSTER){
 		var mediaViewerContainer = $("#full-screen-media-viewer-item").get(0);
 		this._mediaViewer = new ImageView(this._dataItem,mediaViewerContainer);
 		this._mediaViewer.addEventListener(ImageViewEvent.IMAGE_LOADED, this.onMediaViewerCompleteReady.context(this));
-	}else{	//vimeo
+		this._mediaViewer.load();
+	}else{
 		var mediaViewerContainer = $("#full-screen-media-viewer-item").get(0);
 		this._mediaViewer = new VimeoView(this._dataItem,mediaViewerContainer);
 		this._mediaViewer.addEventListener(VimeoViewEvent.VIMEO_READY, this.onMediaViewerCompleteReady.rEvtContext(this));
+		this._mediaViewer.addEventListener(VimeoViewEvent.VIMEO_DESTROYED, this.onMediaViewerDestroyedComplete.rEvtContext(this));
+		this._mediaViewer.load();
 	}
 };
 
 FullScreenMediaViewer.prototype.onMediaViewerCompleteReady = function(){
+	if(this._veilLoader.isOpen()){
+		this._status = FullScreenMediaViewer.ANIMATING_IN;
+		this._veilLoader.close({time:0.5});
+	}else{
+		this._status = FullScreenMediaViewer.IN;
+		this.checkProspectiveIndex();
+	}
+};
+
+FullScreenMediaViewer.prototype.onMediaViewerDestroyedComplete = function(){
 	
 };
 
+FullScreenMediaViewer.prototype.onVeilLoaderOpened = function(){
+	if(this._dataItem.m === ArtefactDataManager.FILTER_PHOTO || this._dataItem.m === ArtefactDataManager.FILTER_POSTER){
+		this.clearItem();
+	}else{
+		this.clearItem();
+	}
+};
 
-
+FullScreenMediaViewer.prototype.onVeilLoaderClosed = function(){
+	this._status = FullScreenMediaViewer.IN;
+	this.checkProspectiveIndex();
+};
 
 FullScreenMediaViewer.prototype.onCloseButtonClickHandler = function(e){
 	this.close();
@@ -113,16 +131,27 @@ FullScreenMediaViewer.prototype.close = function(){
 FullScreenMediaViewer.prototype.onOpen = function(){
 	$("#full-screen-media-viewer").css("display","block");
 	this._isOpen = true;
-	//this.setData(data);
 	this._dataItemIndex = 0;
 	this.reload();
 };
 
 FullScreenMediaViewer.prototype.setDataItemIndex = function(index){
+	this.saveProspectiveIndex(index);
+	if(this._status !== FullScreenMediaViewer.IN && this._status !== FullScreenMediaViewer.INITIALISED){	//we need to check if UI is animating in, loading or out
+		return false;
+	}
+	
 	this._dataItemIndex = index;
 	var dataItem = this._delegate.getDataForIndex(this._dataItemIndex);
 	if(dataItem !== this._dataItem){
-		this.setDataItem(dataItem);
+		this._status = FullScreenMediaViewer.ANIMATING_OUT;
+		if(this._dataItem === undefined){
+			this._dataItem = dataItem;
+			this.clearItem();
+		}else{
+			this._dataItem = dataItem;
+			this._veilLoader.open({time:0.5});
+		}
 	}
 }
 
@@ -136,10 +165,22 @@ FullScreenMediaViewer.prototype.showNavigation = function(b){
 	}
 }
 
+FullScreenMediaViewer.prototype.saveProspectiveIndex = function(index){
+	this._prospectiveIndex = index;
+};
 
+FullScreenMediaViewer.prototype.checkProspectiveIndex = function(){
+	if(this._prospectiveIndex !== this._dataItemIndex){
+		this.setSelectedIndex(this._prospectiveIndex);
+	}
+};
 
 //PUBLIC
 //_________________________________________________________________________________
+FullScreenMediaViewer.prototype.setDelegate = function(delegate){
+	this._delegate = delegate;
+};
+
 FullScreenMediaViewer.prototype.open = function(){
 	this.onOpen();
 };
@@ -162,10 +203,6 @@ FullScreenMediaViewer.prototype.previous = function(){
 		dataItemIndex = this._maxItems -1;
 	}
 	this.setDataItemIndex(dataItemIndex);
-};
-
-FullScreenMediaViewer.prototype.setDelegate = function(delegate){
-	this._delegate = delegate;
 };
 
 FullScreenMediaViewer.prototype.reload = function(){

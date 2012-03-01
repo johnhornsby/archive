@@ -5,7 +5,7 @@ var VeilLoader = function(hostContainer,backgroundColour,backgroundOpacity){
 	this._opacity = 0;
 	this._callback;
 	this._isTweenCanceled = false;
-	this._state = 3;
+	this._state = VeilLoader.STATE_CLOSED;
 	this._backgroundColour = backgroundColour || "#000";
 	this._backgroundOpacity = backgroundOpacity || 0.5;
 	
@@ -69,7 +69,6 @@ VeilLoader.prototype.onCloseTweenComplete = function(){
 };
 
 VeilLoader.prototype.onOpenTweenComplete = function(){
-	//console.log('VeilLoader open onComplete');
 	this._state = VeilLoader.STATE_OPEN;
 	this._callback();
 	var self = this;
@@ -85,20 +84,17 @@ VeilLoader.prototype.onOpenTweenComplete = function(){
 VeilLoader.prototype.open = function(options){
 	if(this._state === VeilLoader.STATE_OPEN) return false;
 	this._state = VeilLoader.STATE_OPENING;
-	//console.log('VeilLoader open');
+
 	var self = this;
 	var time = 0.5;
-	//var opacity = 0.5;
 	var callback = function(){};
 	
 	if(options !== undefined){
 		time = options.time || time;
-		//opacity = options.opacity || opacity;
 		callback = options.callback || callback;
 	}
 	this._callback = callback;
 
-	this.build();
 	this._$containerElement.show();
 	Animator.removeTween(this);
 	Animator.addTween(this,{_opacity:1,time:time,transition:'linear',onComplete:this.onOpenTweenComplete.rEvtContext(this),onUpdate:this.onUpdateTween.rEvtContext(this)});
@@ -110,16 +106,13 @@ VeilLoader.prototype.open = function(options){
 VeilLoader.prototype.close = function(options){
 	if(this._state === VeilLoader.STATE_CLOSED) return false;
 	this._state = VeilLoader.STATE_CLOSING;
-	//console.log('VeilLoader close');
+
 	var self = this;
 	var time = 0.5;
-	//var opacity = 0.5;
 	var callback = function(){};
-	
 	
 	if(options !== undefined){
 		time = options.time || time;
-		//opacity = options.opacity || opacity;
 		callback = options.callback || callback;
 	}
 	
@@ -129,6 +122,13 @@ VeilLoader.prototype.close = function(options){
 	return true;
 };
 
+VeilLoader.prototype.isOpen = function(){
+	if(this._state === VeilLoader.STATE_OPEN || this._state === VeilLoader.STATE_OPENING){
+		return true;
+	}else{
+		return false;
+	}
+}
 
 
 
